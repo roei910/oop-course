@@ -11,7 +11,7 @@ Host.CreateDefaultBuilder(args)
 
         if (env.IsProduction())
         {
-            config.AddJsonFile("secrets.json", optional: false, reloadOnChange: true);
+            config.AddJsonFile("/etc/secrets/secrets.json", optional: false, reloadOnChange: true);
         }
     })
     .ConfigureWebHostDefaults(webBuilder =>
