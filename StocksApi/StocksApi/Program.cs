@@ -11,7 +11,8 @@ Host.CreateDefaultBuilder(args)
 
         if (env.IsProduction())
         {
-            config.AddJsonFile("/etc/secrets/secrets.json", optional: false, reloadOnChange: true);
+            var secretsFilePath = Environment.GetEnvironmentVariable("SECRETS_FILE_PATH");
+            config.AddJsonFile(secretsFilePath, optional: false, reloadOnChange: true);
         }
     })
     .ConfigureWebHostDefaults(webBuilder =>
