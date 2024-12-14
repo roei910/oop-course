@@ -3,6 +3,7 @@ run the backend server in c# .net, run the frontend project in angular node vers
 
 # using deployed version of the project
 frontend: https://stock-collection.netlify.app/#/
+frontend option2: https://oop-course-frontend.onrender.com/#/
 backend swagger: https://oop-course.onrender.com/swagger
 
 # running backend
