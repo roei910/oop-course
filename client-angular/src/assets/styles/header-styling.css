@@ -1,0 +1,70 @@
+.p-menubar {
+    color: white;
+    border-radius: 5px;
+}
+
+.p-menuitem {
+    color: white;
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    align-items: center;
+}
+
+.p-menubar .p-menu-list>li>a .pi {
+    margin-right: 8px;
+}
+
+.p-menubar .p-menuitem:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.p-menuitem-link-active {
+    background-color: transparent;
+}
+
+.p-menuitem-badge {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    font-size: 0.8rem;
+    z-index: 200;
+    background-color: #0076b64c;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .p-menubar .p-menu-list {
+        flex-direction: column;
+        padding: 0;
+    }
+
+    .p-menubar .p-menu-list>li {
+        text-align: center;
+    }
+
+    .p-menubar .p-menu-list>li>a {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+}
+
+@media (max-width: 480px) {
+    .p-menubar {
+        padding: 0;
+        border-radius: 0;
+    }
+
+    .p-menubar .p-menuitem {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+}

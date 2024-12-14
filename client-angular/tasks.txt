@@ -1,0 +1,5 @@
+1. create a stocks information page => show inforamtion about a certain stock,
+    get the symbol from the url.
+    add an option to add to the list of stocks or to the watching.
+    
+2. add link from the search to the stock information page

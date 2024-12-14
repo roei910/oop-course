@@ -1,0 +1,18 @@
+@import "primeng/resources/themes/bootstrap4-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import "assets/styles/header-styling.css";
+@import "assets/styles/table-styling.css";
+@import "assets/styles/global-styling.css";
+@import "assets/styles/listbox-styling.css";
+@import "assets/styles/general-styling.css";
+
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    background-color: #f7f7f7;
+    color: #333;
+}
+
+.p-hidden-accessible{
+    display: none;
+}

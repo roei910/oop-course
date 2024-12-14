@@ -1,0 +1,51 @@
+.stock-list-container,
+.stock-details-container {
+    margin-bottom: 40px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.stock-range-container {
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    margin: 20px auto;
+}
+
+.range-bar {
+    position: relative;
+    height: 10px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.current-price-marker {
+    position: absolute;
+    top: -4px;
+    height: 18px;
+    width: 2px;
+    background-color: #007bff;
+    border-radius: 1px;
+}
+
+.labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #666;
+}

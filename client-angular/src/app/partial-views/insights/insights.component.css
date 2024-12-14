@@ -1,0 +1,13 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 1rem;
+}
+
+.sidebar {
+    padding: 1rem 0 1rem 1rem;  
+}
+
+.content {
+    padding: 1rem 1rem 1rem 0;  
+}

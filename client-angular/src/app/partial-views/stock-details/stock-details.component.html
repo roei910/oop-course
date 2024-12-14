@@ -1,0 +1,49 @@
+<div class="stock-details-container container flex-column align-items-center mt-2 gap-2">
+    <h2>Stock Details - {{stock?.name}} ({{stock?.price | currency}})</h2>
+    <div class="container gap-2">
+        <p-button (click)="openAddNotificationDialog()">Add Notification</p-button>
+        <p-button (click)="openAddStockToListDialog()">Add Stock To List</p-button>
+    </div>
+    <div class="card">
+        <h3>stock analysis</h3>
+        <p>target high price: {{stock?.analysis?.targetHighPrice | currency}}</p>
+        <p>target low price: {{stock?.analysis?.targetLowPrice | currency}}</p>
+        <p>target mean price: {{stock?.analysis?.targetMeanPrice | currency}}</p>
+        <p>target median price: {{stock?.analysis?.targetMedianPrice | currency}}</p>
+    </div>
+    <div class="card">
+        <h3>52 week range</h3>
+        <p>52 week low: {{stock?.fiftyTwoWeekLow | currency}}</p>
+        <p>52 week high: {{stock?.fiftyTwoWeekHigh | currency}}</p>
+        <div class="stock-range-container">
+            <div class="range-bar">
+                <div class="current-price-marker" [style.left.%]="currentPosition"></div>
+            </div>
+            <span>52-Week Range</span>
+        </div>
+    </div>
+</div>
+<p-dialog header="Add Price Notification" [modal]="true" [(visible)]="visibleAddNotificationDialog">
+    <div class="container flex-column gap-1">
+        <div class="container align-items-center gap-1">
+            <label for="targetPrice" class="font-semibold w-6rem">Target Price: </label>
+            <input pInputText id="targetPrice" class="flex-auto" autocomplete="off" [(ngModel)]="targetPrice" />
+        </div>
+        <div class="container justify-space-between gap-1">
+            <p-button label="Cancel" severity="secondary" (onClick)="visibleAddNotificationDialog = false" />
+            <p-button label="Save" (onClick)="addNotification()" />
+        </div>
+    </div>
+</p-dialog>
+<p-dialog header="Add Stock To List" [modal]="true" [(visible)]="visibleAddStockToListDialog">
+    <div class="container flex-column gap-1">
+        <div class="container align-items-center gap-1">
+            <label for="listName" class="font-semibold w-6rem">List Name: </label>
+            <input pInputText id="listName" class="flex-auto" autocomplete="off" [(ngModel)]="listName" />
+        </div>
+        <div class="container justify-space-between gap-1">
+            <p-button label="Cancel" severity="secondary" (onClick)="visibleAddStockToListDialog = false" />
+            <p-button label="Save" (onClick)="addStockToList(listName)" />
+        </div>
+    </div>
+</p-dialog>

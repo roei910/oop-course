@@ -1,0 +1,36 @@
+<div class="login-container">
+    <h2>Login</h2>
+    <form (ngSubmit)="signIn()" #connectionForm="ngForm">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email" required name="email" ngModel>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password" required name="password" ngModel>
+        </div>
+        <button type="submit" class="btn-primary">Login</button>
+        <p>Forgot your password? <a (click)="visibleUpdatePasswordDialog = true">Restore</a></p>
+    </form>
+    <p>Don't have an account? <a routerLink="/register">Sign up</a></p>
+</div>
+<p-dialog header="Restore Password" [modal]="true" [(visible)]="visibleUpdatePasswordDialog">
+    <div class="container flex-column gap-1" style="width: 350px;">
+        <div class="container flex-column">
+            <label for="email" class="font-semibold w-6rem">Email: </label>
+            <input [value]="email" pInputText id="email" class="flex-auto" autocomplete="off" [(ngModel)]="email" />
+        </div>
+        <div class="container flex-column">
+            <label for="password" class="font-semibold w-6rem" style="padding-top: 3px;">Password: </label>
+            <input [value]="password" pInputText type="password" id="password" class="flex-auto" autocomplete="off" [(ngModel)]="password" />
+        </div>
+        <div class="container flex-column">
+            <label for="repeatPassword" class="font-semibold w-6rem">Repeat Password: </label>
+            <input [value]="repeatPassword" pInputText type="password" id="repeatPassword" class="flex-auto" autocomplete="off" [(ngModel)]="repeatPassword" />
+        </div>
+        <div class="container align-items-center justify-space-between gap-1">
+            <p-button label="Cancel" severity="secondary" (onClick)="visibleUpdatePasswordDialog = false" />
+            <p-button label="Save" (onClick)="updatePassword()" />
+        </div>
+    </div>
+</p-dialog>

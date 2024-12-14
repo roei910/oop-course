@@ -1,0 +1,39 @@
+<div class="container flex-column p-2">
+    <h2>Your notifications</h2>
+    <div>
+        <p-table [value]="this.stockNotifications" [paginator]="this.stockNotifications.length > 10" [rows]="10"
+            [rowsPerPageOptions]="[10, 20]">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="stockSymbol">
+                        Symbol <p-sortIcon field="stockSymbol" />
+                    </th>
+                    <th pSortableColumn="targetPrice">
+                        Target Price <p-sortIcon field="targetPrice" />
+                    </th>
+                    <th>Current Price</th>
+                    <th>Options</th>
+                    <th>Notification</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-notification>
+                <tr>
+                    <td>{{notification.stockSymbol}}</td>
+                    <td>{{notification.targetPrice}}</td>
+                    <td>{{findStock(notification.stockSymbol).price.toFixed(2)}}</td>
+                    <td>
+                        <p-button icon="pi pi-search" [rounded]="true" [text]="true"
+                            [routerLink]="['/', 'stocks', 'information']"
+                            [queryParams]="{ stockSymbol: notification.stockSymbol}" />
+                        <p-button icon="pi pi-times" [rounded]="true" [text]="true" severity="danger"
+                            (onClick)="removeNotification(notification)" />
+                    </td>
+                    <td>
+                        <i *ngIf="notification.shouldBeNotified" class="pi pi-bell" style="font-size: 1.2rem; color: green" title="Notification Enabled"></i>
+                        <i *ngIf="!notification.shouldBeNotified" class="pi pi-bell-slash" style="font-size: 1.2rem" title="Notification Disabled"></i>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

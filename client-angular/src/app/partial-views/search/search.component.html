@@ -1,0 +1,41 @@
+<div class="search-container">
+    <h2>Search Stocks</h2>
+    <div class="search-box">
+        <input type="text" placeholder="Enter stock name" id="searchInput" #searchTerm>
+        <button id="searchBtn" (click)="searchResults(searchTerm.value)">Search</button>
+    </div>
+    <div *ngIf="stocksList">
+        <div class="search-results" id="searchResults">
+            <div *ngIf="stocksList.length == 0; else elseTemplate">
+                <p>No stocks found.</p>
+            </div>
+            <ng-template #elseTemplate>
+                <p-table [value]="stocksList" [paginator]="stocksList.length > 10" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="name">
+                                Name <p-sortIcon field="name" />
+                            </th>
+                            <th pSortableColumn="symbol">
+                                Symbol <p-sortIcon field="symbol" />
+                            </th>
+                            <th>
+                                Options
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-stock>
+                        <tr>
+                            <td>{{stock.name}}</td>
+                            <td>{{stock.symbol}}</td>
+                            <td>
+                                <p-button icon="pi pi-search" [rounded]="true" [text]="true"
+                                    [routerLink]="['/', 'stocks', 'information']" [queryParams]="{ stockSymbol: stock.symbol}" />
+                            </td>
+                        </tr>
+                        </ng-template>
+                </p-table>
+            </ng-template>
+        </div>
+    </div>
+</div>

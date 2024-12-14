@@ -1,0 +1,18 @@
+<div class="container flex-column align-items-center mt-2 p-2 gap-2">
+    <h2>User Profile</h2>
+    <br>
+    <div class="card">
+        <h3>General Information</h3>
+        <p><strong>Name:</strong> {{(user)?.firstName}} {{(user)?.lastName}}</p>
+        <p><strong>Email:</strong> {{(user)?.email}}</p>
+    </div>
+    <div class="card">
+        <h3>Stock Portfolio</h3>
+        <p><strong>Total Gain:</strong>{{getTotalGain()}}$</p>
+        <p><strong>Number of Stocks:</strong> {{countOwnedStocks()}}</p>
+    </div>
+    <div class="card">
+        <h3>Stock Distribution</h3>
+        <p-chart type="pie" [data]="chartData" height="400" width="400"></p-chart>
+    </div>
+</div>

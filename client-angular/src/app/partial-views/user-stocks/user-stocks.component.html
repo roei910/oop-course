@@ -1,0 +1,59 @@
+<div class="grid-container" *ngIf="visible">
+    <div class="sidebar">
+        <p-panel header="Portfolios">
+            <div class="button-container">
+                <p-button label="Add List" [text]="true" [raised]="true" severity="secondary"
+                    (onClick)="visibleAddUserListDialog = true" />
+            </div>
+            <p-listbox [options]="listNames" [(ngModel)]="selectedPortfolioName"
+                (onClick)="onSelectedPortfolio($event)">
+                <ng-template let-item pTemplate="item">
+                    <span>{{item}}</span>
+                    <p-button icon="pi pi-times" [rounded]="true" [text]="true" severity="danger" (onClick)="removeUserList(item)"/>
+                </ng-template>
+            </p-listbox>
+        </p-panel>
+    </div>
+    <div class="content">
+        <p-panel header="Portfolio Details">
+            <div class="button-container" *ngIf="selectedPortfolioName != undefined">
+                <p-button label="Add Stock" [text]="true" [raised]="true" severity="secondary"
+                    (onClick)="visibleAddStockToListDialog = true" />
+            </div>
+            <div *ngIf="stocks != undefined">
+                <app-portfolio-details
+                *ngIf="selectedPortfolioName != undefined && selectedPortfolio != undefined; else noSelection"
+                [listName]="selectedPortfolioName" [watchingStocks]="selectedPortfolio"
+                [stocksDictionary]="this.stocks">
+                </app-portfolio-details>
+                <ng-template #noSelection>
+                    <p>Please choose a portfolio</p>
+                </ng-template>
+            </div>
+        </p-panel>
+    </div>
+</div>
+<p-dialog header="Add List" [modal]="true" [(visible)]="visibleAddUserListDialog">
+    <div class="container flex-column gap-2">
+        <div class="container align-items-center gap-1">
+            <label for="listName" class="font-semibold w-6rem">List Name: </label>
+            <input pInputText id="listName" class="flex-auto" autocomplete="off" [(ngModel)]="listNameToAdd" />
+        </div>
+        <div class="container align-items-center justify-space-between gap-1">
+            <p-button label="Cancel" severity="secondary" (onClick)="visibleAddUserListDialog = false" />
+            <p-button label="Save" (onClick)="addUserList(listNameToAdd)" />
+        </div>
+    </div>
+</p-dialog>
+<p-dialog header="Add Stock To List" [modal]="true" [(visible)]="visibleAddStockToListDialog">
+    <div class="container flex-column gap-2">
+        <div class="container align-items-center gap-1">
+            <label for="stockSymbol" class="font-semibold w-6rem">Symbol: </label>
+            <input pInputText id="stockSymbol" class="flex-auto" autocomplete="off" [(ngModel)]="stockSymbolToAdd" />
+        </div>
+        <div class="container align-items-center justify-space-between gap-1">
+            <p-button label="Cancel" severity="secondary" (onClick)="visibleAddStockToListDialog = false" />
+            <p-button label="Add" (onClick)="addStockToList(stockSymbolToAdd)" />
+        </div>
+    </div>
+</p-dialog>
