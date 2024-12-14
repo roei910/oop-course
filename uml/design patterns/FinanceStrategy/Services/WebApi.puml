@@ -1,0 +1,9 @@
+@startuml
+class WebApi {
+    + WebApi(baseUrl:string, headers:Dictionary<string, string>)
+    + <<async>> GetResponse(endPoint:string, queryParams:KeyValuePair<string, string>[]) : Task<T?>
+    + <<async>> GetResponse(endPoint:string, queryParams:KeyValuePair<string, string>[]) : Task<RestResponse>
+}
+interface IWebApi
+IWebApi <|-- WebApi
+@enduml

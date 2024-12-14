@@ -1,0 +1,23 @@
+@startuml
+left to right direction
+
+actor "User" as User
+actor "Connected User" as ConnectedUser
+
+package "System" {
+    usecase "צפייה בכלל המניות" as UC_ViewStockInfo
+    usecase "צפייה בערכי מניה מורחבים" as UC_ExtendedInfo
+
+    usecase "הוספת מניה לתיק" as UC_AddToPortfolio
+    usecase "הוספת התראה למחיר למניה" as UC_AddNotification
+}
+
+User --> UC_ViewStockInfo
+User --> UC_ExtendedInfo
+
+ConnectedUser --> UC_ViewStockInfo
+ConnectedUser --> UC_ExtendedInfo
+ConnectedUser --> UC_AddToPortfolio
+ConnectedUser --> UC_AddNotification
+
+@enduml

@@ -1,0 +1,4 @@
+StocksApi/obj
+StocksApi/.vs
+StocksApi/*/bin/
+StocksApi/*/obj/

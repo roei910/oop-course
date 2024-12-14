@@ -1,0 +1,8 @@
+@startuml
+class YahooFinance127 {
+    + YahooFinance127(webApiFactory:WebApiFactory, logger:ILogger<Stock>)
+    + <<async>> GetStockAnalysis(symbol:string) : Task<StockAnalysis?>
+    + <<async>> GetStocksAnalysis(symbols:string[]) : Task<List<StockAnalysis>>
+}
+IStockAnalysisApi <|-- YahooFinance127
+@enduml

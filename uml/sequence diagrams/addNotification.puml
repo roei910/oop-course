@@ -1,0 +1,21 @@
+@startuml
+actor User
+participant "Frontend (UI)" as UI
+participant "Backend (API)" as API
+database Database
+
+User -> UI: Navigate to stock page
+UI -> UI: Display stock details
+User -> UI: Press "Add Notification" button
+UI -> UI: Show prompt to enter target price
+User -> UI: Enter target price and confirm
+UI -> API: Send request to add notification
+API -> Database: Check if user exists
+Database --> API: User found
+API -> Database: Check if stock exists
+Database --> API: Stock found
+API -> Database: Add notification for user and stock
+Database --> API: Notification added
+API -> UI: Return success response
+UI --> User: Show success message
+@enduml

@@ -1,0 +1,33 @@
+@startuml
+actor User
+participant "Frontend (UI)" as UI
+participant "Backend (API)" as API
+database Database
+
+User -> UI: Enter username and password
+UI -> API: Send login request
+API -> Database: Verify credentials
+alt Valid Credentials
+    Database --> API: Credentials valid
+    API -> UI: Login success
+    UI --> User: Show dashboard
+else Invalid Credentials
+    Database --> API: Credentials invalid
+    API -> UI: Show login error
+    alt User selects "Register"
+        User -> UI: Fill registration form
+        UI -> API: Send registration request
+        API -> Database: Create user account
+        Database --> API: Account created
+        API -> UI: Registration success
+        UI --> User: Show dashboard
+    else User selects "Restore Password"
+        User -> UI: Enter email for reset
+        UI -> API: Send password reset request
+        API -> Database: Verify email exists
+        Database --> API: Email valid
+        API -> UI: Password updated
+        UI --> User: Show update confirmation
+    end
+end
+@enduml

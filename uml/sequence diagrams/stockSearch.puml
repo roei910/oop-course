@@ -1,0 +1,19 @@
+@startuml
+actor User
+participant "Frontend (UI)" as UI
+participant "Backend (API)" as API
+database Database
+
+User -> UI: Enter search query
+UI -> API: Send search request
+API -> Database: Fetch matching stocks
+Database --> API: Return stock list
+API -> UI: Display stock list
+User -> UI: Sort stock list (e.g., by price or name)
+UI -> UI: Display sorted stock list
+User -> UI: Select stock to view details
+UI -> API: Request stock details
+API -> Database: Fetch stock information
+Database --> API: Return stock details
+API -> UI: Display stock details
+@enduml

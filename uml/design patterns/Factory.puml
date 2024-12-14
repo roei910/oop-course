@@ -1,0 +1,15 @@
+@startuml
+class RealTimeFinanceData
+class YahooFinance1
+class YahooFinance15
+class YahooFinance127
+class WebApiFactory{
+    WebApi(string baseUrl, Dictionary<string, string> headers)
+}
+
+RealTimeFinanceData <|-- WebApiFactory : uses
+YahooFinance1 <|-- WebApiFactory : uses
+YahooFinance15 <|-- WebApiFactory : uses
+YahooFinance127 <|-- WebApiFactory : uses
+
+@enduml

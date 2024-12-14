@@ -1,0 +1,10 @@
+@startuml
+class YahooFinance15 {
+    + YahooFinance15(webApiFactory:WebApiFactory, logger:ILogger<Stock>)
+    + <<async>> FindStock(searchTerm:string) : Task<List<StockSearchResult>>
+    + <<async>> GetStock(symbol:string) : Task<PriceResponse?>
+    + <<async>> GetStocks(symbols:string[]) : Task<List<PriceResponse>>
+}
+IYahooFinance <|-- YahooFinance15
+IYahooFinanceBulk <|-- YahooFinance15
+@enduml

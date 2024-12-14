@@ -1,0 +1,20 @@
+@startuml
+top to bottom direction
+
+actor "Connected User" as ConnectedUser
+
+package "System" {
+    usecase "מעבר לעמוד הטרנדים" as UC_AccessTrendsPage
+    usecase "בחירת הטרנד" as UC_ChooseTrend
+    usecase "מניות רלוונטיות לטרנד" as UC_ViewStocksInTrend
+    usecase "חדשות הטרנד" as UC_ViewTrendNews
+    usecase "קישור לכתבה" as UC_RedirectToNews
+}
+
+ConnectedUser --> UC_AccessTrendsPage
+UC_AccessTrendsPage --> UC_ChooseTrend
+UC_ChooseTrend --> UC_ViewStocksInTrend
+UC_ChooseTrend --> UC_ViewTrendNews
+UC_ViewTrendNews --> UC_RedirectToNews
+
+@enduml

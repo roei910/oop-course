@@ -1,0 +1,25 @@
+@startuml
+node "Client (Frontend)" {
+    [Browser]
+}
+
+node "API Server" {
+    [C# Web API]
+}
+
+node "Database" {
+    [MongoDB Instance]
+}
+
+node "External Services" {
+    [Yahoo Finance API]
+}
+
+actor "User" as user
+
+' Connections
+user --> [Browser] : Access via browser
+[Browser] --> [C# Web API] : Sends HTTP/HTTPS requests
+[C# Web API] --> [MongoDB Instance] : CRUD operations
+[C# Web API] --> [Yahoo Finance API] : Fetches stock data
+@enduml

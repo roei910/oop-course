@@ -1,0 +1,20 @@
+@startuml
+top to bottom direction
+
+actor "User" as User
+
+package "System" {
+    usecase "דף חיפוש מניות" as UC_AccessSearchPage
+    usecase "הכנסת ערך חיפוש" as UC_EnterSearchTerm
+    usecase "צפייה ברשימת המניות" as UC_ViewStockList
+    usecase "בחירת מניה" as UC_SelectStock
+    usecase "צפייה הערכי מניה מורחבים" as UC_ViewStockInfo
+}
+
+User --> UC_AccessSearchPage
+UC_AccessSearchPage --> UC_EnterSearchTerm
+UC_EnterSearchTerm --> UC_ViewStockList
+UC_ViewStockList --> UC_SelectStock
+UC_SelectStock --> UC_ViewStockInfo
+
+@enduml

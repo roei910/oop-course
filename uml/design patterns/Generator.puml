@@ -1,0 +1,19 @@
+@startuml
+class UserController{
+    CreateAsync(UserDetails userDetails) : void
+    ...
+}
+
+class UserRepository{
+    AddUserAsync(UserDetails userDetails) : void
+    ...
+}
+
+class UserGenerator{
+    Generate(UserDetails userDetails) : User
+}
+
+UserController <|-- UserRepository : uses
+UserRepository <|-- UserGenerator : uses
+
+@enduml

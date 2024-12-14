@@ -1,0 +1,18 @@
+@startuml
+
+left to right direction
+
+actor "Unregistered User" as Unregistered
+actor "Registered User" as Registered
+
+package "System" {
+    usecase "הרשמה" as UC_Register
+    usecase "התחברות" as UC_Connect
+    usecase "שחזור סיסמה" as UC_RestorePassword
+}
+
+Unregistered --> UC_Register
+Registered --> UC_Connect
+Registered --> UC_RestorePassword
+
+@enduml

@@ -1,0 +1,61 @@
+@startuml
+class App
+
+class RouterOutlet
+class PToast
+class Loading
+class Header
+class Footer
+class PConfirmDialog
+
+class Home
+class Search
+class NotFound
+class Insights
+class Login
+class NotificationCenter
+class PortfolioDetails
+class Register
+class StockDetails
+class StockShares
+class StocksTable
+class UserInformation
+class UserStocks
+class ConnectedUserGuard
+
+App <|-- RouterOutlet
+App <|-- PToast
+App <|-- Loading
+App <|-- Header
+App <|-- Footer
+App <|-- PConfirmDialog
+
+RouterOutlet <|-- Home
+RouterOutlet <|-- Login
+RouterOutlet <|-- Register
+RouterOutlet <|-- Search
+RouterOutlet <|-- StockDetails
+RouterOutlet <|-- StocksTable
+RouterOutlet <|-- Insights
+RouterOutlet <|-- NotificationCenter
+RouterOutlet <|-- UserStocks
+RouterOutlet <|-- StockShares
+RouterOutlet <|-- UserInformation
+RouterOutlet <|-- NotFound
+
+UserStocks <|-- PortfolioDetails
+
+Insights ..> ConnectedUserGuard : uses
+StockShares ..> ConnectedUserGuard : uses
+UserStocks ..> ConnectedUserGuard : uses
+NotificationCenter ..> ConnectedUserGuard : uses
+UserInformation ..> ConnectedUserGuard : uses
+
+Home ..> Login : redirect
+Login <..> Register : redirect
+Search ..> StockDetails : redirect
+NotificationCenter ..> StockDetails : redirect
+UserStocks ..> StockDetails : redirect
+StocksTable ..> StockDetails : redirect
+
+@enduml

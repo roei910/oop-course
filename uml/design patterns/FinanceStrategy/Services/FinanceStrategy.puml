@@ -1,0 +1,11 @@
+@startuml
+class FinanceStrategy {
+    + FinanceStrategy(yahooFinanceApiList:List<IYahooFinance>, analysisApiList:List<IStockAnalysisApi>)
+    + <<async>> FindStock(searchTerm:string) : Task<List<StockSearchResult>>
+    + <<async>> GetStock(symbol:string) : Task<PriceResponse?>
+    + <<async>> GetStocksAnalysis(orderedStockSymbols:string[]) : Task<List<StockAnalysis>>
+    + <<async>> GetStocks(symbols:string[]) : Task<List<PriceResponse>>
+}
+interface IFinanceStrategy
+IFinanceStrategy <|-- FinanceStrategy
+@enduml

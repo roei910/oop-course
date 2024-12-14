@@ -1,0 +1,51 @@
+@startuml
+interface IWebApi
+interface IFinanceStrategy
+interface IStockAnalysisApi
+interface IYahooFinance
+interface IYahooFinanceBulk
+
+class YahooFinance1 {
+    + YahooFinance1(webApiFactory:WebApiFactory, logger:ILogger<Stock>)
+    + <<async>> FindStock(searchTerm:string) : Task<List<StockSearchResult>>
+    + <<async>> GetStock(symbol:string) : Task<PriceResponse?>
+    + <<async>> GetStocks(symbols:string[]) : Task<List<PriceResponse>>
+}
+
+class YahooFinance15 {
+    + YahooFinance15(webApiFactory:WebApiFactory, logger:ILogger<Stock>)
+    + <<async>> FindStock(searchTerm:string) : Task<List<StockSearchResult>>
+    + <<async>> GetStock(symbol:string) : Task<PriceResponse?>
+    + <<async>> GetStocks(symbols:string[]) : Task<List<PriceResponse>>
+}
+
+class YahooFinance127 {
+    + YahooFinance127(webApiFactory:WebApiFactory, logger:ILogger<Stock>)
+    + <<async>> GetStockAnalysis(symbol:string) : Task<StockAnalysis?>
+    + <<async>> GetStocksAnalysis(symbols:string[]) : Task<List<StockAnalysis>>
+}
+
+class FinanceStrategy {
+    + FinanceStrategy(yahooFinanceApiList:List<IYahooFinance>, analysisApiList:List<IStockAnalysisApi>)
+    + <<async>> FindStock(searchTerm:string) : Task<List<StockSearchResult>>
+    + <<async>> GetStock(symbol:string) : Task<PriceResponse?>
+    + <<async>> GetStocksAnalysis(orderedStockSymbols:string[]) : Task<List<StockAnalysis>>
+    + <<async>> GetStocks(symbols:string[]) : Task<List<PriceResponse>>
+}
+
+IFinanceStrategy <|-- FinanceStrategy
+IStockAnalysisApi <|-- YahooFinance127
+IYahooFinance <|-- YahooFinance15
+IYahooFinanceBulk <|-- YahooFinance15
+IYahooFinance <|-- YahooFinance1
+IYahooFinanceBulk <|-- YahooFinance1
+
+YahooFinance1 ..> IWebApi : uses
+YahooFinance15 ..> IWebApi : uses
+YahooFinance127 ..> IWebApi : uses
+
+FinanceStrategy ..> IYahooFinance : uses
+FinanceStrategy ..> IYahooFinanceBulk : uses
+FinanceStrategy ..> IStockAnalysisApi : uses
+
+@enduml

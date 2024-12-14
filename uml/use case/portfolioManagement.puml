@@ -1,0 +1,35 @@
+@startuml
+top to bottom direction
+
+actor "Connected User" as ConnectedUser
+
+package "System" {
+    usecase "ניהול תיקי מניות" as UC_ManagePortfolios
+    usecase "הוספת תיק" as UC_AddPortfolio
+    usecase "מחיקת תיק" as UC_RemovePortfolio
+    usecase "בחירת תיק לניהול" as UC_ChoosePortfolio
+    usecase "ניהול מניות בתיק" as UC_ManageStocks
+    usecase "צפייה בסיכום תיק ההשקעות" as UC_AccountSummary
+
+    rectangle "Stock Management" {
+        usecase "הוספת מניה" as UC_AddStock
+        usecase "מחיקת מניה" as UC_RemoveStock
+        usecase "עדכון חלקי המניה" as UC_UpdateShares
+        usecase "עדכון פתק למניה" as UC_UpdateNote
+    }
+}
+
+ConnectedUser --> UC_ManagePortfolios
+UC_ManagePortfolios --> UC_AddPortfolio
+UC_ManagePortfolios --> UC_RemovePortfolio
+UC_ManagePortfolios --> UC_ChoosePortfolio
+
+UC_ChoosePortfolio --> UC_ManageStocks
+UC_ManageStocks --> UC_AddStock
+UC_ManageStocks --> UC_RemoveStock
+UC_ManageStocks --> UC_UpdateShares
+UC_ManageStocks --> UC_UpdateNote
+
+ConnectedUser --> UC_AccountSummary
+
+@enduml
