@@ -1,0 +1,6 @@
+@StocksApi_HostAddress = https://localhost:5108
+
+GET {{StocksApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
