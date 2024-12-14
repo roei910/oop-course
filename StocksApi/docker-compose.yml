@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  stocksapi:
+    image: ${DOCKER_REGISTRY-}stocksapi
+    build:
+      context: .
+      dockerfile: StocksApi/Dockerfile
