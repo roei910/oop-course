@@ -3,7 +3,7 @@ run the backend server in c# .net, run the frontend project in angular node vers
 
 # using deployed version of the project
 frontend: https://stock-collection.netlify.app/#/
-backend swagger: https://stocksapi-b6u3.onrender.com/swagger
+backend swagger: https://oop-course.onrender.com/swagger
 
 # running backend
 set the StocksApi as startup project, 
