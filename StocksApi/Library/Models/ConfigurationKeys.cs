@@ -2,9 +2,10 @@
 {
 	public class ConfigurationKeys
 	{
+		public const string SecretsFilePathKey = "SECRETS_FILE_PATH";
         public const string ConnectionStringSection = "CONNECTION_STRING";
 
-        public const string AppVariablesSection = "AppVariables";
+		public const string AppVariablesSection = "AppVariables";
         public const string DatabaseSettingsSection = "DatabaseSettings";
 
         public const string Finance15Section = "YahooFinance15";

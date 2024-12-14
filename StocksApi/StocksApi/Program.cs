@@ -1,3 +1,4 @@
+using Library.Models;
 using StocksApi;
 
 Host.CreateDefaultBuilder(args)
@@ -11,8 +12,8 @@ Host.CreateDefaultBuilder(args)
 
         if (env.IsProduction())
         {
-            var secretsFilePath = Environment.GetEnvironmentVariable("SECRETS_FILE_PATH");
-            config.AddJsonFile(secretsFilePath, optional: false, reloadOnChange: true);
+            var secretsFilePath = Environment.GetEnvironmentVariable(ConfigurationKeys.SecretsFilePathKey);
+            config.AddJsonFile(secretsFilePath!, optional: false, reloadOnChange: true);
         }
     })
     .ConfigureWebHostDefaults(webBuilder =>
