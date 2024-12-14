@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Models\" />
+    <None Remove="Interfaces\" />
+    <None Remove="Extensions\" />
+    <None Remove="Services\" />
+    <None Remove="Services\FinanceApis\" />
+    <None Remove="Factories\" />
+    <None Remove="Models\YahooFinance127\" />
+    <None Remove="Models\YahooFinance1\" />
+    <None Remove="Models\RealTimeFinanceData\" />
+    <None Remove="Generators\" />
+    <None Remove="Models\YahooFinance15\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Services\" />
+    <Folder Include="Services\FinanceApis\" />
+    <Folder Include="Factories\" />
+    <Folder Include="Models\YahooFinance127\" />
+    <Folder Include="Models\YahooFinance1\" />
+    <Folder Include="Models\RealTimeFinanceData\" />
+    <Folder Include="Generators\" />
+    <Folder Include="Models\YahooFinance15\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="RestSharp" Version="112.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Library\Library.csproj" />
+  </ItemGroup>
+</Project>
