@@ -12,6 +12,7 @@ build and run the project
 
 # running frontend
 go to the client-angular folder, run npm install command and then run "npm start" / "ng serve" command
+there is an option to use configurations like local, development and production which changes the backend server url.
 
 # versions
 npm @9.8.1 or higher
