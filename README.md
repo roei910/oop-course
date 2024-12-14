@@ -1,5 +1,6 @@
 # running the project
 run the backend server in c# .net, run the frontend project in angular node version 20 or higher
+
 # using deployed version of the project
 frontend: https://stock-collection.netlify.app/#/
 backend swagger: https://stocksapi-b6u3.onrender.com/swagger
