@@ -196,7 +196,7 @@ namespace StocksApi.Repositories
             await _usersDal.UpdatePasswordAsync(email, hashedPassword);
         }
 
-        public async Task AddStockNoteAsync(UserStockNoteRequest userStockNoteRequest)
+        public async Task<string> AddStockNoteAsync(UserStockNoteRequest userStockNoteRequest)
         {
             var userStockNote = new UserStockNote
             {
@@ -205,6 +205,8 @@ namespace StocksApi.Repositories
             };
 
             await _usersDal.AddUserStockNoteAsync(userStockNoteRequest.UserEmail, userStockNoteRequest.StockSymbol, userStockNote);
+
+            return userStockNote.Id;
         }
 
         public async Task RemoveStockNoteAsync(string userEmail, string stockSymbol, string noteId)

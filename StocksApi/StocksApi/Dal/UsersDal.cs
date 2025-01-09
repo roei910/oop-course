@@ -140,6 +140,16 @@ namespace StocksApi.Dal
                 .PullFilter(user => user.UserStockNotesBySymbol[stockSymbol], note => note.Id == noteId);
 
             await _collection.UpdateOneAsync(filter, update);
+
+            var user = await _collection.FindSync(filter).FirstAsync();
+
+            if (user.UserStockNotesBySymbol[stockSymbol].Count == 0)
+            {
+                var removeEmptyListSymbol = Builders<User>.Update
+                    .Unset(user => user.UserStockNotesBySymbol[stockSymbol]);
+
+                await _collection.UpdateOneAsync(filter, removeEmptyListSymbol);
+            }
         }
     }
 }

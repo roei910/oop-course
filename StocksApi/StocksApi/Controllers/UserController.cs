@@ -30,7 +30,7 @@ namespace StocksApi.Controllers
             if (user is null)
                 return NotFound("User wasn't found");
 
-            return user;
+            return Ok(user);
         }
 
         [HttpDelete]
@@ -129,15 +129,17 @@ namespace StocksApi.Controllers
         [HttpPost("stockNote")]
         public async Task<IActionResult> AddUserStockNoteAsync([FromBody] UserStockNoteRequest userStockNoteRequest)
         {
+            userStockNoteRequest.StockSymbol = userStockNoteRequest.StockSymbol.ToUpper();
+
             var user = await _userRepository.GetAsync(userStockNoteRequest.UserEmail);
             var stock = await _stockRepository.GetStockBySymbolAsync(userStockNoteRequest.StockSymbol);
 
             if (user is null || stock is null)
                 return NotFound();
 
-            await _userRepository.AddStockNoteAsync(userStockNoteRequest);
+            var stockNoteId = await _userRepository.AddStockNoteAsync(userStockNoteRequest);
 
-            return Ok();
+            return Ok(stockNoteId);
         }
 
         [HttpDelete("stockNote")]
@@ -152,7 +154,7 @@ namespace StocksApi.Controllers
             if (user is null || stock is null)
                 return NotFound();
 
-            await _userRepository.RemoveStockNoteAsync(userEmail, stockSymbol, noteId);
+            await _userRepository.RemoveStockNoteAsync(userEmail, stockSymbol.ToUpper(), noteId);
 
             return Ok();
         }
