@@ -125,5 +125,36 @@ namespace StocksApi.Controllers
 
             return Ok();
         }
+
+        [HttpPost("stockNote")]
+        public async Task<IActionResult> AddUserStockNoteAsync([FromBody] UserStockNoteRequest userStockNoteRequest)
+        {
+            var user = await _userRepository.GetAsync(userStockNoteRequest.UserEmail);
+            var stock = await _stockRepository.GetStockBySymbolAsync(userStockNoteRequest.StockSymbol);
+
+            if (user is null || stock is null)
+                return NotFound();
+
+            await _userRepository.AddStockNoteAsync(userStockNoteRequest);
+
+            return Ok();
+        }
+
+        [HttpDelete("stockNote")]
+        public async Task<IActionResult> RemoveUserStockNoteAsync(
+            [FromQuery] string userEmail,
+            [FromQuery] string stockSymbol,
+            [FromQuery] string noteId)
+        {
+            var user = await _userRepository.GetAsync(userEmail);
+            var stock = await _stockRepository.GetStockBySymbolAsync(stockSymbol);
+
+            if (user is null || stock is null)
+                return NotFound();
+
+            await _userRepository.RemoveStockNoteAsync(userEmail, stockSymbol, noteId);
+
+            return Ok();
+        }
     }
 }

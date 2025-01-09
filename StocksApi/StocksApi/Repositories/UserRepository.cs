@@ -195,5 +195,21 @@ namespace StocksApi.Repositories
             var hashedPassword = _passwordHasher.HashPassword(passwordUpdateRequest.Password);
             await _usersDal.UpdatePasswordAsync(email, hashedPassword);
         }
+
+        public async Task AddStockNoteAsync(UserStockNoteRequest userStockNoteRequest)
+        {
+            var userStockNote = new UserStockNote
+            {
+                Id = Guid.NewGuid().ToString(),
+                Note = userStockNoteRequest.Note
+            };
+
+            await _usersDal.AddUserStockNoteAsync(userStockNoteRequest.UserEmail, userStockNoteRequest.StockSymbol, userStockNote);
+        }
+
+        public async Task RemoveStockNoteAsync(string userEmail, string stockSymbol, string noteId)
+        {
+            await _usersDal.RemoveUserStockNoteAsync(userEmail, stockSymbol, noteId);
+        }
     }
 }

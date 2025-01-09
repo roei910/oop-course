@@ -15,7 +15,8 @@ namespace StocksApi.Generators
 				FirstName = userDetails.FirstName,
 				LastName = userDetails.LastName,
 				WatchingStocksByListName = new Dictionary<string, Dictionary<string, WatchingStock>>(),
-				StockNotifications = new List<StockNotification>()
+				StockNotifications = new List<StockNotification>(),
+				UserStockNotesBySymbol = new Dictionary<string, List<UserStockNote>>()
 			};
 
 			return user;

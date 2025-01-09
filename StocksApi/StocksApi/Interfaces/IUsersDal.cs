@@ -17,5 +17,7 @@ namespace StocksApi.Interfaces
         Task RemoveStockListAsync(string email, string listName);
         Task NotifyUserAsync(string userEmail, string notificationId);
         Task RemoveNotificationAsync(string userId, string notificationId);
+        Task AddUserStockNoteAsync(string userEmail, string stockSymbol, UserStockNote userStockNote);
+        Task RemoveUserStockNoteAsync(string userEmail, string stockSymbol, string noteId);
     }
 }

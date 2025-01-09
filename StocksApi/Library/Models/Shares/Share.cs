@@ -3,6 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Library.Models.Shares
 {
+    [BsonIgnoreExtraElements]
     public class Share
     {
         [BsonId]

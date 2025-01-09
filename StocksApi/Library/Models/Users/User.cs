@@ -6,6 +6,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Library.Models
 {
+    [BsonIgnoreExtraElements]
     public class User
     {
         [BsonId]
@@ -19,5 +20,6 @@ namespace Library.Models
         public required string Email { get; set; }
         public required Dictionary<string, Dictionary<string, WatchingStock>> WatchingStocksByListName { get; set; }
         public required List<StockNotification> StockNotifications { get; set; }
+        public required Dictionary<string, List<UserStockNote>> UserStockNotesBySymbol { get; set; }
     }
 }

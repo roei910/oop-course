@@ -5,6 +5,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Library.Models
 {
+    [BsonIgnoreExtraElements]
     public class Stock
     {
         [BsonId]

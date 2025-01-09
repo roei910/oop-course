@@ -22,5 +22,7 @@ namespace StocksApi.Interfaces
         Task ShowNotificationAsync(StockNotification notification);
         Task UpdateShareNoteAsync(WatchingStockAction watchingStockAction);
         Task UpdatePasswordAsync(PasswordUpdateRequest passwordUpdateRequest);
+        Task AddStockNoteAsync(UserStockNoteRequest userStockNoteRequest);
+        Task RemoveStockNoteAsync(string userEmail, string stockSymbol, string noteId);
     }
 }

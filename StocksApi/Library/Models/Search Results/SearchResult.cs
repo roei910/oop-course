@@ -3,6 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Library.Models.SearchResults
 {
+    [BsonIgnoreExtraElements]
 	public class SearchResult
 	{
         [BsonId]

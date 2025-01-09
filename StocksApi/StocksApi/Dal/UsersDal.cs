@@ -123,5 +123,23 @@ namespace StocksApi.Dal
 
             await _collection.UpdateOneAsync(filter, update);
         }
+
+        public async Task AddUserStockNoteAsync(string userEmail, string stockSymbol, UserStockNote userStockNote)
+        {
+            var filter = Builders<User>.Filter.Eq(user => user.Email, userEmail);
+            var update = Builders<User>.Update
+                .AddToSet(user => user.UserStockNotesBySymbol[stockSymbol], userStockNote);
+
+            await _collection.UpdateOneAsync(filter, update);
+        }
+
+        public async Task RemoveUserStockNoteAsync(string userEmail, string stockSymbol, string noteId)
+        {
+            var filter = Builders<User>.Filter.Eq(user => user.Email, userEmail);
+            var update = Builders<User>.Update
+                .PullFilter(user => user.UserStockNotesBySymbol[stockSymbol], note => note.Id == noteId);
+
+            await _collection.UpdateOneAsync(filter, update);
+        }
     }
 }
