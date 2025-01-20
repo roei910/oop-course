@@ -1,5 +1,5 @@
 ﻿using Library.Models.Stocks;
-using Library.Models.Users;
+using Library.Models.Users.Notifications;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 

@@ -1,5 +1,5 @@
 ﻿using Library.Models;
-using Library.Models.Users;
+using Library.Models.Users.Notifications;
 
 namespace StocksApi.Interfaces
 {

@@ -2,7 +2,7 @@
 using Library.Models;
 using YahooFinance.Interfaces;
 using StocksApi.Generators;
-using Library.Models.Users;
+using Library.Models.Users.Notifications;
 
 namespace StocksApi.Repositories
 {

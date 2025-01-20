@@ -4,7 +4,7 @@ using Library.Models;
 using Library.Interfaces;
 using Library.Models.Stocks;
 using YahooFinance.Models;
-using Library.Models.Users;
+using Library.Models.Users.Notifications;
 
 namespace StocksApi.Dal
 {

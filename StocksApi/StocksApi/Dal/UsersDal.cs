@@ -4,6 +4,9 @@ using Library.Models;
 using Library.Interfaces;
 using Library.Models.Users;
 using Library.Models.Shares;
+using Library.Models.Users.StockNotes;
+using MongoDB.Bson;
+using Library.Models.Users.Notifications;
 
 namespace StocksApi.Dal
 {
@@ -61,7 +64,7 @@ namespace StocksApi.Dal
         public async Task<User?> FindOneByEmailAsync(string email)
         {
             var filter = Builders<User>.Filter.Eq(user => user.Email, email);
-            var foundUser = await(await _collection.FindAsync(filter)).FirstOrDefaultAsync();
+            var foundUser = await (await _collection.FindAsync(filter)).FirstOrDefaultAsync();
 
             return foundUser;
         }
@@ -136,20 +139,41 @@ namespace StocksApi.Dal
         public async Task RemoveUserStockNoteAsync(string userEmail, string stockSymbol, string noteId)
         {
             var filter = Builders<User>.Filter.Eq(user => user.Email, userEmail);
-            var update = Builders<User>.Update
-                .PullFilter(user => user.UserStockNotesBySymbol[stockSymbol], note => note.Id == noteId);
-
-            await _collection.UpdateOneAsync(filter, update);
 
             var user = await _collection.FindSync(filter).FirstAsync();
 
-            if (user.UserStockNotesBySymbol[stockSymbol].Count == 0)
+            if (user.UserStockNotesBySymbol[stockSymbol].Count == 1)
             {
                 var removeEmptyListSymbol = Builders<User>.Update
                     .Unset(user => user.UserStockNotesBySymbol[stockSymbol]);
 
                 await _collection.UpdateOneAsync(filter, removeEmptyListSymbol);
+
+                return;
             }
+
+            var update = Builders<User>.Update
+                .PullFilter(user => user.UserStockNotesBySymbol[stockSymbol], note => note.Id == noteId);
+
+            await _collection.UpdateOneAsync(filter, update);
+        }
+
+        public async Task UpdateUserStockNoteAsync(UserStockNoteUpdateRequest noteUpdateRequest)
+        {
+            var filter = Builders<User>.Filter.Eq(user => user.Email, noteUpdateRequest.UserEmail);
+
+            var update = Builders<User>.Update
+                .Set("UserStockNotesBySymbol.AAPL.$[note].Note", noteUpdateRequest.Note);
+
+            var arrayFilters = new List<ArrayFilterDefinition>
+            {
+                new BsonDocumentArrayFilterDefinition<UserStockNote>(new BsonDocument("note._id", ObjectId.Parse(noteUpdateRequest.Id)))
+            };
+
+            var result = await _collection.UpdateOneAsync(filter, update, options: new UpdateOptions
+            {
+                ArrayFilters = arrayFilters
+            });
         }
     }
 }

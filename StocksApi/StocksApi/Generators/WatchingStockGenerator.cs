@@ -4,7 +4,7 @@ namespace StocksApi.Generators
 {
     public static class WatchingStockGenerator
 	{
-		public static WatchingStock Generate(string stockSymbol)
+		public static WatchingStock Generate()
 		{
 			var watchingStock = new WatchingStock
 			{

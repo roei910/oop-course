@@ -1,11 +1,11 @@
 ﻿using Library.Models;
 using Library.Models.Stocks;
-using Library.Models.Users;
+using Library.Models.Users.Notifications;
 using YahooFinance.Models;
 
 namespace StocksApi.Interfaces
 {
-	public interface IStocksDal
+    public interface IStocksDal
 	{
         Task<List<Stock>> FindAllAsync();
         Task<Stock?> FindByIdAsync(string id);

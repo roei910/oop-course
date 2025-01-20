@@ -3,6 +3,9 @@ using StocksApi.Interfaces;
 using Library.Models;
 using Library.Models.Shares;
 using Library.Models.Users;
+using Library.Models.Users.StockNotes;
+using MongoDB.Bson;
+using Library.Models.Users.Notifications;
 
 namespace StocksApi.Repositories
 {
@@ -50,7 +53,7 @@ namespace StocksApi.Repositories
             if (!doesContainList)
                 foundUser.WatchingStocksByListName[sharePurchase.ListName] =
                     new Dictionary<string, WatchingStock> {
-                        { sharePurchase.StockSymbol, WatchingStockGenerator.Generate(sharePurchase.StockSymbol) }
+                        { sharePurchase.StockSymbol, WatchingStockGenerator.Generate() }
                     };
 
             var doesContainSymbol = foundUser.WatchingStocksByListName[sharePurchase.ListName]
@@ -58,7 +61,7 @@ namespace StocksApi.Repositories
 
             if (!doesContainSymbol)
                 foundUser.WatchingStocksByListName[sharePurchase.ListName]
-                    [sharePurchase.StockSymbol] = WatchingStockGenerator.Generate(sharePurchase.StockSymbol);
+                    [sharePurchase.StockSymbol] = WatchingStockGenerator.Generate();
 
             var foundWatchingStock = foundUser
                 .WatchingStocksByListName[sharePurchase.ListName][sharePurchase.StockSymbol];
@@ -105,7 +108,7 @@ namespace StocksApi.Repositories
 
             var foundUser = await _usersDal.FindOneByIdAsync(id) ?? throw new KeyNotFoundException("couldnt find user by id");
 
-            var watchingStock = WatchingStockGenerator.Generate(stockSymbol);
+            var watchingStock = WatchingStockGenerator.Generate();
 
             foundUser!.WatchingStocksByListName[listName].Add(stockSymbol, watchingStock);
             await _usersDal.UpdateAsync(id, foundUser!);
@@ -200,7 +203,7 @@ namespace StocksApi.Repositories
         {
             var userStockNote = new UserStockNote
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = ObjectId.GenerateNewId().ToString(),
                 Note = userStockNoteRequest.Note
             };
 
@@ -212,6 +215,13 @@ namespace StocksApi.Repositories
         public async Task RemoveStockNoteAsync(string userEmail, string stockSymbol, string noteId)
         {
             await _usersDal.RemoveUserStockNoteAsync(userEmail, stockSymbol, noteId);
+        }
+
+        public async Task UpdateStockNoteAsync(UserStockNoteUpdateRequest noteUpdateRequest)
+        {
+            noteUpdateRequest.StockSymbol = noteUpdateRequest.StockSymbol.ToUpper();
+
+            await _usersDal.UpdateUserStockNoteAsync(noteUpdateRequest);
         }
     }
 }

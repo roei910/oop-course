@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Library.Models.Users
+namespace Library.Models.Users.Notifications
 {
     public class StockNotification
     {

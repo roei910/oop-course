@@ -11,12 +11,18 @@
     <None Remove="Interfaces\" />
     <None Remove="Models\MarketTrends\" />
     <None Remove="Models\Search Results\" />
+    <None Remove="Models\Users\StockNotes\" />
+    <None Remove="Models\ServerResponse\" />
+    <None Remove="Models\Users\Notifications\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Models\MarketTrends\" />
     <Folder Include="Models\Search Results\" />
+    <Folder Include="Models\Users\StockNotes\" />
+    <Folder Include="Models\ServerResponse\" />
+    <Folder Include="Models\Users\Notifications\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.28.0" />

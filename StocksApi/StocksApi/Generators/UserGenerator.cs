@@ -1,6 +1,7 @@
 ﻿using Library.Models;
 using Library.Models.Shares;
 using Library.Models.Users;
+using Library.Models.Users.Notifications;
 
 namespace StocksApi.Generators
 {

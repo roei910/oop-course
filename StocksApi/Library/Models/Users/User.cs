@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using Library.Models.Shares;
 using Library.Models.Users;
+using Library.Models.Users.Notifications;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 

@@ -1,6 +1,8 @@
 ﻿using Library.Models;
 using Library.Models.Shares;
 using Library.Models.Users;
+using Library.Models.Users.Notifications;
+using Library.Models.Users.StockNotes;
 
 namespace StocksApi.Interfaces
 {
@@ -24,5 +26,6 @@ namespace StocksApi.Interfaces
         Task UpdatePasswordAsync(PasswordUpdateRequest passwordUpdateRequest);
         Task<string> AddStockNoteAsync(UserStockNoteRequest userStockNoteRequest);
         Task RemoveStockNoteAsync(string userEmail, string stockSymbol, string noteId);
+        Task UpdateStockNoteAsync(UserStockNoteUpdateRequest noteUpdateRequest);
     }
 }

@@ -3,6 +3,10 @@ using MongoDB.Bson;
 using StocksApi.Interfaces;
 using Library.Models;
 using Library.Models.Users;
+using Library.Models.Users.StockNotes;
+using Library.Models.ServerResponse;
+using Library.Models.Users.Notifications;
+using StocksApi.Generators;
 
 namespace StocksApi.Controllers
 {
@@ -52,14 +56,14 @@ namespace StocksApi.Controllers
 
         [HttpPost("connect-user")]
         public async Task<IActionResult> ConnectUserAsync(
-            [FromBody] UserCredentials user)
+            [FromBody] UserCredentials userCredentials)
         {
-            var foundUser = await _userRepository.GetAsync(user.Email!);
+            var foundUser = await _userRepository.GetAsync(userCredentials.Email!);
 
             if(foundUser is null)
                 return NotFound("User wasn't found");
 
-            var isAuthenticated = await _userRepository.ConnectUserAsync(user);
+            var isAuthenticated = await _userRepository.ConnectUserAsync(userCredentials);
 
             if (!isAuthenticated)
                 return Forbid("credentials couldnt match any user in our database");
@@ -85,27 +89,29 @@ namespace StocksApi.Controllers
 
             await _userRepository.UpdatePasswordAsync(passwordUpdateRequest);
 
-            return Ok("User created succesfully");
+            return Ok("User password updated succesfully");
         }
 
         [HttpPost("notification")]
-        public async Task<IActionResult> AddStockNotificationAsync(StockNotification stockNotification)
+        public async Task<IActionResult> AddStockNotificationAsync(StockNotificationRequest request)
         {
-            var foundStock = await _stockRepository.GetStockBySymbolAsync(stockNotification.StockSymbol);
-            var foundUser = await _userRepository.GetAsync(stockNotification.UserEmail);
+            var foundStock = await _stockRepository.GetStockBySymbolAsync(request.StockSymbol);
+            var foundUser = await _userRepository.GetAsync(request.UserEmail);
 
             if (foundStock is null || foundUser is null)
                 return NotFound();
 
-            stockNotification.Id = ObjectId.GenerateNewId().ToString();
-            stockNotification.StockSymbol = stockNotification.StockSymbol.ToUpper();
-            stockNotification.IsTargetBiggerThanOrEqual = stockNotification.TargetPrice > foundStock.Price;
-            stockNotification.ShouldBeNotified = false;
+            var stockNotification = StockNotificationGenerator.Generate(request, foundStock.Price);
 
             await _userRepository.AddNotificationAsync(stockNotification);
             await _stockRepository.AddNotificationAsync(stockNotification);
 
-            return Ok(new { stockNotification.Id });
+            var response = new ObjectIdResponse
+            {
+                Id = stockNotification.Id
+            };
+
+            return Ok(response);
         }
 
         [HttpDelete("notification")]
@@ -139,7 +145,32 @@ namespace StocksApi.Controllers
 
             var stockNoteId = await _userRepository.AddStockNoteAsync(userStockNoteRequest);
 
-            return Ok(stockNoteId);
+            var response = new ObjectIdResponse
+            {
+                Id = stockNoteId
+            };
+
+            return Ok(response);
+        }
+
+        [HttpPatch("stockNote")]
+        public async Task<IActionResult> UpdateUserStockNoteAsync([FromBody] UserStockNoteUpdateRequest noteUpdateRequest)
+        {
+            var user = await _userRepository.GetAsync(noteUpdateRequest.UserEmail);
+
+            if (user is null)
+                return NotFound();
+
+            try
+            {
+                await _userRepository.UpdateStockNoteAsync(noteUpdateRequest);
+
+                return Ok();
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
 
         [HttpDelete("stockNote")]

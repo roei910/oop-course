@@ -1,9 +1,11 @@
 ﻿using Library.Models;
 using Library.Models.Users;
+using Library.Models.Users.Notifications;
+using Library.Models.Users.StockNotes;
 
 namespace StocksApi.Interfaces
 {
-	public interface IUsersDal
+    public interface IUsersDal
 	{
         Task<List<User>> FindAllAsync();
         Task<User?> FindOneByIdAsync(string id);
@@ -19,5 +21,6 @@ namespace StocksApi.Interfaces
         Task RemoveNotificationAsync(string userId, string notificationId);
         Task AddUserStockNoteAsync(string userEmail, string stockSymbol, UserStockNote userStockNote);
         Task RemoveUserStockNoteAsync(string userEmail, string stockSymbol, string noteId);
+        Task UpdateUserStockNoteAsync(UserStockNoteUpdateRequest noteUpdateRequest);
     }
 }
