@@ -26,7 +26,7 @@
                 <td>{{stock.name}}</td>
                 <td>{{stock.symbol}}</td>
                 <td>{{stock.price}}</td>
-                <td>{{stock.analysis.targetMeanPrice}}  ({{targetPriceChangePercentage(stock) != undefined ? targetPriceChangePercentage(stock) + "%" : "missing information"}}) </td>
+                <td>{{stock.analysis?.targetMeanPrice}}  ({{targetPriceChangePercentage(stock) != undefined ? targetPriceChangePercentage(stock) + "%" : "missing information"}}) </td>
                 <td>
                     <p-button icon="pi pi-search" [rounded]="true" [text]="true"
                         [routerLink]="['/', 'stocks', 'information']" [queryParams]="{ stockSymbol: stock.symbol}" />
