@@ -161,16 +161,9 @@ namespace StocksApi.Controllers
             if (user is null)
                 return NotFound();
 
-            try
-            {
-                await _userRepository.UpdateStockNoteAsync(noteUpdateRequest);
+            await _userRepository.UpdateStockNoteAsync(noteUpdateRequest);
 
-                return Ok();
-            }
-            catch
-            {
-                return NotFound();
-            }
+            return Ok();
         }
 
         [HttpDelete("stockNote")]
@@ -179,6 +172,7 @@ namespace StocksApi.Controllers
             [FromQuery] string stockSymbol,
             [FromQuery] string noteId)
         {
+            //TODO: working with sessions??
             var user = await _userRepository.GetAsync(userEmail);
             var stock = await _stockRepository.GetStockBySymbolAsync(stockSymbol);
 
