@@ -1,0 +1,337 @@
+[{
+  "_id": {
+    "$oid": "671e65d2fe66629c61497c9b"
+  },
+  "SearchTerm": "hello",
+  "StockSearchResults": [
+    {
+      "Symbol": "MOMO",
+      "Name": "Hello Group Inc.",
+      "ExchDisp": "OTC Markets",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "HLLPF",
+      "Name": "Hello Pal International Inc.",
+      "ExchDisp": "OTC Markets",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "HELFY",
+      "Name": "HelloFresh SE",
+      "ExchDisp": "OTC Markets",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "HLFFF",
+      "Name": "HelloFresh SE",
+      "ExchDisp": "OTC Markets",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "HELLO-USD",
+      "Name": "HELLO Labs USD",
+      "ExchDisp": "CCC",
+      "TypeDisp": "CRYPTOCURRENCY"
+    },
+    {
+      "Symbol": "BOB27378-USD",
+      "Name": "Hello Puppy USD",
+      "ExchDisp": "CCC",
+      "TypeDisp": "CRYPTOCURRENCY"
+    },
+    {
+      "Symbol": "PET-USD",
+      "Name": "Hello Pets USD",
+      "ExchDisp": "CCC",
+      "TypeDisp": "CRYPTOCURRENCY"
+    },
+    {
+      "Symbol": "HTT-USD",
+      "Name": "Hello Art USD",
+      "ExchDisp": "CCC",
+      "TypeDisp": "CRYPTOCURRENCY"
+    },
+    {
+      "Symbol": "HLO.XA",
+      "Name": "Helloworld Travel Limited",
+      "ExchDisp": "CXA",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "301327.SZ",
+      "Name": "Shenzhen Hello Tech Energy Co., Ltd.",
+      "ExchDisp": "Shenzhen",
+      "TypeDisp": "Equity"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "671e67a18045422860a304c6"
+  },
+  "SearchTerm": "apple",
+  "StockSearchResults": [
+    {
+      "Symbol": "AAPL",
+      "Name": "Apple Inc.",
+      "ExchDisp": "NASDAQ",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "APLE",
+      "Name": "Apple Hospitality REIT, Inc.",
+      "ExchDisp": "NYSE",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "APRU",
+      "Name": "Apple Rush Company, Inc.",
+      "ExchDisp": "OTC Markets",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "GAPJ",
+      "Name": "Golden Apple Oil & Gas Inc.",
+      "ExchDisp": "OTC Markets",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "AAPY",
+      "Name": "Kurv Yield Premium Strategy Apple (AAPL) ETF",
+      "ExchDisp": "NYSE MKT",
+      "TypeDisp": "ETF"
+    },
+    {
+      "Symbol": "APPLX",
+      "Name": "Appleseed Fund",
+      "ExchDisp": "OTC Markets",
+      "TypeDisp": "Fund"
+    },
+    {
+      "Symbol": "AAPX",
+      "Name": "T-Rex 2X Long Apple Daily Target ETF",
+      "ExchDisp": "NYSE MKT",
+      "TypeDisp": "ETF"
+    },
+    {
+      "Symbol": "AAPI",
+      "Name": "Apple iSports Group, Inc.",
+      "ExchDisp": "OTC Markets",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "0P000186HG",
+      "Name": "Appletree Subordinatd Debt A USD Acc",
+      "ExchDisp": "OTC Markets",
+      "TypeDisp": "Fund"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "672329c28f72e46b8a162e4b"
+  },
+  "SearchTerm": "totp",
+  "StockSearchResults": []
+},
+{
+  "_id": {
+    "$oid": "672329ef8f72e46b8a162e4d"
+  },
+  "SearchTerm": "topt",
+  "StockSearchResults": [
+    {
+      "Symbol": "TOPT",
+      "Name": "iShares Trust iShares Top 20 U.",
+      "ExchDisp": "NYSEArca",
+      "TypeDisp": "ETF"
+    },
+    {
+      "Symbol": "DMRGD.IS",
+      "Name": "DMR UNLU MAMULLER",
+      "ExchDisp": "IST",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "108230.KQ",
+      "Name": "TOPTEC",
+      "ExchDisp": "KOSDAQ",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "BIZIM.IS",
+      "Name": "BIZIM MAGAZALARI",
+      "ExchDisp": "IST",
+      "TypeDisp": "Equity"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6724ef548f72e46b8a162e53"
+  },
+  "SearchTerm": "aapl",
+  "StockSearchResults": [
+    {
+      "Symbol": "AAPL",
+      "Name": "Apple Inc.",
+      "ExchDisp": "NASDAQ",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "AAPU",
+      "Name": "Direxion Daily AAPL Bull 2X Sha",
+      "ExchDisp": "NASDAQ",
+      "TypeDisp": "ETF"
+    },
+    {
+      "Symbol": "AAPL241220C00235000",
+      "Name": "AAPL Dec 2024 235.000 call",
+      "ExchDisp": "OPR",
+      "TypeDisp": "Option"
+    },
+    {
+      "Symbol": "AAPL250620C00250000",
+      "Name": "AAPL Jun 2025 250.000 call",
+      "ExchDisp": "OPR",
+      "TypeDisp": "Option"
+    },
+    {
+      "Symbol": "AAPL250117P00075000",
+      "Name": "AAPL Jan 2025 75.000 put",
+      "ExchDisp": "OPR",
+      "TypeDisp": "Option"
+    },
+    {
+      "Symbol": "AAPL251219C00120000",
+      "Name": "AAPL Dec 2025 120.000 call",
+      "ExchDisp": "OPR",
+      "TypeDisp": "Option"
+    },
+    {
+      "Symbol": "AAPL260116P00195000",
+      "Name": "AAPL Jan 2026 195.000 put",
+      "ExchDisp": "OPR",
+      "TypeDisp": "Option"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6741e29c6922b5d7b2c0361e"
+  },
+  "SearchTerm": "microsoft",
+  "StockSearchResults": [
+    {
+      "Symbol": "MSFT",
+      "Name": "Microsoft Corporation",
+      "ExchDisp": "NASDAQ",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "2MSF.AS",
+      "Name": "Leverage Shares 2x Microsoft ET",
+      "ExchDisp": "Amsterdam",
+      "TypeDisp": "ETF"
+    },
+    {
+      "Symbol": "3MSE.DE",
+      "Name": "Leverage Shares PLC           E",
+      "ExchDisp": "XETRA",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "MSFS.L",
+      "Name": "MSFS.L,0P0001K24C,0",
+      "ExchDisp": "London",
+      "TypeDisp": "ETF"
+    },
+    {
+      "Symbol": "MSF.DE",
+      "Name": "MICROSOFT CORP.               R",
+      "ExchDisp": "XETRA",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "MSFX",
+      "Name": "ETF Opportunities Trust T-Rex 2",
+      "ExchDisp": "BATS Trading",
+      "TypeDisp": "ETF"
+    },
+    {
+      "Symbol": "MSFT34.SA",
+      "Name": "MICROSOFT   DRN",
+      "ExchDisp": "São Paulo",
+      "TypeDisp": "Equity"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "677ac516a617aa454a38092f"
+  },
+  "SearchTerm": "APPLE",
+  "StockSearchResults": [
+    {
+      "Symbol": "AAPL",
+      "Name": "Apple Inc.",
+      "ExchDisp": "NASDAQ",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "APLE",
+      "Name": "Apple Hospitality REIT, Inc.",
+      "ExchDisp": "NYSE",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "APC.DE",
+      "Name": "Apple Inc.",
+      "ExchDisp": "XETRA",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "1APS.DE",
+      "Name": "Leverage Shares -1x Apple ETC",
+      "ExchDisp": "XETRA",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "48T.BE",
+      "Name": "Apple Hospitality REIT Inc",
+      "ExchDisp": "Berlin",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "3APE.DE",
+      "Name": "Leverage Shares 3x Apple ETC",
+      "ExchDisp": "XETRA",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "APETNC.JO",
+      "Name": "FNB ETN on APPLEC SEP25",
+      "ExchDisp": "Johannesburg Stock Exchange",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "D90.F",
+      "Name": "Apple International Co., Ltd.",
+      "ExchDisp": "Frankfurt",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "APC8.F",
+      "Name": "Apple Inc.",
+      "ExchDisp": "Frankfurt",
+      "TypeDisp": "Equity"
+    },
+    {
+      "Symbol": "2788.T",
+      "Name": "Apple International Co., Ltd.",
+      "ExchDisp": "Tokyo Stock Exchange",
+      "TypeDisp": "Equity"
+    }
+  ]
+}]

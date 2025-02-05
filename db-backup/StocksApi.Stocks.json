@@ -1,0 +1,498 @@
+[{
+  "_id": {
+    "$oid": "66d1a14a8c136e2b8756fa25"
+  },
+  "Name": "Apple",
+  "Symbol": "AAPL",
+  "Price": 232.8,
+  "UpdatedTime": {
+    "$date": "2025-02-05T05:24:04.608Z"
+  },
+  "AnalystRating": "2.0 - Buy",
+  "Analysis": {
+    "Symbol": "AAPL",
+    "UpdatedTime": {
+      "$date": "2025-02-05T05:24:00.721Z"
+    },
+    "TargetHighPrice": 325,
+    "TargetLowPrice": 197,
+    "TargetMeanPrice": 252.2085,
+    "TargetMedianPrice": 257.5
+  },
+  "StockNotifications": [
+    {
+      "_id": {
+        "$oid": "671f49ec8045422860a304cb"
+      },
+      "StockSymbol": "AAPL",
+      "UserEmail": "ofir@gmail",
+      "TargetPrice": 231,
+      "IsTargetBiggerThanOrEqual": false,
+      "ShouldBeNotified": false
+    },
+    {
+      "_id": {
+        "$oid": "6738ee8c6922b5d7b2c0361a"
+      },
+      "StockSymbol": "AAPL",
+      "UserEmail": "roei910@gmail.com",
+      "TargetPrice": 200,
+      "IsTargetBiggerThanOrEqual": false,
+      "ShouldBeNotified": false
+    },
+    {
+      "_id": {
+        "$oid": "678de21efe7ca9102856c69b"
+      },
+      "StockSymbol": "AAPL",
+      "UserEmail": "roei910@gmail.com",
+      "TargetPrice": 200,
+      "IsTargetBiggerThanOrEqual": false,
+      "ShouldBeNotified": false
+    }
+  ],
+  "FiftyDayAverage": 240.2278,
+  "FiftyTwoWeekHigh": 260.1,
+  "FiftyTwoWeekLow": 164.08,
+  "FiftyTwoWeekRange": "164.08 - 260.1",
+  "TwoHundredDayAverage": 219.98755
+},
+{
+  "_id": {
+    "$oid": "66d1a1668c136e2b8756fa26"
+  },
+  "Name": "Microsoft",
+  "Symbol": "MSFT",
+  "Price": 412.37,
+  "UpdatedTime": {
+    "$date": "2025-02-05T05:24:04.608Z"
+  },
+  "AnalystRating": "1.7 - Buy",
+  "Analysis": {
+    "Symbol": "MSFT",
+    "UpdatedTime": {
+      "$date": "2025-02-05T05:24:01.142Z"
+    },
+    "TargetHighPrice": 650,
+    "TargetLowPrice": 420,
+    "TargetMeanPrice": 506.6573,
+    "TargetMedianPrice": 500
+  },
+  "StockNotifications": [],
+  "FiftyDayAverage": 431.2586,
+  "FiftyTwoWeekHigh": 468.35,
+  "FiftyTwoWeekLow": 385.58,
+  "FiftyTwoWeekRange": "385.58 - 468.35",
+  "TwoHundredDayAverage": 425.70755
+},
+{
+  "_id": {
+    "$oid": "66d1a1888c136e2b8756fa28"
+  },
+  "Name": "Advanced Micro Devices",
+  "Symbol": "AMD",
+  "Price": 119.5,
+  "UpdatedTime": {
+    "$date": "2025-02-05T05:24:04.608Z"
+  },
+  "AnalystRating": "1.9 - Buy",
+  "Analysis": {
+    "Symbol": "AMD",
+    "UpdatedTime": {
+      "$date": "2025-02-05T05:24:02.026Z"
+    },
+    "TargetHighPrice": 250,
+    "TargetLowPrice": 110,
+    "TargetMeanPrice": 163.65488,
+    "TargetMedianPrice": 162.86
+  },
+  "StockNotifications": [],
+  "FiftyDayAverage": 126.7296,
+  "FiftyTwoWeekHigh": 227.3,
+  "FiftyTwoWeekLow": 112.8,
+  "FiftyTwoWeekRange": "112.8 - 227.3",
+  "TwoHundredDayAverage": 147.72556
+},
+{
+  "_id": {
+    "$oid": "66d7285049373619c50f1b34"
+  },
+  "Name": "Taboola.com Ltd.",
+  "Symbol": "TBLA",
+  "Price": 3.9,
+  "UpdatedTime": {
+    "$date": "2025-02-05T05:24:04.608Z"
+  },
+  "AnalystRating": null,
+  "Analysis": {
+    "Symbol": "TBLA",
+    "UpdatedTime": {
+      "$date": "2025-02-05T05:24:00.515Z"
+    },
+    "TargetHighPrice": 6,
+    "TargetLowPrice": 5,
+    "TargetMeanPrice": 5.16667,
+    "TargetMedianPrice": 5
+  },
+  "StockNotifications": [],
+  "FiftyDayAverage": 3.739,
+  "FiftyTwoWeekHigh": 4.96,
+  "FiftyTwoWeekLow": 2.87,
+  "FiftyTwoWeekRange": "2.87 - 4.96",
+  "TwoHundredDayAverage": 3.598175
+},
+{
+  "_id": {
+    "$oid": "66ddb90a1d4d6f275261df11"
+  },
+  "Name": "Mobileye Global Inc.",
+  "Symbol": "MBLY",
+  "Price": 15.92,
+  "UpdatedTime": {
+    "$date": "2025-02-05T05:24:04.608Z"
+  },
+  "AnalystRating": null,
+  "Analysis": {
+    "Symbol": "MBLY",
+    "UpdatedTime": {
+      "$date": "2025-02-05T05:24:01.627Z"
+    },
+    "TargetHighPrice": 33,
+    "TargetLowPrice": 10,
+    "TargetMeanPrice": 19.97357,
+    "TargetMedianPrice": 18.5
+  },
+  "StockNotifications": [],
+  "FiftyDayAverage": 17.6768,
+  "FiftyTwoWeekHigh": 34,
+  "FiftyTwoWeekLow": 10.48,
+  "FiftyTwoWeekRange": "10.48 - 34.0",
+  "TwoHundredDayAverage": 19.676
+},
+{
+  "_id": {
+    "$oid": "66f3f090613de9432e9bbc4e"
+  },
+  "Name": "Wix.com Ltd.",
+  "Symbol": "WIX",
+  "Price": 227.42,
+  "UpdatedTime": {
+    "$date": "2025-02-05T05:24:04.608Z"
+  },
+  "AnalystRating": "2.0 - Buy",
+  "Analysis": {
+    "Symbol": "WIX",
+    "UpdatedTime": {
+      "$date": "2025-02-05T05:24:02.471Z"
+    },
+    "TargetHighPrice": 300,
+    "TargetLowPrice": 166,
+    "TargetMeanPrice": 237.75,
+    "TargetMedianPrice": 245
+  },
+  "StockNotifications": [],
+  "FiftyDayAverage": 224.4624,
+  "FiftyTwoWeekHigh": 247.11,
+  "FiftyTwoWeekLow": 117.58,
+  "FiftyTwoWeekRange": "117.58 - 247.11",
+  "TwoHundredDayAverage": 174.39915
+},
+{
+  "_id": {
+    "$oid": "66f3f09f613de9432e9bbc4f"
+  },
+  "Name": "Lumen Technologies, Inc.",
+  "Symbol": "LUMN",
+  "Price": 5.04,
+  "UpdatedTime": {
+    "$date": "2025-02-05T05:24:04.608Z"
+  },
+  "AnalystRating": null,
+  "Analysis": {
+    "Symbol": "LUMN",
+    "UpdatedTime": {
+      "$date": "2025-02-05T05:24:03.046Z"
+    },
+    "TargetHighPrice": 8,
+    "TargetLowPrice": 2,
+    "TargetMeanPrice": 5.37091,
+    "TargetMedianPrice": 5
+  },
+  "StockNotifications": [],
+  "FiftyDayAverage": 6.0866,
+  "FiftyTwoWeekHigh": 10.33,
+  "FiftyTwoWeekLow": 0.97,
+  "FiftyTwoWeekRange": "0.97 - 10.33",
+  "TwoHundredDayAverage": 4.45885
+},
+{
+  "_id": {
+    "$oid": "66f3f0ab613de9432e9bbc50"
+  },
+  "Name": "NVIDIA Corporation",
+  "Symbol": "NVDA",
+  "Price": 118.65,
+  "UpdatedTime": {
+    "$date": "2025-02-05T05:24:04.608Z"
+  },
+  "AnalystRating": "1.7 - Buy",
+  "Analysis": {
+    "Symbol": "NVDA",
+    "UpdatedTime": {
+      "$date": "2025-02-05T05:24:02.263Z"
+    },
+    "TargetHighPrice": 220,
+    "TargetLowPrice": 130,
+    "TargetMeanPrice": 173.7837,
+    "TargetMedianPrice": 175
+  },
+  "StockNotifications": [],
+  "FiftyDayAverage": 136.8152,
+  "FiftyTwoWeekHigh": 153.13,
+  "FiftyTwoWeekLow": 66.248,
+  "FiftyTwoWeekRange": "66.248 - 153.13",
+  "TwoHundredDayAverage": 122.63693
+},
+{
+  "_id": {
+    "$oid": "670c9cfc4203d64caed83b0d"
+  },
+  "Name": "Apple Rush Co., Inc.",
+  "Symbol": "APRU",
+  "Price": 0.0017,
+  "UpdatedTime": {
+    "$date": "2025-02-05T05:24:04.608Z"
+  },
+  "AnalystRating": null,
+  "Analysis": {
+    "Symbol": "APRU",
+    "UpdatedTime": {
+      "$date": "2025-02-05T05:24:04.604Z"
+    },
+    "TargetHighPrice": 0,
+    "TargetLowPrice": 0,
+    "TargetMeanPrice": 0,
+    "TargetMedianPrice": 0
+  },
+  "StockNotifications": [],
+  "FiftyDayAverage": 0.002027,
+  "FiftyTwoWeekHigh": 0.0048,
+  "FiftyTwoWeekLow": 0.00135,
+  "FiftyTwoWeekRange": "0.00135 - 0.0048",
+  "TwoHundredDayAverage": 0.00266795
+},
+{
+  "_id": {
+    "$oid": "6713c4c19f797541ac69f63a"
+  },
+  "Name": "Hello Group Inc.",
+  "Symbol": "MOMO",
+  "Price": 7.27,
+  "UpdatedTime": {
+    "$date": "2025-02-05T05:24:04.608Z"
+  },
+  "AnalystRating": null,
+  "Analysis": {
+    "Symbol": "MOMO",
+    "UpdatedTime": {
+      "$date": "2025-02-05T05:24:04.396Z"
+    },
+    "TargetHighPrice": 12.965044,
+    "TargetLowPrice": 6.0388293,
+    "TargetMeanPrice": 8.014802,
+    "TargetMedianPrice": 7.367161
+  },
+  "StockNotifications": [],
+  "FiftyDayAverage": 7.107,
+  "FiftyTwoWeekHigh": 8.19,
+  "FiftyTwoWeekLow": 4.79,
+  "FiftyTwoWeekRange": "4.79 - 8.19",
+  "TwoHundredDayAverage": 6.624575
+},
+{
+  "_id": {
+    "$oid": "672329df8f72e46b8a162e4c"
+  },
+  "Name": "iShares Trust iShares Top 20 U.",
+  "Symbol": "TOPT",
+  "Price": 26.24,
+  "FiftyDayAverage": 26.1546,
+  "TwoHundredDayAverage": 25.864706,
+  "FiftyTwoWeekRange": "24.205 - 27.04",
+  "FiftyTwoWeekLow": 24.205,
+  "FiftyTwoWeekHigh": 27.04,
+  "UpdatedTime": {
+    "$date": "2025-02-05T05:24:00.129Z"
+  },
+  "AnalystRating": null,
+  "Analysis": null,
+  "StockNotifications": []
+},
+{
+  "_id": {
+    "$oid": "6738dc086922b5d7b2c03618"
+  },
+  "Name": "Coinbase Global, Inc.",
+  "Symbol": "COIN",
+  "Price": 280.39,
+  "FiftyDayAverage": 290.695,
+  "TwoHundredDayAverage": 232.4501,
+  "FiftyTwoWeekRange": "114.51 - 349.75",
+  "FiftyTwoWeekLow": 114.51,
+  "FiftyTwoWeekHigh": 349.75,
+  "UpdatedTime": {
+    "$date": "2025-02-05T05:24:04.608Z"
+  },
+  "AnalystRating": "2.4 - Buy",
+  "Analysis": {
+    "Symbol": "COIN",
+    "UpdatedTime": {
+      "$date": "2025-02-05T05:24:03.998Z"
+    },
+    "TargetHighPrice": 420,
+    "TargetLowPrice": 150,
+    "TargetMeanPrice": 294.95834,
+    "TargetMedianPrice": 286.5
+  },
+  "StockNotifications": []
+},
+{
+  "_id": {
+    "$oid": "6738dc886922b5d7b2c03619"
+  },
+  "Name": "Intuit Inc.",
+  "Symbol": "INTU",
+  "Price": 591.72,
+  "FiftyDayAverage": 632.4352,
+  "TwoHundredDayAverage": 630.6295,
+  "FiftyTwoWeekRange": "557.29 - 714.78",
+  "FiftyTwoWeekLow": 557.29,
+  "FiftyTwoWeekHigh": 714.78,
+  "UpdatedTime": {
+    "$date": "2025-02-05T05:24:04.608Z"
+  },
+  "AnalystRating": "1.8 - Buy",
+  "Analysis": {
+    "Symbol": "INTU",
+    "UpdatedTime": {
+      "$date": "2025-02-05T05:24:04.181Z"
+    },
+    "TargetHighPrice": 800,
+    "TargetLowPrice": 530,
+    "TargetMeanPrice": 725.31793,
+    "TargetMedianPrice": 750
+  },
+  "StockNotifications": []
+},
+{
+  "_id": {
+    "$oid": "673989adc5655c7aced3e6c6"
+  },
+  "Name": "Eli Lilly and Company",
+  "Symbol": "LLY",
+  "Price": 826.07,
+  "FiftyDayAverage": 782.119,
+  "TwoHundredDayAverage": 840.68335,
+  "FiftyTwoWeekRange": "707.02 - 972.53",
+  "FiftyTwoWeekLow": 707.02,
+  "FiftyTwoWeekHigh": 972.53,
+  "UpdatedTime": {
+    "$date": "2025-02-05T05:24:04.608Z"
+  },
+  "AnalystRating": "1.7 - Buy",
+  "Analysis": {
+    "Symbol": "LLY",
+    "UpdatedTime": {
+      "$date": "2025-02-05T05:24:02.856Z"
+    },
+    "TargetHighPrice": 1190,
+    "TargetLowPrice": 580,
+    "TargetMeanPrice": 972.5692,
+    "TargetMedianPrice": 997
+  },
+  "StockNotifications": []
+},
+{
+  "_id": {
+    "$oid": "673989e2c5655c7aced3e6c7"
+  },
+  "Name": "Shopify Inc.",
+  "Symbol": "SHOP",
+  "Price": 119.2,
+  "FiftyDayAverage": 110.2708,
+  "TwoHundredDayAverage": 81.1176,
+  "FiftyTwoWeekRange": "48.56 - 122.0",
+  "FiftyTwoWeekLow": 48.56,
+  "FiftyTwoWeekHigh": 122,
+  "UpdatedTime": {
+    "$date": "2025-02-05T05:24:04.608Z"
+  },
+  "AnalystRating": "2.1 - Buy",
+  "Analysis": {
+    "Symbol": "SHOP",
+    "UpdatedTime": {
+      "$date": "2025-02-05T05:24:03.384Z"
+    },
+    "TargetHighPrice": 145,
+    "TargetLowPrice": 78,
+    "TargetMeanPrice": 121.094,
+    "TargetMedianPrice": 125
+  },
+  "StockNotifications": []
+},
+{
+  "_id": {
+    "$oid": "67398a22c5655c7aced3e6c8"
+  },
+  "Name": "monday.com Ltd.",
+  "Symbol": "MNDY",
+  "Price": 254.18,
+  "FiftyDayAverage": 254.5792,
+  "TwoHundredDayAverage": 247.0459,
+  "FiftyTwoWeekRange": "174.75 - 324.99",
+  "FiftyTwoWeekLow": 174.75,
+  "FiftyTwoWeekHigh": 324.99,
+  "UpdatedTime": {
+    "$date": "2025-02-05T05:24:04.608Z"
+  },
+  "AnalystRating": "1.7 - Buy",
+  "Analysis": {
+    "Symbol": "MNDY",
+    "UpdatedTime": {
+      "$date": "2025-02-05T05:24:03.801Z"
+    },
+    "TargetHighPrice": 355,
+    "TargetLowPrice": 240,
+    "TargetMeanPrice": 314.01376,
+    "TargetMedianPrice": 307.5
+  },
+  "StockNotifications": []
+},
+{
+  "_id": {
+    "$oid": "677ac527a617aa454a380930"
+  },
+  "Name": "Apple Hospitality REIT, Inc.",
+  "Symbol": "APLE",
+  "Price": 15.39,
+  "FiftyDayAverage": 15.558,
+  "TwoHundredDayAverage": 14.9139,
+  "FiftyTwoWeekRange": "13.6 - 16.985",
+  "FiftyTwoWeekLow": 13.6,
+  "FiftyTwoWeekHigh": 16.985,
+  "UpdatedTime": {
+    "$date": "2025-02-05T05:24:04.608Z"
+  },
+  "AnalystRating": null,
+  "Analysis": {
+    "Symbol": "APLE",
+    "UpdatedTime": {
+      "$date": "2025-02-05T05:24:03.571Z"
+    },
+    "TargetHighPrice": 18,
+    "TargetLowPrice": 16,
+    "TargetMeanPrice": 17.14286,
+    "TargetMedianPrice": 17
+  },
+  "StockNotifications": []
+}]
