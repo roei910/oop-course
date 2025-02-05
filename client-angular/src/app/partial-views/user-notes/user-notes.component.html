@@ -1,0 +1,9 @@
+<p>first name: {{user?.firstName}}</p>
+<p>last name: {{user?.lastName}}</p>
+<p>notes:</p>
+<ul *ngFor="let symbol of getKeys(user?.userStockNotesBySymbol ?? {})">
+    {{symbol}}
+    <li *ngFor="let note of user!.userStockNotesBySymbol[symbol]">
+        {{note.note}}
+    </li>
+</ul>

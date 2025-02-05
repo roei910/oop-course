@@ -13,6 +13,7 @@ import { HomeComponent } from './partial-views/home/home.component';
 import { StockSharesComponent } from './partial-views/stock-shares/stock-shares.component';
 import { StockDetailsComponent } from './partial-views/stock-details/stock-details.component';
 import { UserStocksComponent } from './partial-views/user-stocks/user-stocks.component';
+import { UserNotesComponent } from './partial-views/user-notes/user-notes.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -35,6 +36,7 @@ const routes: Routes = [
         { path: 'shares', component: StockSharesComponent}
       ]},
       { path: 'information', component: UserInformationComponent },
+      { path: 'notes', component: UserNotesComponent },
       { path: 'notifications', component: NotificationCenterComponent }
     ],
     canActivateChild: [connectedUserGuard]

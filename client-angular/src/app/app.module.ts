@@ -40,6 +40,7 @@ import { StockDetailsComponent } from './partial-views/stock-details/stock-detai
 import { PortfolioDetailsComponent } from './partial-views/portfolio-details/portfolio-details.component';
 import { StocksTableComponent } from './partial-views/stocks-table/stocks-table.component';
 import { InputTextModule } from 'primeng/inputtext';
+import { UserNotesComponent } from './partial-views/user-notes/user-notes.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { InputTextModule } from 'primeng/inputtext';
     SearchComponent,
     StockDetailsComponent,
     PortfolioDetailsComponent,
-    StocksTableComponent
+    StocksTableComponent,
+    UserNotesComponent
   ],
   imports: [
     BrowserModule,
