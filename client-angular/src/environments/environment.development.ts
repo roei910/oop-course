@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-    server_url: "https://oop-course.onrender.com/api"
+    server_url: "http://localhost:5108/api"
 }
