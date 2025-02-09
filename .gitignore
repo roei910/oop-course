@@ -2,3 +2,5 @@ StocksApi/obj
 StocksApi/.vs
 StocksApi/*/bin/
 StocksApi/*/obj/
+StocksApi/StocksApi/secrets.json
+StocksApi/bin/

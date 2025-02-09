@@ -1,0 +1,35 @@
+networks:
+  network-stocks:
+    driver: bridge
+services:
+  frontend:
+    ports:
+      - "4200:80"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    restart: always
+    depends_on:
+      - backend
+    build: 
+      context: ./client-angular
+      dockerfile: ./Dockerfile
+    networks:
+      - network-stocks
+      
+  backend:
+    container_name: stocksapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:5108
+      - SECRETS_FILE_PATH=/etc/secrets/secrets.json
+    ports:
+      # - "80:5108"
+      - "5108:5108"
+    volumes:
+      - ./StocksApi/StocksApi/secrets.json:/etc/secrets/secrets.json
+    build: 
+      context: ./StocksApi
+      dockerfile: ./StocksApi/Dockerfile
+    networks:
+      - network-stocks
