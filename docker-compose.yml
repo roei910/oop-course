@@ -1,6 +1,7 @@
 networks:
   network-stocks:
     driver: bridge
+
 services:
   frontend:
     ports:
@@ -24,7 +25,6 @@ services:
       - ASPNETCORE_URLS=http://+:5108
       - SECRETS_FILE_PATH=/etc/secrets/secrets.json
     ports:
-      # - "80:5108"
       - "5108:5108"
     volumes:
       - ./StocksApi/StocksApi/secrets.json:/etc/secrets/secrets.json
@@ -33,6 +33,7 @@ services:
       dockerfile: ./StocksApi/Dockerfile
     networks:
       - network-stocks
+
   mongo:
     image: mongo:latest
     container_name: mongodb
