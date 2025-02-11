@@ -1,5 +1,5 @@
 # Step 1: Use Node.js to build the Angular app
-FROM node:18 as build
+FROM node:18 AS build
 
 WORKDIR /app
 # COPY package*.json ./
@@ -7,6 +7,7 @@ COPY . .
 # RUN rm package-lock.json
 RUN npm install
 RUN npm run build --configuration=development
+# RUN npm run build --configuration=${ANGULAR_BUILD_CONFIGURATION}
 
 # Step 2: Use Nginx to serve the built Angular app
 FROM nginx:1.23-alpine

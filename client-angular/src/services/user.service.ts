@@ -9,6 +9,7 @@ import { User } from 'src/models/users/user';
 import { UserCreation } from 'src/models/users/user-creation';
 import { AuthenticationService } from './authentication.service';
 import { PasswordUpdateRequest } from 'src/models/users/password-update-request';
+import { UserStockNoteRequest } from 'src/models/users/user-stock-note-request';
 
 @Injectable({
   providedIn: 'root'
@@ -109,6 +110,19 @@ export class UserService {
     .pipe(map(response => response.status == 200));
 
     return res;
+  }
+
+  addNote(email: string, stockSymbol: string, note: string): Observable<ObjectIdResponse> {
+    let noteRequest: UserStockNoteRequest = {
+      userEmail: email,
+      stockSymbol,
+      note
+    };
+
+    return this.httpClient
+      .post<ObjectIdResponse>(`${this.userEndPointUrl}/stockNote`,
+        noteRequest
+      );
   }
 
   private updateUser(): void{

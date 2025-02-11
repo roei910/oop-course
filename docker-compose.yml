@@ -4,6 +4,9 @@ networks:
 
 services:
   frontend:
+    container_name: stocks-collection
+    environment:
+      - ANGULAR_BUILD_CONFIGURATION=development
     ports:
       - "4200:80"
     volumes:
@@ -14,14 +17,14 @@ services:
       - backend
     build: 
       context: ./client-angular
-      dockerfile: ./Dockerfile
+      dockerfile: Dockerfile
     networks:
       - network-stocks
       
   backend:
     container_name: stocksapi
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:5108
       - SECRETS_FILE_PATH=/etc/secrets/secrets.json
     ports:
