@@ -173,6 +173,7 @@ namespace StocksApi.Controllers
             [FromQuery] string noteId)
         {
             //TODO: working with sessions??
+            //TODO: the current delete actually deletes the stock symbol from the user. maybe separate the two options
             var user = await _userRepository.GetAsync(userEmail);
             var stock = await _stockRepository.GetStockBySymbolAsync(stockSymbol);
 

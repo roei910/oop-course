@@ -27,6 +27,10 @@ export class UserNotesComponent {
   ngOnInit(): void {
     this.userService.getUser().subscribe(user => {
       this.user = user;
+
+      if(!this.user.userStockNotesBySymbol)
+        this.user.userStockNotesBySymbol = {};
+      
       this.stockSymbols = Object.keys(user.userStockNotesBySymbol);
       this.selectedStockSymbol = this.stockSymbols[0];
     });
@@ -60,10 +64,11 @@ export class UserNotesComponent {
   }
 
   private insertNewNote(userStockNote: UserStockNote) {
-    if (!this.stockSymbols.find(symbol => symbol == this.stockSymbol))
+    if (!this.stockSymbols.find(symbol => symbol == this.stockSymbol)) {
+      this.stockSymbols.push(this.stockSymbol);
       this.user!.userStockNotesBySymbol[this.stockSymbol] = [];
+    }
 
-    this.stockSymbols.push(this.stockSymbol);
     this.user?.userStockNotesBySymbol[this.stockSymbol].push(userStockNote);
 
     this.reloadComponent();
