@@ -10,8 +10,8 @@ using Library.Interfaces;
 
 namespace StocksApi
 {
-	public class Startup
-	{
+    public class Startup
+    {
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options =>
@@ -79,6 +79,17 @@ namespace StocksApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.Use(async (context, next) =>
+            {
+                if (context.Request.Path == "/")
+                {
+                    context.Response.Redirect("/swagger");
+                    return;
+                }
+                
+                await next();
             });
         }
     }
