@@ -199,17 +199,21 @@ namespace StocksApi.Repositories
             await _usersDal.UpdatePasswordAsync(email, hashedPassword);
         }
 
-        public async Task<string> AddStockNoteAsync(UserStockNoteRequest userStockNoteRequest)
+        public async Task<UserStockNote> AddStockNoteAsync(UserStockNoteRequest userStockNoteRequest)
         {
+            var now = DateTime.UtcNow;
+
             var userStockNote = new UserStockNote
             {
                 Id = ObjectId.GenerateNewId().ToString(),
-                Note = userStockNoteRequest.Note
+                Note = userStockNoteRequest.Note,
+                CreationTime = now,
+                LastUpdateTime = now
             };
 
             await _usersDal.AddUserStockNoteAsync(userStockNoteRequest.UserEmail, userStockNoteRequest.StockSymbol, userStockNote);
 
-            return userStockNote.Id;
+            return userStockNote;
         }
 
         public async Task RemoveStockNoteAsync(string userEmail, string stockSymbol, string noteId)

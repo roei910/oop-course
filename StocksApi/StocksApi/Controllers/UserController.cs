@@ -143,14 +143,9 @@ namespace StocksApi.Controllers
             if (user is null || stock is null)
                 return NotFound();
 
-            var stockNoteId = await _userRepository.AddStockNoteAsync(userStockNoteRequest);
+            var stockNote = await _userRepository.AddStockNoteAsync(userStockNoteRequest);
 
-            var response = new ObjectIdResponse
-            {
-                Id = stockNoteId
-            };
-
-            return Ok(response);
+            return Ok(stockNote);
         }
 
         [HttpPatch("stockNote")]

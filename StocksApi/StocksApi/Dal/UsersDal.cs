@@ -162,8 +162,10 @@ namespace StocksApi.Dal
         {
             var filter = Builders<User>.Filter.Eq(user => user.Email, noteUpdateRequest.UserEmail);
 
+            var notePath = "UserStockNotesBySymbol.AAPL.$[note]";
             var update = Builders<User>.Update
-                .Set("UserStockNotesBySymbol.AAPL.$[note].Note", noteUpdateRequest.Note);
+                .Set($"{notePath}.Note", noteUpdateRequest.Note)
+                .Set($"{notePath}.LastUpdateTime", DateTime.UtcNow);
 
             var arrayFilters = new List<ArrayFilterDefinition>
             {

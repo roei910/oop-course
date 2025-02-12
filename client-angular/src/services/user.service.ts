@@ -10,6 +10,7 @@ import { UserCreation } from 'src/models/users/user-creation';
 import { AuthenticationService } from './authentication.service';
 import { PasswordUpdateRequest } from 'src/models/users/password-update-request';
 import { UserStockNoteRequest } from 'src/models/users/user-stock-note-request';
+import { UserStockNote } from 'src/models/users/user-stock-note';
 
 @Injectable({
   providedIn: 'root'
@@ -112,7 +113,7 @@ export class UserService {
     return res;
   }
 
-  addNote(email: string, stockSymbol: string, note: string): Observable<ObjectIdResponse> {
+  addNote(email: string, stockSymbol: string, note: string): Observable<UserStockNote> {
     let noteRequest: UserStockNoteRequest = {
       userEmail: email,
       stockSymbol,
@@ -120,7 +121,7 @@ export class UserService {
     };
 
     return this.httpClient
-      .post<ObjectIdResponse>(`${this.userEndPointUrl}/stockNote`,
+      .post<UserStockNote>(`${this.userEndPointUrl}/stockNote`,
         noteRequest
       );
   }

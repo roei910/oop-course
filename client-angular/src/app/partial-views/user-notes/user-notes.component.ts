@@ -51,12 +51,7 @@ export class UserNotesComponent {
       throw new Error();
 
     this.userService.addNote(email, this.stockSymbol, this.note)
-      .subscribe(idResponse => {
-        let userStockNote: UserStockNote = {
-          id: idResponse.Id,
-          note: this.note
-        };
-
+      .subscribe(userStockNote => {
         this.insertNewNote(userStockNote);
       });
 
