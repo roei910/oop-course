@@ -91,11 +91,26 @@ namespace StocksApi.Dal
                 var filter = Builders<Stock>.Filter.Eq(stock => stock.Symbol, updatedStock.Symbol);
                 var update = Builders<Stock>.Update
                 .Set(stock => stock.Price, updatedStock.RegularMarketPrice)
+                .Set(stock => stock.RegularMarketChange, updatedStock.RegularMarketChange)
+                .Set(stock => stock.RegularMarketChangePercent, updatedStock.RegularMarketChangePercent)
+                .Set(stock => stock.RegularMarketDayHigh, updatedStock.RegularMarketDayHigh)
+                .Set(stock => stock.RegularMarketDayLow, updatedStock.RegularMarketDayLow)
+                .Set(stock => stock.RegularMarketDayRange, updatedStock.RegularMarketDayRange)
+                .Set(stock => stock.RegularMarketOpen, updatedStock.RegularMarketOpen)
+                .Set(stock => stock.RegularMarketPreviousClose, updatedStock.RegularMarketPreviousClose)
+                .Set(stock => stock.RegularMarketVolume, updatedStock.RegularMarketVolume)
                 .Set(stock => stock.FiftyDayAverage, updatedStock.FiftyDayAverage)
                 .Set(stock => stock.FiftyTwoWeekHigh, updatedStock.FiftyTwoWeekHigh)
                 .Set(stock => stock.FiftyTwoWeekLow, updatedStock.FiftyTwoWeekLow)
                 .Set(stock => stock.FiftyTwoWeekRange, updatedStock.FiftyTwoWeekRange)
                 .Set(stock => stock.TwoHundredDayAverage, updatedStock.TwoHundredDayAverage)
+                .Set(stock => stock.TargetPriceHigh, updatedStock.TargetPriceHigh)
+                .Set(stock => stock.TargetPriceLow, updatedStock.TargetPriceLow)
+                .Set(stock => stock.TargetPriceMean, updatedStock.TargetPriceMean)
+                .Set(stock => stock.TargetPriceMedian, updatedStock.TargetPriceMedian)
+                .Set(stock => stock.ForwardPE, updatedStock.ForwardPE)
+                .Set(stock => stock.EpsCurrentYear, updatedStock.EpsCurrentYear)
+                .Set(stock => stock.EpsForward, updatedStock.EpsForward)
                 .Set(stock => stock.UpdatedTime, DateTime.UtcNow);
 
                 if (updatedStock is not null)
