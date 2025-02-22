@@ -6,5 +6,6 @@ namespace StocksApi.Interfaces
 	{
         bool IsMarketOpen(DateTime date);
         bool ShouldStockBeUpdated(Stock stock);
+        DateTime LastMarketCloseDateTime();
     }
 }

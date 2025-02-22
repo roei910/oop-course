@@ -19,5 +19,6 @@ namespace StocksApi.Interfaces
         Task<List<Stock>> FindManyBySymbolAsync(string[] symbols);
         Task AddNotificationAsync(StockNotification stockNotification);
         Task RemoveNotificationAsync(string symbol, string notificationId);
+        Task UpdateStocksHistoryAsync(DateTime lastCloseDateTime);
     }
 }

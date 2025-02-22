@@ -5,6 +5,8 @@ using Library.Interfaces;
 using Library.Models.Stocks;
 using Library.Models.Users.Notifications;
 using YahooFinance.Models.Price;
+using MongoDB.Bson;
+using System;
 
 namespace StocksApi.Dal
 {
@@ -13,9 +15,13 @@ namespace StocksApi.Dal
         private readonly IMongoCollection<Stock> _collection;
         private readonly ILogger<Stock> _logger;
 
-        public StocksDal(IAppConfiguration appConfiguration, ILogger<Stock> logger)
+        public StocksDal(
+            IAppConfiguration appConfiguration,
+            ILogger<Stock> logger
+            )
         {
             _logger = logger;
+
             var databaseSettings = appConfiguration
                 .Get<DatabaseSettings>(ConfigurationKeys.DatabaseSettingsSection);
 
@@ -127,7 +133,6 @@ namespace StocksApi.Dal
             try
             {
                 await _collection.BulkWriteAsync(writeModels);
-
             }
             catch (Exception ex)
             {
@@ -166,6 +171,63 @@ namespace StocksApi.Dal
                 notification => notification.Id == notificationId);
 
             await _collection.UpdateOneAsync(filter, update);
+        }
+
+        public async Task UpdateStocksHistoryAsync(DateTime lastCloseDateTime)
+        {
+            var lastHistoryUpdateDate = DateOnly.FromDateTime(lastCloseDateTime);
+
+            var filterHistoryDateTime = Builders<Stock>.Filter.Lt(stock => stock.LastHistoryUpdateDate, lastHistoryUpdateDate);
+            var filterHistoryDateTimeNull = Builders<Stock>.Filter.Eq(stock => stock.LastHistoryUpdateDate, null);
+            var filterHistory = Builders<Stock>.Filter.Or(filterHistoryDateTime, filterHistoryDateTimeNull);
+
+            var findFluent = _collection.Find(filterHistory);
+            var projection = Builders<Stock>.Projection
+                .Include(stock => stock.Id)
+                .Include(stock => stock.Price)
+                .Include(stock => stock.RegularMarketOpen)
+                .Include(stock => stock.RegularMarketDayLow)
+                .Include(stock => stock.RegularMarketDayHigh)
+                .Include(stock => stock.RegularMarketVolume)
+                .Include(stock => stock.RegularMarketDayRange);
+
+            var stocksProjection = await findFluent
+                .Project(projection)
+                .ToListAsync();
+
+            var writeModels = stocksProjection.Select(stock =>
+            {
+                var filterById = Builders<Stock>.Filter.Eq("_id", stock["_id"].AsObjectId);
+                var combinedFilter = Builders<Stock>.Filter.And(filterById, filterHistory);
+
+                var stockHistory = new StockHistory
+                {
+                    Date = lastHistoryUpdateDate,
+                    DayLow = stock["RegularMarketDayLow"].AsDouble,
+                    DayHigh = stock["RegularMarketDayHigh"].AsDouble,
+                    DayRange = stock["RegularMarketDayRange"].AsString,
+                    DayVolume = stock["RegularMarketVolume"].AsInt64,
+                    PriceClose = stock["Price"].AsDouble,
+                    PriceOpen = stock["RegularMarketOpen"].AsDouble
+                };
+
+                var update = Builders<Stock>.Update
+                    .Set(stock => stock.LastHistoryUpdateDate, lastHistoryUpdateDate)
+                    .AddToSet(stock => stock.History, stockHistory);
+
+                var updateModel = new UpdateOneModel<Stock>(combinedFilter, update);
+
+                return updateModel;
+            });
+
+            try
+            {
+                await _collection.BulkWriteAsync(writeModels);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "bulk write exception, {writeModels.Count}", writeModels);
+            }
         }
     }
 }

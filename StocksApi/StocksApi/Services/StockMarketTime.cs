@@ -47,12 +47,33 @@ namespace StocksApi.Services
             return false;
         }
 
-        private bool IsMarketWeekDay(DateTime date)
+        public DateTime LastMarketCloseDateTime()
+        {
+            var now = DateTime.UtcNow;
+            var dateOnly = DateOnly.FromDateTime(now);
+
+            while (!IsMarketWeekDay(dateOnly))
+                dateOnly = dateOnly.AddDays(-1);
+
+            var closingMarketTimeOnly = new TimeOnly(_variables.CLOSED_MARKET_HOURS, 0);
+            var lastMarketCloseDateTime = new DateTime(dateOnly, closingMarketTimeOnly);
+
+            return lastMarketCloseDateTime;
+        }
+
+        private bool IsMarketWeekDay(DateOnly date)
         {
             var day = (int)date.DayOfWeek;
 
             return day >= _variables.OPEN_MARKET_DAY &&
                 day <= _variables.CLOSED_MARKET_DAY;
+        }
+
+        private bool IsMarketWeekDay(DateTime date)
+        {
+            var isMarketWeekDay = IsMarketWeekDay(DateOnly.FromDateTime(date));
+
+            return isMarketWeekDay;
         }
 
         private static TimeSpan DaysPassed(DateTime dateFirst, DateTime dateSecond)

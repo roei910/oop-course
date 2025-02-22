@@ -11,15 +11,18 @@ namespace StocksApi.Repositories
         private readonly IStocksDal _stocksDal;
         private readonly ILogger<Stock> _logger;
         private readonly IFinanceStrategy _yahooFinanceStrategy;
+        private readonly IStockMarketTime _stockMarketTime;
 
         public StockRepository(
             IStocksDal stocksDal,
             ILogger<Stock> logger,
-            IFinanceStrategy yahooFinanceStrategy)
+            IFinanceStrategy yahooFinanceStrategy,
+            IStockMarketTime stockMarketTime)
         {
             _stocksDal = stocksDal;
             _logger = logger;
             _yahooFinanceStrategy = yahooFinanceStrategy;
+            _stockMarketTime = stockMarketTime;
         }
 
         public async Task<List<Stock>> GetAllAsync()
@@ -76,7 +79,17 @@ namespace StocksApi.Repositories
         {
             var updatedStockPriceResponses = await _yahooFinanceStrategy.GetStocksAsync(stockSymbols);
 
-            await _stocksDal.UpdateStockPriceBulkAsync(updatedStockPriceResponses);
+            if(updatedStockPriceResponses.Count != 0)
+                await _stocksDal.UpdateStockPriceBulkAsync(updatedStockPriceResponses);
+
+            await UpdateStocksHistoryAsync();
+        }
+
+        private async Task UpdateStocksHistoryAsync()
+        {
+            var lastMarketOpenDateTime = _stockMarketTime.LastMarketCloseDateTime();
+
+            await _stocksDal.UpdateStocksHistoryAsync(lastMarketOpenDateTime);
         }
 
         public async Task UpdateStocksAnalysisAsync(params string[] orderedStockSymbols)
