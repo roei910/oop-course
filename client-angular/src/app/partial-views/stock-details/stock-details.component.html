@@ -3,13 +3,15 @@
     <div class="container gap-2">
         <p-button (click)="openAddNotificationDialog()">Add Notification</p-button>
         <p-button (click)="openAddStockToListDialog()">Add Stock To List</p-button>
+        <p-button (click)="openStockInformationPage()">Information</p-button>
+        <p-button (click)="openStockGraph()">Graph</p-button>
     </div>
     <div class="card">
         <h3>stock analysis</h3>
-        <p>target high price: {{stock?.analysis?.targetHighPrice | currency}}</p>
-        <p>target low price: {{stock?.analysis?.targetLowPrice | currency}}</p>
-        <p>target mean price: {{stock?.analysis?.targetMeanPrice | currency}}</p>
-        <p>target median price: {{stock?.analysis?.targetMedianPrice | currency}}</p>
+        <p>target high price: {{stock?.targetPriceHigh | currency}}</p>
+        <p>target low price: {{stock?.targetPriceLow | currency}}</p>
+        <p>target mean price: {{stock?.targetPriceMean | currency}}</p>
+        <p>target median price: {{stock?.targetPriceMedian | currency}}</p>
     </div>
     <div class="card">
         <h3>52 week range</h3>

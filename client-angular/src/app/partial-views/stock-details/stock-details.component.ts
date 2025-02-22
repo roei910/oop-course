@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ConfirmationService } from 'primeng/api';
 import { Stock } from 'src/models/stocks/stock';
 import { StockNotification } from 'src/models/users/stock-notification';
 import { AuthenticationService } from 'src/services/authentication.service';
@@ -28,7 +29,8 @@ export class StockDetailsComponent {
     private authenticationService: AuthenticationService,
     private userService: UserService,
     private toastService: ToastService,
-    private router: Router
+    private router: Router,
+    private confirmationService: ConfirmationService
   ) {
     const tempData = [10, 15, 20, 25, 30];
 
@@ -101,6 +103,42 @@ export class StockDetailsComponent {
       this.router.navigate(['/login']);
 
     return email != null;
+  }
+
+  openStockInformationPage() {
+    var exchangeName = this.stock?.fullExchangeName == "NasdaqGS" ? "nasdaq" : this.stock?.fullExchangeName;
+
+    var url = `https://www.tradingview.com/symbols/${exchangeName}-${this.symbol}`;
+
+    this.confirmationService.confirm({
+      message: 'redirecting to shares screen',
+      header: 'Share Screen Redirection',
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon: "none",
+      rejectIcon: "none",
+      rejectButtonStyleClass: "p-button-text",
+      acceptLabel: "Continue",
+      rejectLabel: "Cancel",
+      accept: () => window.open(url, '_blank')
+    });
+  }
+
+  openStockGraph() {
+    var exchangeName = this.stock?.fullExchangeName == "NasdaqGS" ? "nasdaq" : this.stock?.fullExchangeName;
+
+    var url = `https://www.tradingview.com/chart/?symbol=${exchangeName}-${this.symbol}`;
+
+    this.confirmationService.confirm({
+      message: 'redirecting to shares screen',
+      header: 'Share Screen Redirection',
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon: "none",
+      rejectIcon: "none",
+      rejectButtonStyleClass: "p-button-text",
+      acceptLabel: "Continue",
+      rejectLabel: "Cancel",
+      accept: () => window.open(url, '_blank')
+    });
   }
 
   get currentPosition(): number {
