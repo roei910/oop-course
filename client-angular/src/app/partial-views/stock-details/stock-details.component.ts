@@ -106,9 +106,7 @@ export class StockDetailsComponent {
   }
 
   openStockInformationPage() {
-    var exchangeName = this.stock?.fullExchangeName == "NasdaqGS" ? "nasdaq" : this.stock?.fullExchangeName;
-
-    var url = `https://www.tradingview.com/symbols/${exchangeName}-${this.symbol}`;
+    var url = `https://www.tradingview.com/symbols/${this.symbol}`;
 
     this.confirmationService.confirm({
       message: 'redirecting to shares screen',
@@ -124,9 +122,7 @@ export class StockDetailsComponent {
   }
 
   openStockGraph() {
-    var exchangeName = this.stock?.fullExchangeName == "NasdaqGS" ? "nasdaq" : this.stock?.fullExchangeName;
-
-    var url = `https://www.tradingview.com/chart/?symbol=${exchangeName}-${this.symbol}`;
+    var url = `https://www.tradingview.com/chart/?symbol=${this.symbol}`;
 
     this.confirmationService.confirm({
       message: 'redirecting to shares screen',

@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "StocksApi"
+		},
+		{
+			"path": "StocksApi/StocksApi"
 		}
 	],
 	"settings": {}
