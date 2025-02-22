@@ -1,7 +1,7 @@
 ﻿using Library.Models;
 using Library.Models.Users.Notifications;
 using MongoDB.Bson;
-using YahooFinance.Models;
+using YahooFinance.Models.Price;
 
 namespace StocksApi.Generators
 {
@@ -15,17 +15,21 @@ namespace StocksApi.Generators
             var stock = new Stock
             {
                 Id = ObjectId.GenerateNewId().ToString(),
-                Name = yahooStock.ShortName,
-                Symbol = yahooStock.Symbol,
+                UpdatedTime = DateTime.UtcNow,
+                StockNotifications = new List<StockNotification>(),
+                Name = yahooStock.ShortName!,
+                Symbol = yahooStock.Symbol!,
                 Price = yahooStock.RegularMarketPrice,
                 FiftyDayAverage = yahooStock.FiftyDayAverage,
                 FiftyTwoWeekHigh = yahooStock.FiftyTwoWeekHigh,
                 FiftyTwoWeekLow = yahooStock.FiftyTwoWeekLow,
                 FiftyTwoWeekRange = yahooStock.FiftyTwoWeekRange,
                 TwoHundredDayAverage = yahooStock.TwoHundredDayAverage,
-                UpdatedTime = DateTime.UtcNow,
+                FullExchangeName = yahooStock.FullExchangeName,
                 AnalystRating = yahooStock.AverageAnalystRating,
-                StockNotifications = new List<StockNotification>()
+                ForwarPE = yahooStock.ForwardPE,
+                EpsCurrentYear = yahooStock.EpsCurrentYear,
+                EpsForward = yahooStock.EpsForward
             };
 
             return stock;

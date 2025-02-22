@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Library.Interfaces;
+using Newtonsoft.Json.Linq;
 using RestSharp;
-using YahooFinance.Interfaces;
 
-namespace YahooFinance.Services
+namespace Library.Services
 {
     public class WebApi : IWebApi
     {
@@ -34,7 +34,7 @@ namespace YahooFinance.Services
 
                 return deserialized;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception($"couldn't deserialize the response to the type, {typeof(T)}", ex);
             }
@@ -55,7 +55,7 @@ namespace YahooFinance.Services
             params KeyValuePair<string, string>[] queryParams)
         {
             var request = new RestRequest(endPoint, method);
-            
+
             queryParams.ToList().ForEach(queryParam =>
                 request.AddParameter(queryParam.Key, queryParam.Value));
 

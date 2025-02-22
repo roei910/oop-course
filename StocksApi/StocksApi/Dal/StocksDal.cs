@@ -3,8 +3,8 @@ using StocksApi.Interfaces;
 using Library.Models;
 using Library.Interfaces;
 using Library.Models.Stocks;
-using YahooFinance.Models;
 using Library.Models.Users.Notifications;
+using YahooFinance.Models.Price;
 
 namespace StocksApi.Dal
 {
@@ -35,6 +35,9 @@ namespace StocksApi.Dal
 
         public async Task CreateAsync(Stock newStock) =>
             await _collection.InsertOneAsync(newStock);
+
+        public async Task CreateAsync(List<Stock> stocks) =>
+            await _collection.InsertManyAsync(stocks);
 
         public async Task UpdateAsync(string id, Stock updateStock) =>
             await _collection.ReplaceOneAsync(x => x.Id == id, updateStock);

@@ -18,6 +18,7 @@
     <None Remove="Models\RealTimeFinanceData\" />
     <None Remove="Generators\" />
     <None Remove="Models\YahooFinance15\" />
+    <None Remove="Models\Price\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -31,10 +32,7 @@
     <Folder Include="Models\RealTimeFinanceData\" />
     <Folder Include="Generators\" />
     <Folder Include="Models\YahooFinance15\" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="RestSharp" Version="112.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <Folder Include="Models\Price\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Library\Library.csproj" />

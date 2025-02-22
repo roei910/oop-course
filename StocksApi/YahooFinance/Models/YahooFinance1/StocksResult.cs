@@ -1,4 +1,6 @@
-﻿namespace YahooFinance.Models.YahooFinance1
+﻿using YahooFinance.Models.Price;
+
+namespace YahooFinance.Models.YahooFinance1
 {
 	public class StocksResult
 	{

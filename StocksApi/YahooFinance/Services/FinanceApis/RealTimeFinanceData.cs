@@ -1,4 +1,5 @@
-﻿using Library.Models;
+﻿using Library.Interfaces;
+using Library.Models;
 using Microsoft.Extensions.Logging;
 using YahooFinance.Factories;
 using YahooFinance.Interfaces;

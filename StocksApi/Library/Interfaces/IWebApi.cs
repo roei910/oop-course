@@ -1,6 +1,6 @@
 ﻿using RestSharp;
 
-namespace YahooFinance.Interfaces
+namespace Library.Interfaces
 {
     public interface IWebApi
     {

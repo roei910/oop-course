@@ -14,6 +14,7 @@
     <None Remove="Models\Users\StockNotes\" />
     <None Remove="Models\ServerResponse\" />
     <None Remove="Models\Users\Notifications\" />
+    <None Remove="Services\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -23,8 +24,11 @@
     <Folder Include="Models\Users\StockNotes\" />
     <Folder Include="Models\ServerResponse\" />
     <Folder Include="Models\Users\Notifications\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MongoDB.Driver" Version="2.28.0" />
+    <PackageReference Include="MongoDB.Driver" Version="3.2.1" />
+    <PackageReference Include="RestSharp" Version="112.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 </Project>

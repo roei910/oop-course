@@ -1,6 +1,6 @@
 ﻿using Library.Models.SearchResults;
 using Library.Models.Stocks;
-using YahooFinance.Models;
+using YahooFinance.Models.Price;
 
 namespace YahooFinance.Interfaces
 {

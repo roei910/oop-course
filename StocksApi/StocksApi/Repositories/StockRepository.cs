@@ -60,14 +60,16 @@ namespace StocksApi.Repositories
                 .Where(stock => symbols.Contains(stock.Symbol))
                 .Select(stock => stock.Symbol);
 
-            var stocksToBeCreatedBySymbol = symbols.Except(foundStocksBySymbol);
+            var stocksToBeCreatedBySymbol = symbols.Except(foundStocksBySymbol).ToList();
 
             if (!stocksToBeCreatedBySymbol.Any())
                 return foundStocks;
 
-            var createdStocks = await CreateStocksAsync(symbols);
+            var createdStocks = await CreateStocksAsync(stocksToBeCreatedBySymbol.ToArray());
 
-            return createdStocks;
+            await _stocksDal.CreateAsync(createdStocks);
+
+            return createdStocks.Union(foundStocks).ToList();
         }
 
         public async Task UpdateStocksBySymbolAsync(params string[] stockSymbols)

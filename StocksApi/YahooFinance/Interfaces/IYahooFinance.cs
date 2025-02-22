@@ -1,5 +1,5 @@
 ﻿using Library.Models.SearchResults;
-using YahooFinance.Models;
+using YahooFinance.Models.Price;
 
 namespace YahooFinance.Interfaces
 {

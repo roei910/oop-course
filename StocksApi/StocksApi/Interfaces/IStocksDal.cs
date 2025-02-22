@@ -1,7 +1,7 @@
 ﻿using Library.Models;
 using Library.Models.Stocks;
 using Library.Models.Users.Notifications;
-using YahooFinance.Models;
+using YahooFinance.Models.Price;
 
 namespace StocksApi.Interfaces
 {
@@ -11,6 +11,7 @@ namespace StocksApi.Interfaces
         Task<Stock?> FindByIdAsync(string id);
         Task<Stock?> FindBySymbolAsync(string symbol);
         Task CreateAsync(Stock stock);
+        Task CreateAsync(List<Stock> stocks);
         Task UpdateAsync(string id, Stock updatedStock);
         Task RemoveAsync(string id);
         Task UpdateAnalysisBulkAsync(List<StockAnalysis> stocksAnalysis);

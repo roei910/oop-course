@@ -2,7 +2,7 @@
 using Library.Models.Stocks;
 using YahooFinance.Extensions;
 using YahooFinance.Interfaces;
-using YahooFinance.Models;
+using YahooFinance.Models.Price;
 
 namespace YahooFinance
 {
@@ -57,6 +57,9 @@ namespace YahooFinance
         public async Task<List<PriceResponse>> GetStocksAsync(params string[] symbols)
         {
             var stocks = new List<PriceResponse>();
+            
+            if (!symbols.Any())
+                return stocks;
 
             if (_yahooFinanceBulkApiList.Count > 0)
             {

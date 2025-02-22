@@ -1,7 +1,6 @@
 ﻿using Library.Interfaces;
-using YahooFinance.Interfaces;
+using Library.Services;
 using YahooFinance.Models;
-using YahooFinance.Services;
 
 namespace YahooFinance.Factories
 {

@@ -1,9 +1,11 @@
-﻿using Library.Models;
+﻿using Library.Interfaces;
+using Library.Models;
 using Library.Models.SearchResults;
 using Microsoft.Extensions.Logging;
 using YahooFinance.Factories;
 using YahooFinance.Interfaces;
 using YahooFinance.Models;
+using YahooFinance.Models.Price;
 
 namespace YahooFinance.Services.FinanceApis
 {
@@ -63,9 +65,9 @@ namespace YahooFinance.Services.FinanceApis
 
                 return response?.Body ?? new List<PriceResponse>();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                _logger.LogError("error while trying to find stocks from yahoo, {searchTerm} symbols", symbols.Length);
+                _logger.LogError(ex, "error while trying to find stocks from yahoo, {searchTerm} symbols", symbols.Length);
 
                 return new List<PriceResponse>();
             }

@@ -1,8 +1,8 @@
-﻿using YahooFinance.Models;
+﻿using YahooFinance.Models.Price;
 
 namespace YahooFinance.Interfaces
 {
-	public interface IYahooFinanceBulk
+    public interface IYahooFinanceBulk
 	{
         Task<List<PriceResponse>> GetStocksAsync(params string[] symbols);
     }
