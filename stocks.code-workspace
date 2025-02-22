@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "client-angular"
+		},
+		{
+			"path": "StocksApi"
+		}
+	],
+	"settings": {}
+}
