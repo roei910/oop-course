@@ -1,9 +1,10 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { User } from 'src/models/users/user';
-import { UserStockNote } from 'src/models/users/user-stock-note';
+import { UserStockNote } from 'src/models/users/notes/user-stock-note';
 import { AuthenticationService } from 'src/services/authentication.service';
 import { UserService } from 'src/services/user.service';
+import { ToastService } from 'src/services/toast.service';
 
 @Component({
   selector: 'app-user-notes',
@@ -23,7 +24,8 @@ export class UserNotesComponent {
     private userService: UserService,
     private authenticationService: AuthenticationService,
     private cdRef: ChangeDetectorRef,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private toastService: ToastService
   ) { }
 
   ngOnInit(): void {
@@ -91,5 +93,19 @@ export class UserNotesComponent {
       rejectLabel: "Cancel",
       accept: () => window.open(url, '_blank')
     });
+  }
+
+  deleteNote(noteId: string) {
+    this.userService.deleteNote(this.user?.email!, this.selectedStockSymbol!, noteId)
+      .subscribe(isDeleted => {
+        if(isDeleted)
+        {
+          var noteIndex = this.user?.userStockNotesBySymbol[this.selectedStockSymbol!].findIndex(note => note.id == noteId);
+          this.user?.userStockNotesBySymbol[this.selectedStockSymbol!].splice(noteIndex!, 1);
+        }
+        else{
+          this.toastService.addErrorMessage('An error occured while removing note');
+        }
+      })
   }
 }

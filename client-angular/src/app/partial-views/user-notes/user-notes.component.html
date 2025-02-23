@@ -29,11 +29,17 @@
                             <th pSortableColumn="note">
                                 Note <p-sortIcon field="note" />
                             </th>
+                            <th>
+                                Options
+                            </th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-stockNote>
                         <tr>
                             <td>{{stockNote.note}}</td>
+                            <td>
+                                <p-button (click)="deleteNote(stockNote.id)">Delete</p-button>
+                            </td>
                         </tr>
                     </ng-template>
                 </p-table>

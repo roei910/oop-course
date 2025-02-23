@@ -1,6 +1,6 @@
 import { WatchingStock } from "../stocks/watching-stock";
 import { StockNotification } from "./stock-notification";
-import { UserStockNote } from "./user-stock-note";
+import { UserStockNote } from "./notes/user-stock-note";
 
 export class User {
     id!: string;
