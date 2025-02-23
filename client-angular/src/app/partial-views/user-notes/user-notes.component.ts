@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
+import { ConfirmationService } from 'primeng/api';
 import { User } from 'src/models/users/user';
 import { UserStockNote } from 'src/models/users/user-stock-note';
 import { AuthenticationService } from 'src/services/authentication.service';
@@ -21,7 +22,8 @@ export class UserNotesComponent {
   constructor(
     private userService: UserService,
     private authenticationService: AuthenticationService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
@@ -73,5 +75,21 @@ export class UserNotesComponent {
     this.stockSymbol = this.selectedStockSymbol!;
     this.visibleDialog = true;
     this.visibleStockSymbol = false;
+  }
+
+  openStockChart() {
+    var url = `https://www.tradingview.com/chart/?symbol=${this.selectedStockSymbol}`;
+
+    this.confirmationService.confirm({
+      message: 'redirecting to stock chart on trading view',
+      header: 'TradingView Stock Chart Redirection',
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon: "none",
+      rejectIcon: "none",
+      rejectButtonStyleClass: "p-button-text",
+      acceptLabel: "Continue",
+      rejectLabel: "Cancel",
+      accept: () => window.open(url, '_blank')
+    });
   }
 }

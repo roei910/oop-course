@@ -109,8 +109,8 @@ export class StockDetailsComponent {
     var url = `https://www.tradingview.com/symbols/${this.symbol}`;
 
     this.confirmationService.confirm({
-      message: 'redirecting to shares screen',
-      header: 'Share Screen Redirection',
+      message: 'redirecting to stock information on trading view',
+      header: 'TradingView Stock Redirection',
       icon: 'pi pi-exclamation-triangle',
       acceptIcon: "none",
       rejectIcon: "none",
@@ -121,12 +121,12 @@ export class StockDetailsComponent {
     });
   }
 
-  openStockGraph() {
+  openStockChart() {
     var url = `https://www.tradingview.com/chart/?symbol=${this.symbol}`;
 
     this.confirmationService.confirm({
-      message: 'redirecting to shares screen',
-      header: 'Share Screen Redirection',
+      message: 'redirecting to stock chart on trading view',
+      header: 'TradingView Stock Chart Redirection',
       icon: 'pi pi-exclamation-triangle',
       acceptIcon: "none",
       rejectIcon: "none",
