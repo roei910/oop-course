@@ -91,8 +91,10 @@ export class UserNotesComponent {
       rejectButtonStyleClass: "p-button-text",
       acceptLabel: "Continue",
       rejectLabel: "Cancel",
-      accept: () => window.open(url, '_blank')
+      accept: () => window.open(url, '_blank', 'noopener,noreferrer')
     });
+
+    
   }
 
   deleteNote(noteId: string) {
