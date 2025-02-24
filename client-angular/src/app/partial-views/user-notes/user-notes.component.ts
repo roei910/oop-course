@@ -93,8 +93,6 @@ export class UserNotesComponent {
       rejectLabel: "Cancel",
       accept: () => window.open(url, '_blank', 'noopener,noreferrer')
     });
-
-    
   }
 
   deleteNote(noteId: string) {
