@@ -4,3 +4,4 @@ StocksApi/*/bin/
 StocksApi/*/obj/
 StocksApi/StocksApi/secrets.json
 StocksApi/bin/
+/StocksApi/.idea
