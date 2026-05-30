@@ -10,8 +10,10 @@ import { UserCreation } from 'src/models/users/user-creation';
 import { AuthenticationService } from './authentication.service';
 import { WatchesService } from './watches.service';
 import { PasswordUpdateRequest } from 'src/models/users/password-update-request';
-import { UserStockNoteRequest } from 'src/models/users/user-stock-note-request';
-import { UserStockNote } from 'src/models/users/user-stock-note';
+import { UserStockNoteRequest } from 'src/models/users/notes/user-stock-note-request';
+import { UserStockNote } from 'src/models/users/notes/user-stock-note';
+import { UserStockNoteDeleteRequest } from 'src/models/users/notes/user-stock-note-delete-request';
+import { UserStockNoteUpdateRequest } from 'src/models/users/notes/user-stock-note-update-request';
 
 @Injectable({
   providedIn: 'root'
@@ -126,6 +128,40 @@ export class UserService {
       .post<UserStockNote>(`${this.userEndPointUrl}/stockNote`,
         noteRequest
       );
+  }
+
+  updateNote(email: string, stockSymbol: string, noteId: string, note: string): Observable<boolean> {
+    let noteUpdateRequest: UserStockNoteUpdateRequest = {
+      userEmail: email,
+      stockSymbol,
+      noteId,
+      updatedNote: note
+    };
+
+    return this.httpClient
+      .patch(`${this.userEndPointUrl}/stockNote`,
+        noteUpdateRequest, {
+          observe: 'response'
+        }
+      )
+      .pipe(map(response => response.status == 200));
+  }
+
+  deleteNote(email: string, stockSymbol: string, noteId: string): Observable<boolean> {
+    let noteDeleteRequest: UserStockNoteDeleteRequest = {
+      userEmail: email,
+      stockSymbol,
+      noteId
+    };
+
+    return this.httpClient
+      .delete(`${this.userEndPointUrl}/stockNote`, 
+        {
+          observe: "response",
+          params: noteDeleteRequest
+        }
+      )
+      .pipe(map(response => response.status == 200));
   }
 
   private updateUser(): void{
