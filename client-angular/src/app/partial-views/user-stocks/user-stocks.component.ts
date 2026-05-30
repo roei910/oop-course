@@ -3,12 +3,13 @@ import { ConfirmationService } from 'primeng/api';
 import { catchError, of } from 'rxjs';
 import { Stock } from 'src/models/stocks/stock';
 import { StockListDetails } from 'src/models/stocks/stock-list-details';
-import { WatchingStock } from 'src/models/stocks/watching-stock';
+import { UserStockWatch } from 'src/models/stocks/user-stock-watch';
 import { User } from 'src/models/users/user';
 import { SharesService } from 'src/services/shares.service';
 import { StockService } from 'src/services/stock.service';
 import { ToastService } from 'src/services/toast.service';
 import { UserService } from 'src/services/user.service';
+import { WatchesService } from 'src/services/watches.service';
 
 @Component({
   selector: 'app-user-stocks',
@@ -19,9 +20,7 @@ export class UserStocksComponent {
   user!: User;
   stocks: { [stockSymbol: string]: Stock } | undefined;
   listNames: string[] = [];
-  selectedPortfolio: {
-    [stockSymbol: string]: WatchingStock
-  } | undefined;
+  selectedPortfolio: { [stockSymbol: string]: UserStockWatch } | undefined;
   selectedPortfolioName: string | undefined;
   visible: boolean = true;
   visibleAddStockToListDialog: boolean = false;
@@ -33,17 +32,21 @@ export class UserStocksComponent {
     private userService: UserService,
     private shareService: SharesService,
     private toastService: ToastService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private watchesService: WatchesService
   ) { }
 
   ngOnInit(): void {
     this.userService.getUser().subscribe(user => {
       this.user = user;
-      this.listNames = Object.keys(user.watchingStocksByListName);
+      this.listNames = user.watchListNames;
       this.selectedPortfolioName = this.listNames[0];
-      this.selectedPortfolio = this.user.watchingStocksByListName[this.selectedPortfolioName];
+
+      if (this.selectedPortfolioName)
+        this.watchesService.getWatchesByList(this.selectedPortfolioName)
+          .subscribe(watches => this.selectedPortfolio = watches);
     });
-    
+
     this.createStocksDictionary();
   }
 
@@ -63,7 +66,7 @@ export class UserStocksComponent {
       }))
       .subscribe(res => {
         if (res) {
-          this.user.watchingStocksByListName[listName!] = {}
+          this.user.watchListNames.push(listName!);
           this.updateListBox();
           this.toastService.addSuccessMessage("list created successfully");
         } else
@@ -88,12 +91,15 @@ export class UserStocksComponent {
 
         this.shareService.removeUserList(stockListDetails).subscribe(res => {
           if (res) {
-            delete (this.user.watchingStocksByListName[listName!]);
+            const index = this.user.watchListNames.indexOf(listName!);
+            if (index >= 0)
+              this.user.watchListNames.splice(index, 1);
             this.updateListBox();
-            this.toastService.addSuccessMessage("list removed successfully");
 
             if (listName == this.selectedPortfolioName)
               this.selectedPortfolioName = undefined;
+
+            this.toastService.addSuccessMessage("list removed successfully");
           }
           else
             this.toastService.addErrorMessage("something went wrong, couldnt remove list");
@@ -108,8 +114,10 @@ export class UserStocksComponent {
     this.visibleAddStockToListDialog = false;
 
     let listName = this.selectedPortfolioName!;
-    let foundStock = Object.keys(this.user.watchingStocksByListName[listName])
-      .find(currectStockSymbol => currectStockSymbol == stockSymbol)
+    let foundStock = this.selectedPortfolio
+      ? Object.keys(this.selectedPortfolio)
+        .find(currentStockSymbol => currentStockSymbol == stockSymbol)
+      : undefined;
 
     if (foundStock) {
       this.toastService.addErrorMessage("stock is already at the current portfolio.");
@@ -130,12 +138,15 @@ export class UserStocksComponent {
   onSelectedPortfolio(event: any) {
     const { option, value } = event;
 
-    if (option != undefined)
-      this.selectedPortfolio = this.user.watchingStocksByListName[option];
+    if (option != undefined) {
+      this.selectedPortfolioName = option;
+      this.watchesService.getWatchesByList(option)
+        .subscribe(watches => this.selectedPortfolio = watches);
+    }
   }
 
   updateListBox(): void {
-    this.listNames = Object.keys(this.user.watchingStocksByListName);
+    this.listNames = this.user.watchListNames;
   }
 
   updatePortfolio(): void {
@@ -143,22 +154,29 @@ export class UserStocksComponent {
     setTimeout(() => this.visible = true, 0);
   }
 
-  createStocksDictionary(): void{
-    this.stockService.getAllStocks().subscribe(stocks =>{
-      this.stocks = Object.assign({}, ...stocks.map((stock) => ({[stock.symbol]: stock})));
+  createStocksDictionary(): void {
+    this.stockService.getAllStocks().subscribe(stocks => {
+      this.stocks = Object.assign({}, ...stocks.map((stock) => ({ [stock.symbol]: stock })));
     });
   }
 
-  addWatchingStock(listName: string, stockSymbol: string): void{
-    if(this.stocks != undefined && !(stockSymbol in this.stocks))
+  addWatchingStock(listName: string, stockSymbol: string): void {
+    if (this.stocks != undefined && !(stockSymbol in this.stocks))
       this.createStocksDictionary();
 
-    let watchingStock: WatchingStock = {
-      purchaseGuidToShares: {},
-      note: ""
+    let watch: UserStockWatch = {
+      id: '',
+      userEmail: this.user.email,
+      listName: listName,
+      stockSymbol: stockSymbol,
+      note: '',
+      purchaseGuidToShares: {}
     };
-    
-    this.user.watchingStocksByListName[listName][stockSymbol!] = watchingStock;
+
+    this.watchesService.addWatchLocally(listName, stockSymbol, watch);
+
+    this.watchesService.getWatchesByList(listName)
+      .subscribe(watches => this.selectedPortfolio = watches);
     this.updatePortfolio();
   }
 }

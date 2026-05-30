@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using StocksApi.Interfaces;
-using Library.Models;
-using Library.Models.MarketTrends;
-using Library.Models.SearchResults;
+using Microsoft.AspNetCore.Mvc;
+using StocksAbstractions.Repositories;
+using StocksAbstractions.Models;
+using StocksAbstractions.Models.MarketTrends;
+using StocksAbstractions.Models.SearchResults;
 
 namespace StocksApi.Controllers
 {

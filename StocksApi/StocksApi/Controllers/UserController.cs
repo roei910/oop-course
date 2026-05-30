@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using StocksApi.Interfaces;
-using Library.Models;
-using Library.Models.Users;
-using Library.Models.Users.StockNotes;
-using Library.Models.ServerResponse;
-using Library.Models.Users.Notifications;
-using StocksApi.Generators;
+using Microsoft.AspNetCore.Mvc;
+using StocksAbstractions.Repositories;
+using UsersAbstractions.Repositories;
+using StocksAbstractions.Models;
+using UsersAbstractions.Models;
+using UsersAbstractions.Models.Users;
+using UsersAbstractions.Models.StockNotes;
+using UsersAbstractions.Models.Notifications;
+using SharedLibrary.Models;
+using UsersLibrary.Generators;
 
 namespace StocksApi.Controllers
 {
@@ -106,7 +107,7 @@ namespace StocksApi.Controllers
             await _userRepository.AddNotificationAsync(stockNotification);
             await _stockRepository.AddNotificationAsync(stockNotification);
 
-            var response = new ObjectIdResponse
+            var response = new IdResponse
             {
                 Id = stockNotification.Id
             };

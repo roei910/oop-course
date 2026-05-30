@@ -18,21 +18,17 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
-    <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="4.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\YahooFinance\YahooFinance.csproj">
-      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
-    </ProjectReference>
-    <ProjectReference Include="..\Library\Library.csproj">
-      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Generators\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Generators\" />
+    <ProjectReference Include="..\SharedLibrary\SharedLibrary.csproj" />
+    <ProjectReference Include="..\StocksAbstractions\StocksAbstractions.csproj" />
+    <ProjectReference Include="..\UsersAbstractions\UsersAbstractions.csproj" />
+    <ProjectReference Include="..\StocksApi.Providers.Mongo\StocksApi.Providers.Mongo.csproj" />
+    <ProjectReference Include="..\StocksApi.Providers.Sqlite\StocksApi.Providers.Sqlite.csproj" />
+    <ProjectReference Include="..\StocksApi.Providers.UsersSqlite\StocksApi.Providers.UsersSqlite.csproj" />
+    <ProjectReference Include="..\StocksProvider\StocksProvider.csproj" />
+    <ProjectReference Include="..\StocksLibrary\StocksLibrary.csproj" />
+    <ProjectReference Include="..\UsersLibrary\UsersLibrary.csproj" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-using Library.Models;
+using SharedLibrary.Models;
 using StocksApi;
 
 Host.CreateDefaultBuilder(args)
@@ -10,11 +10,9 @@ Host.CreateDefaultBuilder(args)
               .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
               .AddEnvironmentVariables();
 
-        if (env.IsProduction())
-        {
-            var secretsFilePath = Environment.GetEnvironmentVariable(ConfigurationKeys.SecretsFilePathKey);
-            config.AddJsonFile(secretsFilePath!, optional: false, reloadOnChange: true);
-        }
+        var secretsFilePath = Environment.GetEnvironmentVariable(ConfigurationKeys.SecretsFilePathKey);
+        if (!string.IsNullOrEmpty(secretsFilePath))
+            config.AddJsonFile(secretsFilePath, optional: false, reloadOnChange: true);
     })
     .ConfigureWebHostDefaults(webBuilder =>
     {

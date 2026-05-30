@@ -1,4 +1,4 @@
-﻿using Library.Interfaces;
+using SharedLibrary.Services;
 
 namespace StocksApi.Services
 {
