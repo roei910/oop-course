@@ -1,0 +1,25 @@
+<Solution>
+  <Project Path="FinanceGrid.AppHost/FinanceGrid.AppHost.csproj" />
+    <Project Path="FinanceGrid.Gateway/FinanceGrid.Gateway.csproj" />
+    <Project Path="FinanceGrid.ServiceDefaults/FinanceGrid.ServiceDefaults.csproj" />
+    <Project Path="FinanceGrid.Shared/FinanceGrid.Shared.csproj" />
+  <Folder Name="/FinancialData/">
+    <Project Path="FinancialData/FinanceGrid.FinancialData.Api/FinanceGrid.FinancialData.Api.csproj" />
+    <Project Path="FinancialData/FinanceGrid.FinancialData.Application/FinanceGrid.FinancialData.Application.csproj" />
+    <Project Path="FinancialData/FinanceGrid.FinancialData.Domain/FinanceGrid.FinancialData.Domain.csproj" />
+    <Project Path="FinancialData/FinanceGrid.FinancialData.Infrastructure/FinanceGrid.FinancialData.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/Users/">
+    <Project Path="Users/FinanceGrid.Users.Api/FinanceGrid.Users.Api.csproj" />
+    <Project Path="Users/FinanceGrid.Users.Application/FinanceGrid.Users.Application.csproj" />
+    <Project Path="Users/FinanceGrid.Users.Domain/FinanceGrid.Users.Domain.csproj" />
+    <Project Path="Users/FinanceGrid.Users.Infrastructure/FinanceGrid.Users.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/Webhook/">
+    <Project Path="Webhook/FinanceGrid.Webhook.Api/FinanceGrid.Webhook.Api.csproj" />
+    <Project Path="Webhook/FinanceGrid.Webhook.Processing/FinanceGrid.Webhook.Processing.csproj" />
+    <Project Path="Webhook/FinanceGrid.Webhook.Application/FinanceGrid.Webhook.Application.csproj" />
+    <Project Path="Webhook/FinanceGrid.Webhook.Domain/FinanceGrid.Webhook.Domain.csproj" />
+    <Project Path="Webhook/FinanceGrid.Webhook.Infrastructure/FinanceGrid.Webhook.Infrastructure.csproj" />
+  </Folder>
+</Solution>

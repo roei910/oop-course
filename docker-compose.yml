@@ -1,10 +1,10 @@
 networks:
-  network-stocks:
+  network-financegrid:
     driver: bridge
 
 services:
   frontend:
-    container_name: stocks-collection
+    container_name: financegrid
     environment:
       - ANGULAR_BUILD_CONFIGURATION=development
     ports:
@@ -16,10 +16,10 @@ services:
     depends_on:
       - gateway
     build:
-      context: ./client-angular
+      context: ./FinanceGrid.WebClient
       dockerfile: Dockerfile
     networks:
-      - network-stocks
+      - network-financegrid
 
   gateway:
     container_name: gateway
@@ -29,66 +29,100 @@ services:
     ports:
       - "5000:80"
     depends_on:
-      - stocks-service
+      - financialdata-service
       - users-service
+      - webhook-service
     build:
-      context: ./StocksApi
-      dockerfile: ./Gateway/Dockerfile
+      context: .
+      dockerfile: ./FinanceGrid/FinanceGrid.Gateway/Dockerfile
     networks:
-      - network-stocks
+      - network-financegrid
 
-  stocks-service:
-    container_name: stocks-service
+  financialdata-service:
+    container_name: financialdata-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
+      - DatabaseProvider=SQLite
+      - ConnectionStrings__FinancialData=Data Source=/data/FinancialData.db
     ports:
       - "5001:80"
+    volumes:
+      - financialdata_data:/data
+    depends_on:
+      - rabbitmq
     build:
-      context: ./StocksApi
-      dockerfile: ./StocksService/Dockerfile
+      context: .
+      dockerfile: ./FinanceGrid/FinancialData/FinanceGrid.FinancialData.Api/Dockerfile
     networks:
-      - network-stocks
+      - network-financegrid
 
   users-service:
     container_name: users-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
+      - DatabaseProvider=SQLite
+      - ConnectionStrings__Users=Data Source=/data/Users.db
     ports:
       - "5002:80"
+    volumes:
+      - users_data:/data
     build:
-      context: ./StocksApi
-      dockerfile: ./UsersService/Dockerfile
+      context: .
+      dockerfile: ./FinanceGrid/Users/FinanceGrid.Users.Api/Dockerfile
     networks:
-      - network-stocks
+      - network-financegrid
 
-  backend:
-    container_name: stocksapi
+  webhook-service:
+    container_name: webhook-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:5108
-      - SECRETS_FILE_PATH=/etc/secrets/secrets.json
+      - ASPNETCORE_URLS=http://+:80
+      - DatabaseProvider=SQLite
+      - ConnectionStrings__Webhook=Data Source=/data/Webhook.db
     ports:
-      - "5108:5108"
+      - "5003:80"
     volumes:
-      - ./StocksApi/StocksApi/secrets.json:/etc/secrets/secrets.json
+      - webhook_data:/data
+    depends_on:
+      - rabbitmq
     build:
-      context: ./StocksApi
-      dockerfile: ./StocksApi/Dockerfile
+      context: .
+      dockerfile: ./FinanceGrid/Webhook/FinanceGrid.Webhook.Api/Dockerfile
     networks:
-      - network-stocks
+      - network-financegrid
 
-  mongo:
-    image: mongo:latest
-    container_name: mongodb
-    ports:
-      - "27017:27017"
-    networks:
-      - network-stocks
+  webhook-processing:
+    container_name: webhook-processing
+    environment:
+      - DOTNET_ENVIRONMENT=Development
+      - DatabaseProvider=SQLite
+      - ConnectionStrings__Webhook=Data Source=/data/Webhook.db
     volumes:
-      - mongo_data:/data/db
+      - webhook_data:/data
+    depends_on:
+      - rabbitmq
     restart: always
+    build:
+      context: .
+      dockerfile: ./FinanceGrid/FinanceGrid.Webhook.Processing/Dockerfile
+    networks:
+      - network-financegrid
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    networks:
+      - network-financegrid
 
 volumes:
-  mongo_data:
+  financialdata_data:
+  users_data:
+  webhook_data:

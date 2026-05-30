@@ -1,7 +1,35 @@
-StocksApi/obj
-StocksApi/.vs
-StocksApi/*/bin/
-StocksApi/*/obj/
-StocksApi/StocksApi/secrets.json
-StocksApi/bin/
-/StocksApi/.idea
+# .NET build artifacts
+**/bin/
+**/obj/
+**/*.user
+**/*.userosscache
+**/*.vs
+
+# EF Core migrations (if created)
+**/Migrations/
+
+# IDE and editor artifacts
+.vs/
+.idea/
+*.suo
+*.un*
+*.pidb
+*.svclog
+*.scc
+
+# Frontend dependencies
+FinanceGrid.WebClient/node_modules/
+
+# Environment and secrets
+**/appsettings*.json
+!**/appsettings.json  # Keep template/example
+**/secrets.json
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# OS generated files
+.DS_Store
+Thumbs.db

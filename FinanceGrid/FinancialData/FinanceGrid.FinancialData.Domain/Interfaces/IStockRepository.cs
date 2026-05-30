@@ -1,0 +1,14 @@
+using FinanceGrid.FinancialData.Domain.Entities;
+
+namespace FinanceGrid.FinancialData.Domain.Interfaces;
+
+public interface IStockRepository
+{
+    Task<List<Stock>> GetAllAsync();
+    Task<Stock?> GetStockBySymbolAsync(string symbol);
+    Task<List<Stock>> GetStocksBySymbolAsync(string[] symbols);
+    Task UpdateStocksBySymbolAsync(string[] stockSymbols);
+    Task UpdateStocksAnalysisAsync(string[] orderedStockSymbols);
+    Task RemoveNotificationAsync(string symbol, string notificationId);
+    Task AddNotificationAsync(StockNotification stockNotification);
+}
