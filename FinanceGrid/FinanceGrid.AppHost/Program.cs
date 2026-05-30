@@ -20,12 +20,14 @@ if (builder.Environment.EnvironmentName != "Development")
         .WithReference(postgres.AddDatabase("Users"))
         .WithEnvironment("DatabaseProvider", "PostgreSQL");
 
+    var webhookDb = postgres.AddDatabase("Webhook");
+
     webhookApi
-        .WithReference(postgres.AddDatabase("Webhook"))
+        .WithReference(webhookDb)
         .WithEnvironment("DatabaseProvider", "PostgreSQL");
 
     webhookProcessing
-        .WithReference(postgres.AddDatabase("Webhook"))
+        .WithReference(webhookDb)
         .WithEnvironment("DatabaseProvider", "PostgreSQL");
 }
 

@@ -20,7 +20,7 @@
     <ProjectReference Include="..\FinancialData\FinanceGrid.FinancialData.Api\FinanceGrid.FinancialData.Api.csproj" />
     <ProjectReference Include="..\Users\FinanceGrid.Users.Api\FinanceGrid.Users.Api.csproj" />
     <ProjectReference Include="..\Webhook\FinanceGrid.Webhook.Api\FinanceGrid.Webhook.Api.csproj" />
-    <ProjectReference Include="..\FinanceGrid.Webhook.Processing\FinanceGrid.Webhook.Processing.csproj" />
+    <ProjectReference Include="..\Webhook\FinanceGrid.Webhook.Processing\FinanceGrid.Webhook.Processing.csproj" />
     <ProjectReference Include="..\FinanceGrid.Gateway\FinanceGrid.Gateway.csproj" />
   </ItemGroup>
 
