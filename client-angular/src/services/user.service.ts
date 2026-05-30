@@ -8,6 +8,7 @@ import { StockNotification } from 'src/models/users/stock-notification';
 import { User } from 'src/models/users/user';
 import { UserCreation } from 'src/models/users/user-creation';
 import { AuthenticationService } from './authentication.service';
+import { WatchesService } from './watches.service';
 import { PasswordUpdateRequest } from 'src/models/users/password-update-request';
 import { UserStockNoteRequest } from 'src/models/users/notes/user-stock-note-request';
 import { UserStockNote } from 'src/models/users/notes/user-stock-note';
@@ -23,7 +24,8 @@ export class UserService {
 
   constructor(
     private httpClient: HttpClient, 
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private watchesService: WatchesService
   ) { }
 
   getUser(): Observable<User>{
@@ -176,7 +178,10 @@ export class UserService {
           }
         }
       )
-      .pipe(tap(res => this.userSubject?.next(res)))
+      .pipe(tap(res => {
+        this.userSubject?.next(res);
+        this.watchesService.loadWatches(email);
+      }))
       .subscribe(user => user);
   }
 }

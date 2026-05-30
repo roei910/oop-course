@@ -6,6 +6,7 @@ import { User } from 'src/models/users/user';
 import { AuthenticationService } from 'src/services/authentication.service';
 import { StockService } from 'src/services/stock.service';
 import { UserService } from 'src/services/user.service';
+import { WatchesService } from 'src/services/watches.service';
 
 @Component({
   selector: 'app-user-information',
@@ -22,7 +23,8 @@ export class UserInformationComponent {
 
   constructor(private userService: UserService,
     private authenticationService: AuthenticationService,
-    private stockService: StockService
+    private stockService: StockService,
+    private watchesService: WatchesService
   ) { }
 
   ngOnInit(): void {
@@ -32,22 +34,21 @@ export class UserInformationComponent {
       return;
 
     this.stockService.getAllStocks()
-    .subscribe(stocks => 
-    {
-      stocks.map(stock => this.stocksDictionary[stock.symbol] = stock);
-      this.initializeOwnedStocks();
-      this.initializeChartData();
-    });
+      .subscribe(stocks => {
+        stocks.map(stock => this.stocksDictionary[stock.symbol] = stock);
+        this.initializeOwnedStocks();
+        this.initializeChartData();
+      });
   }
 
   initializeChartData() {
     this.ownedStocksSubject.asObservable().subscribe(ownedStocks => {
       const ownedStockSymbols = Object.keys(ownedStocks);
-      
+
       const data = ownedStockSymbols.map((symbol: string) => {
         return (this.stocksDictionary[symbol]?.price ?? 0) * ownedStocks[symbol].amount;
       })
-      
+
       this.chartData = {
         labels: ownedStockSymbols,
         datasets: [
@@ -91,15 +92,19 @@ export class UserInformationComponent {
   initializeOwnedStocks() {
     this.userService.getUser().subscribe(user => {
       this.user = user;
+    });
 
-      Object.keys(user.watchingStocksByListName).forEach((listName: string) => {
-        let watchingStocks = this.user!.watchingStocksByListName[listName];
-  
+    this.watchesService.getWatches().subscribe(watchesByList => {
+      this.ownedStocks = {};
+
+      Object.keys(watchesByList).forEach((listName: string) => {
+        let watchingStocks = watchesByList[listName];
+
         Object.keys(watchingStocks).forEach((stockSymbol: string) => {
-          let sharesDictionary = watchingStocks[stockSymbol].purchaseGuidToShares
+          let sharesDictionary = watchingStocks[stockSymbol].purchaseGuidToShares;
           this.updateOwnedStocksByStockShares(stockSymbol, sharesDictionary);
-        })
-      })
+        });
+      });
 
       this.ownedStocksSubject.next(this.ownedStocks);
     });

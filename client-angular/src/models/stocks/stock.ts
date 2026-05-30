@@ -1,5 +1,4 @@
 import { StockAnalysis } from "./stock-analysis";
-import { StockHistory } from "./stock-history";
 
 export type Stock = {
     id: string;
@@ -30,5 +29,4 @@ export type Stock = {
     analystRating: string | undefined;
     updatedTime: Date;
     analysis: StockAnalysis | undefined;
-    history: StockHistory[];
 }

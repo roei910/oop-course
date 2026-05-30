@@ -3,10 +3,11 @@ import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { StockDetails } from 'src/interfaces/stock-details';
 import { Stock } from 'src/models/stocks/stock';
-import { WatchingStock } from 'src/models/stocks/watching-stock';
+import { UserStockWatch } from 'src/models/stocks/user-stock-watch';
 import { AuthenticationService } from 'src/services/authentication.service';
 import { SharesService } from 'src/services/shares.service';
 import { ToastService } from 'src/services/toast.service';
+import { WatchesService } from 'src/services/watches.service';
 
 @Component({
   selector: 'app-portfolio-details',
@@ -15,7 +16,7 @@ import { ToastService } from 'src/services/toast.service';
 })
 export class PortfolioDetailsComponent {
   @Input('watchingStocks')
-  watchingStocks!: { [stockSymbol: string]: WatchingStock };
+  watchingStocks!: { [stockSymbol: string]: UserStockWatch };
 
   @Input('stocksDictionary')
   stocksDictionary!: { [stockSymbol: string]: Stock };
@@ -34,11 +35,12 @@ export class PortfolioDetailsComponent {
     private router: Router,
     private shareService: SharesService,
     private toastService: ToastService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private watchesService: WatchesService
   ) {
     this.email = this.authenticationService.getUserEmail()!;
   }
-  
+
   ngOnChanges(): void {
     this.updateWatchingStocks();
   }
@@ -55,6 +57,7 @@ export class PortfolioDetailsComponent {
     this.shareService.updateWatchingStockNote(this.email, this.listName, this.symbol, this.note)
       .subscribe(res => {
         if (res) {
+          this.watchesService.updateNoteLocally(this.listName, this.symbol, this.note!);
           this.watchingStocks[this.symbol].note = this.note!;
           this.updateWatchingStocks();
         }
@@ -69,14 +72,14 @@ export class PortfolioDetailsComponent {
     return keys;
   }
 
-  countShares(watchingStock: WatchingStock) {
+  countShares(watchingStock: UserStockWatch) {
     let sum = 0;
     let keys = Object.keys(watchingStock.purchaseGuidToShares);
 
     keys.forEach((purchaseGuid: string) =>
       sum += watchingStock.purchaseGuidToShares[purchaseGuid].amount);
 
-    if(sum == 0)
+    if (sum == 0)
       return "";
 
     return sum.toString();
@@ -97,14 +100,14 @@ export class PortfolioDetailsComponent {
     });
   }
 
-  mapWatchingStock(stockSymbol: string, watchingStock: WatchingStock): StockDetails {
+  mapWatchingStock(stockSymbol: string, watchingStock: UserStockWatch): StockDetails {
     let stock = this.stocksDictionary[stockSymbol];
 
     return {
       symbol: stockSymbol,
       name: stock.name,
       lastUpdate: stock.updatedTime,
-      note: watchingStock.note,
+      note: watchingStock.note ?? '',
       prediction: stock.analysis?.targetMeanPrice ?? 0,
       price: stock.price,
       shares: this.countShares(watchingStock)
@@ -112,9 +115,9 @@ export class PortfolioDetailsComponent {
   }
 
   updateWatchingStocks(): void {
-    if(this.watchingStocks == undefined || Object.keys(this.watchingStocks).length == 0)
+    if (this.watchingStocks == undefined || Object.keys(this.watchingStocks).length == 0)
       return;
-    
+
     this.watchingStockLists = Object.keys(this.watchingStocks)
       .map(stockSymbol => this.mapWatchingStock(stockSymbol, this.watchingStocks[stockSymbol]));
   }
@@ -131,6 +134,7 @@ export class PortfolioDetailsComponent {
         this.shareService.removeWatchingStock(this.email, this.listName, stockSymbol)
           .subscribe(res => {
             if (res) {
+              this.watchesService.removeWatchLocally(this.listName, stockSymbol);
               delete this.watchingStocks[stockSymbol!];
               this.updateWatchingStocks();
             }

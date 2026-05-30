@@ -1,15 +1,16 @@
-﻿using Library.Interfaces;
-using Library.Models;
-using StocksApi.Interfaces;
+using SharedLibrary.Models;
+using SharedLibrary.Services;
+using StocksAbstractions.Services;
+using StocksAbstractions.Models;
+using StocksAbstractions.Repositories;
 
 namespace StocksApi.Services
 {
-	public class StockAnalysisUpdater : BackgroundService
+    public class StockAnalysisUpdater : BackgroundService
     {
         private readonly IStockRepository _stockRepository;
         private readonly ILogger<Stock> _logger;
         private readonly Variables _variables;
-        private CancellationToken _cancellationToken;
 
         public StockAnalysisUpdater(IStockRepository stockRepository,
             ILogger<Stock> logger,
@@ -22,12 +23,10 @@ namespace StocksApi.Services
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _cancellationToken = new CancellationToken();
-
-            while (!_cancellationToken.IsCancellationRequested)
+            while (!stoppingToken.IsCancellationRequested)
             {
                 await UpdateStocksAnalysisAsync();
-                await Task.Delay(new TimeSpan(24, 0, 0), _cancellationToken);
+                await Task.Delay(new TimeSpan(24, 0, 0), stoppingToken);
             }
         }
 

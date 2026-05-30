@@ -4,11 +4,11 @@ import { ConfirmationService } from 'primeng/api';
 import { Share } from 'src/models/shares/share';
 import { SharePurchase } from 'src/models/shares/share-purchase';
 import { ShareSale } from 'src/models/shares/share-sale';
-import { WatchingStock } from 'src/models/stocks/watching-stock';
+import { UserStockWatch } from 'src/models/stocks/user-stock-watch';
 import { AuthenticationService } from 'src/services/authentication.service';
 import { SharesService } from 'src/services/shares.service';
 import { ToastService } from 'src/services/toast.service';
-import { UserService } from 'src/services/user.service';
+import { WatchesService } from 'src/services/watches.service';
 
 @Component({
   selector: 'app-stock-shares',
@@ -19,20 +19,20 @@ export class StockSharesComponent {
   userEmail!: string | null;
   symbol!: string;
   listName!: string;
-  watchingStock : WatchingStock | undefined;
-  visibleAddShareDialog : boolean = false;
+  watchingStock: UserStockWatch | undefined;
+  visibleAddShareDialog: boolean = false;
   purchaseDate: Date | undefined;
   numberOfShares: number | undefined;
   stockPrice: number | undefined;
   shares: Share[] = [];
 
   constructor(private activatedRoute: ActivatedRoute,
-    private userService: UserService,
     private authenticationService: AuthenticationService,
     private shareService: SharesService,
     private toastService: ToastService,
-    private confirmationService: ConfirmationService
-  ){ }
+    private confirmationService: ConfirmationService,
+    private watchesService: WatchesService
+  ) { }
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(params => {
@@ -42,8 +42,8 @@ export class StockSharesComponent {
 
     this.userEmail = this.authenticationService.getUserEmail()!;
 
-    this.userService.getUser().subscribe(user =>{
-      this.watchingStock = user.watchingStocksByListName[this.listName][this.symbol];
+    this.watchesService.getWatchesByList(this.listName).subscribe(watches => {
+      this.watchingStock = watches[this.symbol];
       this.updateSharesList();
     });
   }
@@ -51,10 +51,10 @@ export class StockSharesComponent {
   addShare() {
     this.visibleAddShareDialog = false;
 
-    if(this.purchaseDate == undefined)
+    if (this.purchaseDate == undefined)
       this.purchaseDate = new Date();
 
-    if(this.numberOfShares == undefined || this.stockPrice == undefined){
+    if (this.numberOfShares == undefined || this.stockPrice == undefined) {
       return;
     }
 
@@ -69,9 +69,9 @@ export class StockSharesComponent {
 
     this.shareService.addUserShare(sharePurchase)
       .subscribe(res => {
-        if(res)
-        {
-          this.watchingStock!.purchaseGuidToShares[res.id!] = res
+        if (res) {
+          this.watchesService.addShareLocally(this.listName, this.symbol, res.id!, res);
+          this.watchingStock!.purchaseGuidToShares[res.id!] = res;
           this.updateSharesList();
         }
         else
@@ -79,7 +79,7 @@ export class StockSharesComponent {
       });
   }
 
-  removeShare(purchaseId: string, stockSymbol: string){
+  removeShare(purchaseId: string, stockSymbol: string) {
     this.confirmationService.confirm({
       message: 'You are deleting a share, are you sure?',
       header: 'Share Remove Confirmation',
@@ -94,22 +94,22 @@ export class StockSharesComponent {
           stockSymbol: stockSymbol,
           userEmail: this.userEmail!
         };
-    
+
         this.shareService.removeUserShare(shareSale)
-        .subscribe(res => {
-          if(res)
-          {
-            delete(this.watchingStock?.purchaseGuidToShares[purchaseId]);
-            this.updateSharesList();
-          }
-          else
-            this.toastService.addErrorMessage("couldnt remove share, something went wrong");
-        });
+          .subscribe(res => {
+            if (res) {
+              this.watchesService.removeShareLocally(this.listName, this.symbol, purchaseId);
+              delete (this.watchingStock?.purchaseGuidToShares[purchaseId]);
+              this.updateSharesList();
+            }
+            else
+              this.toastService.addErrorMessage("couldnt remove share, something went wrong");
+          });
       }
     });
   }
 
-  updateSharesList(){
+  updateSharesList() {
     this.shares = Object.keys(this.watchingStock!.purchaseGuidToShares).map(purchaseId => this.watchingStock!.purchaseGuidToShares[purchaseId]);
   }
 }
