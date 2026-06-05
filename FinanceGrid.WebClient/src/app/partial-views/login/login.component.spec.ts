@@ -1,4 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FormsModule } from '@angular/forms';
+import { MessageService } from 'primeng/api';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { LoginComponent } from './login.component';
 
@@ -8,7 +12,10 @@ describe('LoginComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LoginComponent]
+      imports: [HttpClientTestingModule, FormsModule],
+      declarations: [LoginComponent],
+      providers: [{ provide: MessageService, useValue: jasmine.createSpyObj('MessageService', ['add']) }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;

@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { StocksTableComponent } from './stocks-table.component';
 
@@ -8,7 +10,9 @@ describe('StocksTableComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [StocksTableComponent]
+      imports: [HttpClientTestingModule],
+      declarations: [StocksTableComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
     fixture = TestBed.createComponent(StocksTableComponent);
     component = fixture.componentInstance;
