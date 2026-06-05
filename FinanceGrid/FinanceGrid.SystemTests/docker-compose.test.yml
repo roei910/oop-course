@@ -1,0 +1,107 @@
+networks:
+  network-financegrid-test:
+    driver: bridge
+
+services:
+  financialdata-service:
+    container_name: financialdata-test
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - DatabaseProvider=SQLite
+      - ConnectionStrings__FinancialData=Data Source=/data/FinancialData.db
+    ports:
+      - "5001:80"
+    volumes:
+      - financialdata_test_data:/data
+    depends_on:
+      - rabbitmq
+    build:
+      context: .
+      dockerfile: ./FinanceGrid/FinancialData/FinanceGrid.FinancialData.Api/Dockerfile
+    networks:
+      - network-financegrid-test
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:80/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  users-service:
+    container_name: users-test
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - DatabaseProvider=SQLite
+      - ConnectionStrings__Users=Data Source=/data/Users.db
+    ports:
+      - "5002:80"
+    volumes:
+      - users_test_data:/data
+    build:
+      context: .
+      dockerfile: ./FinanceGrid/Users/FinanceGrid.Users.Api/Dockerfile
+    networks:
+      - network-financegrid-test
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:80/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  webhook-service:
+    container_name: webhook-test
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - DatabaseProvider=SQLite
+      - ConnectionStrings__Webhook=Data Source=/data/Webhook.db
+    ports:
+      - "5003:80"
+    volumes:
+      - webhook_test_data:/data
+    depends_on:
+      - rabbitmq
+    build:
+      context: .
+      dockerfile: ./FinanceGrid/Webhook/FinanceGrid.Webhook.Api/Dockerfile
+    networks:
+      - network-financegrid-test
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:80/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  webhook-processing:
+    container_name: webhook-processing-test
+    environment:
+      - DOTNET_ENVIRONMENT=Development
+      - DatabaseProvider=SQLite
+      - ConnectionStrings__Webhook=Data Source=/data/Webhook.db
+    volumes:
+      - webhook_test_data:/data
+    depends_on:
+      - rabbitmq
+    build:
+      context: .
+      dockerfile: ./FinanceGrid/FinanceGrid.Webhook.Processing/Dockerfile
+    networks:
+      - network-financegrid-test
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq-test
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    networks:
+      - network-financegrid-test
+
+volumes:
+  financialdata_test_data:
+  users_test_data:
+  webhook_test_data:
