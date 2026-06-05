@@ -6,7 +6,7 @@ Full-stack stock monitor: **Angular 16** (PrimeNG/Chart.js) frontend, **.NET 8**
 
 ```
 FinanceGrid/
-├── FinanceGrid.slnx               # 17 projects
+├── FinanceGrid.slnx               # 21 projects
 ├── FinanceGrid.Shared/             # BaseEntity, ValueObject, DomainEvent, constants
 ├── FinanceGrid.Gateway/            # YARP reverse proxy — port 5000
 ├── FinanceGrid.ServiceDefaults/    # OpenTelemetry + health checks
@@ -31,6 +31,21 @@ StocksApi/                  # Legacy (preserved as snapshot)
 FinanceGrid.WebClient/       # Angular 16 frontend, hash-based routing
 docker-compose.yml          # 8 containers: frontend:4200, gateway:5000, rabbitmq:5672/15672
 ```
+
+## Roadmap
+
+See [ROADMAP.md](./ROADMAP.md) for project status, planned work, and known bugs.
+
+### Keeping ROADMAP.md Updated
+
+This is a **living document**. Update it whenever you:
+
+1. **Complete an item** — Move from `📋 Planned` or `🚧 In Progress` to `✅ Recently Completed` with date (YYYY-QX) and commit SHA (first 7 chars)
+2. **Start work** — Move from `📋 Planned` to `🚧 In Progress`
+3. **Discover a bug** — Add to `🐛 Known Bugs` table with file:line, date, and tracking quarter
+4. **Plan new work** — Add to `📋 Planned` with target quarter
+
+**Rules:** Update in the same commit that completes the work. History window: keep last 3 months in "Recently Completed"; older items move to a one-line "Earlier milestones" entry. Maximum 150 lines.
 
 ## Required versions
 
@@ -114,5 +129,7 @@ Set `DatabaseProvider` to `"SQLite"` or `"PostgreSQL"` in `appsettings.json`. Co
 
 ## Testing
 
-- Frontend only: `ng test` (Karma + Jasmine, minimal spec files)
-- No backend tests
+- Frontend: `ng test` (Karma + Jasmine, headless Chrome)
+- Backend in-process: `dotnet test --filter Category!=System` (49 tests)
+- System: `dotnet test --filter Category=System` (15 tests, requires Docker, set `MANAGE_DOCKER_COMPOSE=true`)
+- See ROADMAP.md → "Test coverage gaps" for what's NOT yet covered
