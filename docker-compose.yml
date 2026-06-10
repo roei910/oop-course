@@ -43,8 +43,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - DatabaseProvider=SQLite
-      - ConnectionStrings__FinancialData=Data Source=/data/FinancialData.db
+      - DatabaseProvider=${DATABASE_PROVIDER:-SQLite}
+      - ConnectionStrings__FinancialData=${FINANCIALDATA_CONNECTION_STRING:-Data Source=/data/FinancialData.db}
     ports:
       - "5001:80"
     volumes:
@@ -62,8 +62,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - DatabaseProvider=SQLite
-      - ConnectionStrings__Users=Data Source=/data/Users.db
+      - DatabaseProvider=${DATABASE_PROVIDER:-SQLite}
+      - ConnectionStrings__Users=${USERS_CONNECTION_STRING:-Data Source=/data/Users.db}
     ports:
       - "5002:80"
     volumes:
@@ -79,8 +79,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - DatabaseProvider=SQLite
-      - ConnectionStrings__Webhook=Data Source=/data/Webhook.db
+      - DatabaseProvider=${DATABASE_PROVIDER:-SQLite}
+      - ConnectionStrings__Webhook=${WEBHOOK_CONNECTION_STRING:-Data Source=/data/Webhook.db}
     ports:
       - "5003:80"
     volumes:
@@ -97,8 +97,8 @@ services:
     container_name: webhook-processing
     environment:
       - DOTNET_ENVIRONMENT=Development
-      - DatabaseProvider=SQLite
-      - ConnectionStrings__Webhook=Data Source=/data/Webhook.db
+      - DatabaseProvider=${DATABASE_PROVIDER:-SQLite}
+      - ConnectionStrings__Webhook=${WEBHOOK_CONNECTION_STRING:-Data Source=/data/Webhook.db}
     volumes:
       - webhook_data:/data
     depends_on:
@@ -122,7 +122,24 @@ services:
     networks:
       - network-financegrid
 
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-financegrid}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-}
+      - POSTGRES_DB=${POSTGRES_DB:-financegrid}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - network-financegrid
+    profiles:
+      - postgres
+
 volumes:
   financialdata_data:
   users_data:
   webhook_data:
+  postgres_data:

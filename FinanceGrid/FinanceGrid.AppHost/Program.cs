@@ -1,34 +1,34 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
+var databaseProvider = builder.Configuration.GetValue<string>("DatabaseProvider") ?? "SQLite";
+var isPostgres = databaseProvider.Equals("PostgreSQL", StringComparison.OrdinalIgnoreCase);
+
 var messaging = builder.AddRabbitMQ("messaging");
 
-var financialDataApi = builder.AddProject<Projects.FinanceGrid_FinancialData_Api>("financialdata-api");
-var usersApi = builder.AddProject<Projects.FinanceGrid_Users_Api>("users-api");
-var webhookApi = builder.AddProject<Projects.FinanceGrid_Webhook_Api>("webhook-api");
-var webhookProcessing = builder.AddProject<Projects.FinanceGrid_Webhook_Processing>("webhook-processing");
+var financialDataApi = builder.AddProject<Projects.FinanceGrid_FinancialData_Api>("financialdata-api")
+    .WithEnvironment("DatabaseProvider", databaseProvider);
+
+var usersApi = builder.AddProject<Projects.FinanceGrid_Users_Api>("users-api")
+    .WithEnvironment("DatabaseProvider", databaseProvider);
+
+var webhookApi = builder.AddProject<Projects.FinanceGrid_Webhook_Api>("webhook-api")
+    .WithEnvironment("DatabaseProvider", databaseProvider);
+
+var webhookProcessing = builder.AddProject<Projects.FinanceGrid_Webhook_Processing>("webhook-processing")
+    .WithEnvironment("DatabaseProvider", databaseProvider);
+
 var gateway = builder.AddProject<Projects.FinanceGrid_Gateway>("gateway");
 
-if (builder.Environment.EnvironmentName != "Development")
+if (isPostgres)
 {
     var postgres = builder.AddPostgres("postgres");
 
-    financialDataApi
-        .WithReference(postgres.AddDatabase("FinancialData"))
-        .WithEnvironment("DatabaseProvider", "PostgreSQL");
-
-    usersApi
-        .WithReference(postgres.AddDatabase("Users"))
-        .WithEnvironment("DatabaseProvider", "PostgreSQL");
+    financialDataApi.WithReference(postgres.AddDatabase("FinancialData"));
+    usersApi.WithReference(postgres.AddDatabase("Users"));
 
     var webhookDb = postgres.AddDatabase("Webhook");
-
-    webhookApi
-        .WithReference(webhookDb)
-        .WithEnvironment("DatabaseProvider", "PostgreSQL");
-
-    webhookProcessing
-        .WithReference(webhookDb)
-        .WithEnvironment("DatabaseProvider", "PostgreSQL");
+    webhookApi.WithReference(webhookDb);
+    webhookProcessing.WithReference(webhookDb);
 }
 
 financialDataApi.WithReference(messaging);

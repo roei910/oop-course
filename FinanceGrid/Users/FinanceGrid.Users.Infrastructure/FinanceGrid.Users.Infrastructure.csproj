@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FinanceGrid.Users.Application\FinanceGrid.Users.Application.csproj" />
+    <ProjectReference Include="..\..\FinanceGrid.Shared\FinanceGrid.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

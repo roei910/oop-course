@@ -1,5 +1,6 @@
 using FinanceGrid.FinancialData.Domain.Interfaces;
 using FinanceGrid.FinancialData.Infrastructure.Persistence.Repositories;
+using FinanceGrid.Shared.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,16 +13,14 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        var provider = configuration.GetValue<string>("DatabaseProvider") ?? "SQLite";
-        var connectionString = configuration.GetConnectionString("FinancialData")
-            ?? "Data Source=FinancialData.db";
+        var dbConfig = configuration.GetDatabaseConfiguration("FinancialData");
 
         services.AddDbContextFactory<FinancialDataDbContext>(options =>
         {
-            if (provider.Equals("PostgreSQL", StringComparison.OrdinalIgnoreCase))
-                options.UseNpgsql(connectionString);
+            if (dbConfig.IsPostgreSQL)
+                options.UseNpgsql(dbConfig.ConnectionString);
             else
-                options.UseSqlite(connectionString);
+                options.UseSqlite(dbConfig.ConnectionString);
         });
 
         services.AddSingleton<IStockRepository, StockRepository>();
