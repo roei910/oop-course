@@ -15,16 +15,4 @@ public class ConfigurationKeysTests
     {
         Assert.Equal("RealTimeFinanceData", ConfigurationKeys.RealTimeFinanceData);
     }
-
-    [Fact]
-    public void DatabaseProvider_IsSet()
-    {
-        Assert.Equal("DatabaseProvider", ConfigurationKeys.DatabaseProvider);
-    }
-
-    [Fact]
-    public void ConnectionString_IsSet()
-    {
-        Assert.Equal("ConnectionString", ConfigurationKeys.ConnectionString);
-    }
 }

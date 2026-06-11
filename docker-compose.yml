@@ -51,8 +51,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - DatabaseProvider=${DatabaseProvider:-SQLite}
-      - ConnectionStrings__FinancialData=${FINANCIALDATA_CONNECTION_STRING:-Data Source=/data/FinancialData.db}
+      - Database__Provider=${DatabaseProvider:-SQLite}
+      - Database__ConnectionString=${FINANCIALDATA_CONNECTION_STRING:-}
     ports:
       - "5001:80"
     volumes:
@@ -71,8 +71,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - DatabaseProvider=${DatabaseProvider:-SQLite}
-      - ConnectionStrings__Users=${USERS_CONNECTION_STRING:-Data Source=/data/Users.db}
+      - Database__Provider=${DatabaseProvider:-SQLite}
+      - Database__ConnectionString=${USERS_CONNECTION_STRING:-}
     ports:
       - "5002:80"
     volumes:
@@ -89,8 +89,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - DatabaseProvider=${DatabaseProvider:-SQLite}
-      - ConnectionStrings__Webhook=${WEBHOOK_CONNECTION_STRING:-Data Source=/data/Webhook.db}
+      - Database__Provider=${DatabaseProvider:-SQLite}
+      - Database__ConnectionString=${WEBHOOK_CONNECTION_STRING:-}
     ports:
       - "5003:80"
     volumes:
@@ -108,8 +108,8 @@ services:
     env_file: .env.example
     environment:
       - DOTNET_ENVIRONMENT=Development
-      - DatabaseProvider=${DatabaseProvider:-SQLite}
-      - ConnectionStrings__Webhook=${WEBHOOK_CONNECTION_STRING:-Data Source=/data/Webhook.db}
+      - Database__Provider=${DatabaseProvider:-SQLite}
+      - Database__ConnectionString=${WEBHOOK_CONNECTION_STRING:-}
     volumes:
       - webhook_data:/data
     depends_on:

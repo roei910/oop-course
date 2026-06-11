@@ -5,6 +5,7 @@ namespace FinanceGrid.Users.Api
     using FinanceGrid.Users.Api.Middleware;
     using FinanceGrid.Shared.Database;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Options;
 
     public class Program
     {
@@ -48,9 +49,9 @@ namespace FinanceGrid.Users.Api
         public static void ApplyMigrations(this WebApplication app)
         {
             using var scope = app.Services.CreateScope();
+            var dbConfig = scope.ServiceProvider.GetRequiredService<IOptions<DatabaseConfiguration>>().Value;
             var contextFactory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<UsersDbContext>>();
             using var context = contextFactory.CreateDbContext();
-            var dbConfig = app.Configuration.GetDatabaseConfiguration("Users");
             if (dbConfig.IsPostgreSQL)
             {
                 context.Database.Migrate();

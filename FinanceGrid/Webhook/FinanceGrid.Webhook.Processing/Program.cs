@@ -2,6 +2,7 @@ using FinanceGrid.Shared.Database;
 using FinanceGrid.Webhook.Infrastructure.Persistence;
 using FinanceGrid.Webhook.Processing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -22,9 +23,9 @@ var host = builder.Build();
 
 using (var scope = host.Services.CreateScope())
 {
+    var dbConfig = scope.ServiceProvider.GetRequiredService<IOptions<DatabaseConfiguration>>().Value;
     var contextFactory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<WebhookDbContext>>();
     await using var context = await contextFactory.CreateDbContextAsync();
-    var dbConfig = builder.Configuration.GetDatabaseConfiguration("Webhook");
     if (dbConfig.IsPostgreSQL)
     {
         await context.Database.MigrateAsync();

@@ -4,6 +4,7 @@ using FinanceGrid.Webhook.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace FinanceGrid.Webhook.Infrastructure.Persistence;
 
@@ -13,14 +14,21 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        var dbConfig = configuration.GetDatabaseConfiguration("Webhook");
+        services.AddDatabaseConfiguration(configuration, "Webhook");
 
-        services.AddDbContextFactory<WebhookDbContext>(options =>
+        services.AddDbContextFactory<WebhookDbContext>((sp, options) =>
         {
-            if (dbConfig.IsPostgreSQL)
-                options.UseNpgsql(dbConfig.ConnectionString);
-            else
-                options.UseSqlite(dbConfig.ConnectionString);
+            var dbConfig = sp.GetRequiredService<IOptions<DatabaseConfiguration>>().Value;
+            switch (dbConfig.Provider.ToLower())
+            {
+                case "postgresql":
+                    options.UseNpgsql(dbConfig.ConnectionString);
+                    break;
+                case "sqlite":
+                default:
+                    options.UseSqlite(dbConfig.ConnectionString);
+                    break;
+            }
         });
 
         services.AddSingleton<IWebhookSubscriptionRepository, WebhookSubscriptionRepository>();

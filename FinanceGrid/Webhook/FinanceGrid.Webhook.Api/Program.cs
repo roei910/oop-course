@@ -5,6 +5,7 @@ namespace FinanceGrid.Webhook.Api
     using FinanceGrid.Webhook.Api.Middleware;
     using FinanceGrid.Shared.Database;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Options;
 
     public class Program
     {
@@ -48,9 +49,9 @@ namespace FinanceGrid.Webhook.Api
         public static void ApplyMigrations(this WebApplication app)
         {
             using var scope = app.Services.CreateScope();
+            var dbConfig = scope.ServiceProvider.GetRequiredService<IOptions<DatabaseConfiguration>>().Value;
             var contextFactory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<WebhookDbContext>>();
             using var context = contextFactory.CreateDbContext();
-            var dbConfig = app.Configuration.GetDatabaseConfiguration("Webhook");
             if (dbConfig.IsPostgreSQL)
             {
                 context.Database.Migrate();

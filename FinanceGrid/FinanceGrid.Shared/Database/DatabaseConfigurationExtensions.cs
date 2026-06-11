@@ -1,23 +1,34 @@
 using Microsoft.Extensions.Configuration;
-using System.IO;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace FinanceGrid.Shared.Database;
 
 public static class DatabaseConfigurationExtensions
 {
-    public static DatabaseConfiguration GetDatabaseConfiguration(
-        this IConfiguration configuration, 
-        string connectionStringName)
+    public static IServiceCollection AddDatabaseConfiguration(
+        this IServiceCollection services,
+        IConfiguration configuration,
+        string serviceName)
     {
-        var provider = configuration.GetValue<string>("DatabaseProvider") ?? "SQLite";
-        var basePath = Directory.Exists("/data") ? "/data" : ".";
-        var connectionString = configuration.GetConnectionString(connectionStringName)
-            ?? $"Data Source={basePath}/{connectionStringName}.db";
-            
-        return new DatabaseConfiguration
+        services.Configure<DatabaseConfiguration>(options =>
         {
-            Provider = provider,
-            ConnectionString = connectionString
-        };
+            configuration.GetSection("Database").Bind(options);
+
+            if (options.IsSQLite && string.IsNullOrWhiteSpace(options.ConnectionString))
+            {
+                var basePath = Directory.Exists("/data") ? "/data" : ".";
+                options.ConnectionString = $"Data Source={basePath}/{serviceName}.db";
+            }
+
+            if (options.IsPostgreSQL && string.IsNullOrWhiteSpace(options.ConnectionString))
+            {
+                throw new InvalidOperationException(
+                    $"Connection string is required for PostgreSQL provider. " +
+                    $"Set Database__ConnectionString for {serviceName}.");
+            }
+        });
+
+        return services;
     }
 }

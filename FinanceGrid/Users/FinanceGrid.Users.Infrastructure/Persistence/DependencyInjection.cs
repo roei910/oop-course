@@ -4,6 +4,7 @@ using FinanceGrid.Users.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace FinanceGrid.Users.Infrastructure.Persistence;
 
@@ -13,14 +14,21 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        var dbConfig = configuration.GetDatabaseConfiguration("Users");
+        services.AddDatabaseConfiguration(configuration, "Users");
 
-        services.AddDbContextFactory<UsersDbContext>(options =>
+        services.AddDbContextFactory<UsersDbContext>((sp, options) =>
         {
-            if (dbConfig.IsPostgreSQL)
-                options.UseNpgsql(dbConfig.ConnectionString);
-            else
-                options.UseSqlite(dbConfig.ConnectionString);
+            var dbConfig = sp.GetRequiredService<IOptions<DatabaseConfiguration>>().Value;
+            switch (dbConfig.Provider.ToLower())
+            {
+                case "postgresql":
+                    options.UseNpgsql(dbConfig.ConnectionString);
+                    break;
+                case "sqlite":
+                default:
+                    options.UseSqlite(dbConfig.ConnectionString);
+                    break;
+            }
         });
 
         services.AddSingleton<IUserRepository, UserRepository>();
