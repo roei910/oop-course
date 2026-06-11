@@ -8,7 +8,7 @@
 ## ✅ Recently Completed (last 3 months)
 
 ### 2026-Q2
-- ✅ Production bug fixes — all 13 known bugs resolved (this commit)
+- ✅ Production bug fixes — all 13 known bugs resolved (commit `039f583`)
   - Moved stock update logic from `StockRepository` to `StockService` (Clean Architecture)
   - Removed `UpdateStocksBySymbolAsync`, `UpdateStocksAnalysisAsync`, `AddNotificationAsync`, `RemoveNotificationAsync` from `IStockRepository`
   - Implemented `UpdateStocksAsync` and `UpdateStocksAnalysisAsync` in `StockRepository` (pure DB operations)
@@ -18,7 +18,7 @@
   - Fixed `StockMarketTimeService.LastMarketCloseDateTime()` — added `DateTimeKind.Utc`
   - Fixed Angular test HTTP leak — `environment.development.ts` now points to `localhost:5000`
   - Updated 33 unit tests + 9 integration tests to match new architecture
-- ✅ Configurable database provider hardening — secrets, profiles, migrations (this commit)
+- ✅ Configurable database provider hardening — secrets, profiles, migrations (commit `efb72b7`)
   - Added UserSecrets support to all 5 service projects
   - Renamed `.env` → `.env.example` (gitignored), placeholder passwords
   - Restructured `docker-compose.yml` with `sqlite` and `postgres` profiles
@@ -26,6 +26,24 @@
   - Fixed fallback connection string path (`/data/` in Docker)
   - Added initial PostgreSQL migrations for FinancialData, Users, Webhook
   - Added explicit `FinanceGrid.Shared` reference to `Webhook.Processing`
+- ✅ Centralized database configuration with IOptions pattern — commit `57e4152` (2026-Q2)
+  - Replaced `GetDatabaseConfiguration()` with `AddDatabaseConfiguration()` using `IOptions<DatabaseConfiguration>`
+  - Database config binds to a `Database` section (`Provider` + `ConnectionString`)
+  - All services use `IOptions<>` + `switch` for provider selection
+  - SQLite defaults to `Data Source=/data/{ServiceName}.db` when no connection string
+  - PostgreSQL requires explicit connection string (throws clear error if missing)
+  - Docker Compose updated to `Database__Provider` + `Database__ConnectionString`
+  - Removed unused `ConfigurationKeys.DatabaseProvider` and `ConfigurationKeys.ConnectionString`
+- ✅ Extracted `FinanceGrid.Persistence` project for clean separation — commit `f39f339` (2026-Q2)
+  - Created `FinanceGrid.Persistence` with `DbContextExtensions` (single source of truth)
+  - `AddDbContext<T>` centralizes config binding + provider switch
+  - `ApplyMigrations<T>` / `ApplyMigrationsAsync<T>` centralizes migration logic
+  - `FinanceGrid.Shared` stays clean with no EF Core dependencies
+  - `FinanceGrid.Gateway` stays clean (no transitive EF Core deps)
+  - Renamed DI methods: `Add*Persistence` → `Add*Database`
+  - Renamed composition roots: `Add*Infrastructure` → `Add*Services`
+  - Removed 3 copies of DbContext factory + switch blocks, 4 copies of ApplyMigrations
+  - All 151 tests pass (33 + 21 + 10 + 45 unit, 9 + 26 + 7 integration)
 - ✅ Program.cs refactor for WebApplicationFactory — commit `414ac48` (2026-06-05)
 - ✅ 49 in-process integration tests across 3 services — commit `b8ccc42` (2026-06-05)
   - FinancialData.IntegrationTests: 9 tests
