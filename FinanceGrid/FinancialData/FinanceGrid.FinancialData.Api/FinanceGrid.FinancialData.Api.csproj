@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>FinanceGrid.FinancialData.Api</RootNamespace>
+    <UserSecretsId>f8b3c2d1-4a5e-4b6c-8d7e-9f0a1b2c3d4e</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FinanceGrid.FinancialData.Application\FinanceGrid.FinancialData.Application.csproj" />
+    <ProjectReference Include="..\FinanceGrid.FinancialData.Infrastructure\FinanceGrid.FinancialData.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\FinanceGrid.ServiceDefaults\FinanceGrid.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\..\FinanceGrid.Shared\FinanceGrid.Shared.csproj" />
+    <ProjectReference Include="..\..\FinanceGrid.Persistence\FinanceGrid.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
+  </ItemGroup>
+
+</Project>

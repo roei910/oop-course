@@ -1,10 +1,18 @@
 networks:
-  network-stocks:
+  network-financegrid:
     driver: bridge
+
+x-base-env: &base-env
+  - ASPNETCORE_ENVIRONMENT=Development
+  - ASPNETCORE_URLS=http://+:80
+
+x-base-volumes: &base-volumes
+  rabbitmq_data: /data
 
 services:
   frontend:
-    container_name: stocks-collection
+    container_name: financegrid
+    env_file: .env.example
     environment:
       - ANGULAR_BUILD_CONFIGURATION=development
     ports:
@@ -16,79 +24,140 @@ services:
     depends_on:
       - gateway
     build:
-      context: ./client-angular
+      context: ./FinanceGrid.WebClient
       dockerfile: Dockerfile
     networks:
-      - network-stocks
+      - network-financegrid
 
   gateway:
     container_name: gateway
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
+    env_file: .env.example
+    environment: *base-env
     ports:
       - "5000:80"
     depends_on:
-      - stocks-service
+      - financialdata-service
       - users-service
+      - webhook-service
     build:
-      context: ./StocksApi
-      dockerfile: ./Gateway/Dockerfile
+      context: .
+      dockerfile: ./FinanceGrid/FinanceGrid.Gateway/Dockerfile
     networks:
-      - network-stocks
+      - network-financegrid
 
-  stocks-service:
-    container_name: stocks-service
+  financialdata-service:
+    container_name: financialdata-service
+    env_file: .env.example
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
+      - Database__Provider=${DatabaseProvider:-SQLite}
+      - Database__ConnectionString=${FINANCIALDATA_CONNECTION_STRING:-}
     ports:
       - "5001:80"
+    volumes:
+      - financialdata_data:/data
+    depends_on:
+      - rabbitmq
     build:
-      context: ./StocksApi
-      dockerfile: ./StocksService/Dockerfile
+      context: .
+      dockerfile: ./FinanceGrid/FinancialData/FinanceGrid.FinancialData.Api/Dockerfile
     networks:
-      - network-stocks
+      - network-financegrid
 
   users-service:
     container_name: users-service
+    env_file: .env.example
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
+      - Database__Provider=${DatabaseProvider:-SQLite}
+      - Database__ConnectionString=${USERS_CONNECTION_STRING:-}
     ports:
       - "5002:80"
+    volumes:
+      - users_data:/data
     build:
-      context: ./StocksApi
-      dockerfile: ./UsersService/Dockerfile
+      context: .
+      dockerfile: ./FinanceGrid/Users/FinanceGrid.Users.Api/Dockerfile
     networks:
-      - network-stocks
+      - network-financegrid
 
-  backend:
-    container_name: stocksapi
+  webhook-service:
+    container_name: webhook-service
+    env_file: .env.example
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:5108
-      - SECRETS_FILE_PATH=/etc/secrets/secrets.json
+      - ASPNETCORE_URLS=http://+:80
+      - Database__Provider=${DatabaseProvider:-SQLite}
+      - Database__ConnectionString=${WEBHOOK_CONNECTION_STRING:-}
     ports:
-      - "5108:5108"
+      - "5003:80"
     volumes:
-      - ./StocksApi/StocksApi/secrets.json:/etc/secrets/secrets.json
+      - webhook_data:/data
+    depends_on:
+      - rabbitmq
     build:
-      context: ./StocksApi
-      dockerfile: ./StocksApi/Dockerfile
+      context: .
+      dockerfile: ./FinanceGrid/Webhook/FinanceGrid.Webhook.Api/Dockerfile
     networks:
-      - network-stocks
+      - network-financegrid
 
-  mongo:
-    image: mongo:latest
-    container_name: mongodb
-    ports:
-      - "27017:27017"
-    networks:
-      - network-stocks
+  webhook-processing:
+    container_name: webhook-processing
+    env_file: .env.example
+    environment:
+      - DOTNET_ENVIRONMENT=Development
+      - Database__Provider=${DatabaseProvider:-SQLite}
+      - Database__ConnectionString=${WEBHOOK_CONNECTION_STRING:-}
     volumes:
-      - mongo_data:/data/db
+      - webhook_data:/data
+    depends_on:
+      - rabbitmq
     restart: always
+    build:
+      context: .
+      dockerfile: ./FinanceGrid/Webhook/FinanceGrid.Webhook.Processing/Dockerfile
+    networks:
+      - network-financegrid
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    env_file: .env.example
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    networks:
+      - network-financegrid
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    env_file: .env.example
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-financegrid}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-}
+      - POSTGRES_DB=${POSTGRES_DB:-financegrid}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - network-financegrid
+    profiles:
+      - postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 volumes:
-  mongo_data:
+  financialdata_data:
+  users_data:
+  webhook_data:
+  postgres_data:
