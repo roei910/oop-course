@@ -48,7 +48,7 @@ public class StockMarketTimeService : IStockMarketTime
         while (!IsMarketWeekDay(dateOnly))
             dateOnly = dateOnly.AddDays(-1);
 
-        return new DateTime(dateOnly, closeTime);
+        return new DateTime(dateOnly, closeTime, DateTimeKind.Utc);
     }
 
     private bool IsMarketWeekDay(DateOnly date)

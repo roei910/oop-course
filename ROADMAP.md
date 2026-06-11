@@ -8,6 +8,16 @@
 ## ✅ Recently Completed (last 3 months)
 
 ### 2026-Q2
+- ✅ Production bug fixes — all 13 known bugs resolved (this commit)
+  - Moved stock update logic from `StockRepository` to `StockService` (Clean Architecture)
+  - Removed `UpdateStocksBySymbolAsync`, `UpdateStocksAnalysisAsync`, `AddNotificationAsync`, `RemoveNotificationAsync` from `IStockRepository`
+  - Implemented `UpdateStocksAsync` and `UpdateStocksAnalysisAsync` in `StockRepository` (pure DB operations)
+  - `StockService.UpdateStocksBySymbolAsync` now orchestrates: calls `IFinanceStrategy` → updates DB via `IStockRepository`
+  - `StockService.UpdateStocksAnalysisAsync` now orchestrates: calls `IFinanceStrategy` → updates DB via `IStockRepository`
+  - Removed 6 dead methods from `IUserRepository` (notifications + stock notes — no callers in new architecture)
+  - Fixed `StockMarketTimeService.LastMarketCloseDateTime()` — added `DateTimeKind.Utc`
+  - Fixed Angular test HTTP leak — `environment.development.ts` now points to `localhost:5000`
+  - Updated 33 unit tests + 9 integration tests to match new architecture
 - ✅ Configurable database provider hardening — secrets, profiles, migrations (this commit)
   - Added UserSecrets support to all 5 service projects
   - Renamed `.env` → `.env.example` (gitignored), placeholder passwords
@@ -43,13 +53,6 @@
 
 ## 📋 Planned
 
-### 2026-Q3 — Production bugs
-- 📋 Fix `NotSupportedException` × 4 in `StockRepository.cs:39-56` (UpdateStocksBySymbol, UpdateStocksAnalysis, AddNotification, RemoveNotification)
-- 📋 Fix `NotSupportedException` × 6 in `UserRepository.cs:79-107` (notifications + stock notes)
-- 📋 Fix date-dependent unit test `StockMarketTimeServiceTests.LastMarketCloseDateTime_ReturnsPastDate`
-- 📋 Fix Angular test HTTP leak — remove hardcoded `oop-course.onrender.com` in 2 env files
-- 📋 Clean up orphaned `.git/worktrees/glowing-knight` and `sunny-circuit`
-
 ### 2026-Q3 — CI/CD
 - 📋 Add GitHub Actions workflow `ci-backend.yml` — `dotnet test --filter Category!=System`
 - 📋 Add `ci-frontend.yml` — `npm test` (headless Chrome)
@@ -76,21 +79,21 @@
 
 ## 🐛 Known Bugs
 
-| # | Bug | Location | Discovered | Tracking |
-|---|-----|----------|------------|----------|
-| 1 | `NotSupportedException` `UpdateStocksBySymbolAsync` | `StockRepository.cs:39` | 2026-Q2 | 2026-Q3 |
-| 2 | `NotSupportedException` `UpdateStocksAnalysisAsync` | `StockRepository.cs:44` | 2026-Q2 | 2026-Q3 |
-| 3 | `NotSupportedException` `AddNotificationAsync` (Stock) | `StockRepository.cs:50` | 2026-Q2 | 2026-Q3 |
-| 4 | `NotSupportedException` `RemoveNotificationAsync` (Stock) | `StockRepository.cs:54` | 2026-Q2 | 2026-Q3 |
-| 5 | `NotSupportedException` `AddNotificationAsync` (User) | `UserRepository.cs:79` | 2026-Q2 | 2026-Q3 |
-| 6 | `NotSupportedException` `RemoveNotificationAsync` (User) | `UserRepository.cs:83` | 2026-Q2 | 2026-Q3 |
-| 7 | `NotSupportedException` `ShowNotificationAsync` (User) | `UserRepository.cs:88` | 2026-Q2 | 2026-Q3 |
-| 8 | `NotSupportedException` `AddStockNoteAsync` | `UserRepository.cs:93` | 2026-Q2 | 2026-Q3 |
-| 9 | `NotSupportedException` `RemoveStockNoteAsync` | `UserRepository.cs:98` | 2026-Q2 | 2026-Q3 |
-| 10 | `NotSupportedException` `UpdateStockNoteAsync` | `UserRepository.cs:103` | 2026-Q2 | 2026-Q3 |
-| 11 | Date-dependent unit test failure | `StockMarketTimeServiceTests.cs:100` | pre-2026-Q2 | 2026-Q3 |
-| 12 | Angular test HTTP leak to production | `environment.production.ts:3`, `environment.development.ts:3` | pre-2026-Q2 | 2026-Q3 |
-| 13 | Orphaned worktrees (permission errors) | `.git/worktrees/glowing-knight`, `sunny-circuit` | 2026-Q2 | 2026-Q3 |
+| # | Bug | Location | Discovered | Status |
+|---|-----|----------|------------|--------|
+| 1 | `NotSupportedException` `UpdateStocksBySymbolAsync` | `StockRepository.cs:39` | 2026-Q2 | ✅ Fixed — moved to `StockService` |
+| 2 | `NotSupportedException` `UpdateStocksAnalysisAsync` | `StockRepository.cs:44` | 2026-Q2 | ✅ Fixed — moved to `StockService` |
+| 3 | `NotSupportedException` `AddNotificationAsync` (Stock) | `StockRepository.cs:50` | 2026-Q2 | ✅ Fixed — removed (no callers) |
+| 4 | `NotSupportedException` `RemoveNotificationAsync` (Stock) | `StockRepository.cs:54` | 2026-Q2 | ✅ Fixed — removed (no callers) |
+| 5 | `NotSupportedException` `AddNotificationAsync` (User) | `UserRepository.cs:79` | 2026-Q2 | ✅ Fixed — removed (no callers) |
+| 6 | `NotSupportedException` `RemoveNotificationAsync` (User) | `UserRepository.cs:83` | 2026-Q2 | ✅ Fixed — removed (no callers) |
+| 7 | `NotSupportedException` `ShowNotificationAsync` (User) | `UserRepository.cs:88` | 2026-Q2 | ✅ Fixed — removed (no callers) |
+| 8 | `NotSupportedException` `AddStockNoteAsync` | `UserRepository.cs:93` | 2026-Q2 | ✅ Fixed — removed (no callers) |
+| 9 | `NotSupportedException` `RemoveStockNoteAsync` | `UserRepository.cs:98` | 2026-Q2 | ✅ Fixed — removed (no callers) |
+| 10 | `NotSupportedException` `UpdateStockNoteAsync` | `UserRepository.cs:103` | 2026-Q2 | ✅ Fixed — removed (no callers) |
+| 11 | Date-dependent unit test failure | `StockMarketTimeServiceTests.cs:100` | pre-2026-Q2 | ✅ Fixed — added `DateTimeKind.Utc` |
+| 12 | Angular test HTTP leak to production | `environment.development.ts:3` | pre-2026-Q2 | ✅ Fixed — changed to `localhost:5000` |
+| 13 | Orphaned worktrees (permission errors) | `.git/worktrees/glowing-knight`, `sunny-circuit` | 2026-Q2 | ✅ Fixed — already cleaned up |
 
 ## 🧭 Architectural Decisions
 

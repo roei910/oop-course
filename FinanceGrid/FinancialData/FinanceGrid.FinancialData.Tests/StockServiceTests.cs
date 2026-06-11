@@ -130,26 +130,76 @@ public class StockServiceTests
             new() { Symbol = "MSFT" }
         };
         _stockRepoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(stocks);
+        _financeStrategyMock.Setup(f => f.GetStocksAsync("AAPL,MSFT"))
+            .ReturnsAsync(stocks);
 
         await _service.ForceUpdateAllStocksAsync();
 
-        _stockRepoMock.Verify(r => r.UpdateStocksBySymbolAsync(
-            It.Is<string[]>(s => s.Contains("AAPL") && s.Contains("MSFT"))), Times.Once);
+        _stockRepoMock.Verify(r => r.UpdateStocksAsync(
+            It.Is<List<Stock>>(s => s.Count == 2)), Times.Once);
     }
 
     [Fact]
-    public async Task UpdateStocksBySymbolAsync_DelegatesToRepository()
+    public async Task UpdateStocksBySymbolAsync_FetchesFromApiAndUpdatesRepo()
     {
+        var stocks = new List<Stock> { new() { Symbol = "AAPL" } };
+        _financeStrategyMock.Setup(f => f.GetStocksAsync("AAPL")).ReturnsAsync(stocks);
+
         await _service.UpdateStocksBySymbolAsync(["AAPL"]);
 
-        _stockRepoMock.Verify(r => r.UpdateStocksBySymbolAsync(It.Is<string[]>(s => s[0] == "AAPL")), Times.Once);
+        _financeStrategyMock.Verify(f => f.GetStocksAsync("AAPL"), Times.Once);
+        _stockRepoMock.Verify(r => r.UpdateStocksAsync(
+            It.Is<List<Stock>>(s => s.Count == 1 && s[0].Symbol == "AAPL")), Times.Once);
     }
 
     [Fact]
-    public async Task UpdateStocksAnalysisAsync_DelegatesToRepository()
+    public async Task UpdateStocksBySymbolAsync_ApiReturnsEmpty_DoesNotUpdateRepo()
     {
+        _financeStrategyMock.Setup(f => f.GetStocksAsync("AAPL"))
+            .ReturnsAsync(new List<Stock>());
+
+        await _service.UpdateStocksBySymbolAsync(["AAPL"]);
+
+        _stockRepoMock.Verify(r => r.UpdateStocksAsync(
+            It.IsAny<List<Stock>>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task UpdateStocksBySymbolAsync_ApiThrows_DoesNotThrow()
+    {
+        _financeStrategyMock.Setup(f => f.GetStocksAsync("AAPL"))
+            .ThrowsAsync(new Exception("API error"));
+
+        await _service.UpdateStocksBySymbolAsync(["AAPL"]);
+
+        _stockRepoMock.Verify(r => r.UpdateStocksAsync(
+            It.IsAny<List<Stock>>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task UpdateStocksAnalysisAsync_FetchesFromApiAndUpdatesRepo()
+    {
+        var analyses = new List<StockAnalysis> { new() { Symbol = "AAPL" } };
+        _financeStrategyMock.Setup(f => f.GetStocksAnalysisAsync(It.IsAny<string[]>()))
+            .ReturnsAsync(analyses);
+
         await _service.UpdateStocksAnalysisAsync(["AAPL"]);
 
-        _stockRepoMock.Verify(r => r.UpdateStocksAnalysisAsync(It.Is<string[]>(s => s[0] == "AAPL")), Times.Once);
+        _financeStrategyMock.Verify(f => f.GetStocksAnalysisAsync(
+            It.Is<string[]>(s => s[0] == "AAPL")), Times.Once);
+        _stockRepoMock.Verify(r => r.UpdateStocksAnalysisAsync(
+            It.Is<List<StockAnalysis>>(a => a.Count == 1 && a[0].Symbol == "AAPL")), Times.Once);
+    }
+
+    [Fact]
+    public async Task UpdateStocksAnalysisAsync_ApiReturnsEmpty_DoesNotUpdateRepo()
+    {
+        _financeStrategyMock.Setup(f => f.GetStocksAnalysisAsync(It.IsAny<string[]>()))
+            .ReturnsAsync(new List<StockAnalysis>());
+
+        await _service.UpdateStocksAnalysisAsync(["AAPL"]);
+
+        _stockRepoMock.Verify(r => r.UpdateStocksAnalysisAsync(
+            It.IsAny<List<StockAnalysis>>()), Times.Never);
     }
 }

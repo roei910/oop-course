@@ -3,6 +3,7 @@ using FinanceGrid.FinancialData.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
+
 namespace FinanceGrid.FinancialData.Infrastructure.Persistence.Repositories;
 
 public class StockRepository : IStockRepository
@@ -36,23 +37,55 @@ public class StockRepository : IStockRepository
         return await context.Stocks.Where(s => symbols.Contains(s.Symbol)).ToListAsync();
     }
 
-    public async Task UpdateStocksBySymbolAsync(string[] stockSymbols)
+    public async Task UpdateStocksAsync(List<Stock> stocks)
     {
-        throw new NotSupportedException("Use IStockService for updates that require external API calls");
+        await using var context = await _contextFactory.CreateDbContextAsync();
+        foreach (var stock in stocks)
+        {
+            var existing = await context.Stocks.FirstOrDefaultAsync(s => s.Symbol == stock.Symbol);
+            if (existing is not null)
+            {
+                existing.Price = stock.Price;
+                existing.RegularMarketPreviousClose = stock.RegularMarketPreviousClose;
+                existing.RegularMarketOpen = stock.RegularMarketOpen;
+                existing.RegularMarketDayLow = stock.RegularMarketDayLow;
+                existing.RegularMarketDayHigh = stock.RegularMarketDayHigh;
+                existing.RegularMarketDayRange = stock.RegularMarketDayRange;
+                existing.RegularMarketChange = stock.RegularMarketChange;
+                existing.RegularMarketChangePercent = stock.RegularMarketChangePercent;
+                existing.RegularMarketVolume = stock.RegularMarketVolume;
+                existing.FiftyDayAverage = stock.FiftyDayAverage;
+                existing.TwoHundredDayAverage = stock.TwoHundredDayAverage;
+                existing.FiftyTwoWeekRange = stock.FiftyTwoWeekRange;
+                existing.FiftyTwoWeekLow = stock.FiftyTwoWeekLow;
+                existing.FiftyTwoWeekHigh = stock.FiftyTwoWeekHigh;
+                existing.TargetPriceLow = stock.TargetPriceLow;
+                existing.TargetPriceHigh = stock.TargetPriceHigh;
+                existing.TargetPriceMean = stock.TargetPriceMean;
+                existing.TargetPriceMedian = stock.TargetPriceMedian;
+                existing.ForwardPE = stock.ForwardPE;
+                existing.EpsCurrentYear = stock.EpsCurrentYear;
+                existing.EpsForward = stock.EpsForward;
+                existing.FullExchangeName = stock.FullExchangeName;
+                existing.AnalystRating = stock.AnalystRating;
+                existing.UpdatedTime = DateTime.UtcNow;
+            }
+        }
+        await context.SaveChangesAsync();
     }
 
-    public async Task UpdateStocksAnalysisAsync(string[] orderedStockSymbols)
+    public async Task UpdateStocksAnalysisAsync(List<StockAnalysis> analyses)
     {
-        throw new NotSupportedException("Use IStockService for analysis updates that require external API calls");
-    }
-
-    public async Task RemoveNotificationAsync(string symbol, string notificationId)
-    {
-        throw new NotSupportedException("Notifications are managed by the Webhook service");
-    }
-
-    public async Task AddNotificationAsync(StockNotification stockNotification)
-    {
-        throw new NotSupportedException("Notifications are managed by the Webhook service");
+        await using var context = await _contextFactory.CreateDbContextAsync();
+        foreach (var analysis in analyses)
+        {
+            var stock = await context.Stocks.FirstOrDefaultAsync(s => s.Symbol == analysis.Symbol);
+            if (stock is not null)
+            {
+                stock.Analysis = analysis;
+                stock.Analysis.UpdatedTime = DateTime.UtcNow;
+            }
+        }
+        await context.SaveChangesAsync();
     }
 }

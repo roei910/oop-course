@@ -7,8 +7,6 @@ public interface IStockRepository
     Task<List<Stock>> GetAllAsync();
     Task<Stock?> GetStockBySymbolAsync(string symbol);
     Task<List<Stock>> GetStocksBySymbolAsync(string[] symbols);
-    Task UpdateStocksBySymbolAsync(string[] stockSymbols);
-    Task UpdateStocksAnalysisAsync(string[] orderedStockSymbols);
-    Task RemoveNotificationAsync(string symbol, string notificationId);
-    Task AddNotificationAsync(StockNotification stockNotification);
+    Task UpdateStocksAsync(List<Stock> stocks);
+    Task UpdateStocksAnalysisAsync(List<StockAnalysis> analyses);
 }

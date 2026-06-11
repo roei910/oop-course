@@ -149,15 +149,13 @@ public class StockControllerTests : IClassFixture<CustomWebApplicationFactory>
     }
 
     [Fact]
-    public async Task ForceUpdateAllStocks_ReturnsInternalServerError_DueToKnownRepositoryBug()
+    public async Task ForceUpdateAllStocks_ReturnsOk()
     {
         // Act
         var response = await _client.PostAsync("/api/stock/force-update-all-stocks", null);
 
         // Assert
-        // StockRepository.UpdateStocksBySymbolAsync throws NotSupportedException,
-        // causing the controller to return 500. This test documents the known bug
-        // and will be updated when the repository method is implemented.
-        Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+        response.EnsureSuccessStatusCode();
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
 }

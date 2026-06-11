@@ -76,36 +76,6 @@ public class UserRepository : IUserRepository
         }
     }
 
-    public Task AddNotificationAsync(StockNotification notification)
-    {
-        throw new NotSupportedException("Notifications managed by Webhook service");
-    }
-
-    public Task RemoveNotificationAsync(string id, string notificationId)
-    {
-        throw new NotSupportedException("Notifications managed by Webhook service");
-    }
-
-    public Task ShowNotificationAsync(StockNotification notification)
-    {
-        throw new NotSupportedException("Notifications managed by Webhook service");
-    }
-
-    public Task<UserStockNote> AddStockNoteAsync(string userEmail, string stockSymbol, string note)
-    {
-        throw new NotSupportedException("Stock notes managed by dedicated service");
-    }
-
-    public Task RemoveStockNoteAsync(string userEmail, string stockSymbol, string noteId)
-    {
-        throw new NotSupportedException("Stock notes managed by dedicated service");
-    }
-
-    public Task UpdateStockNoteAsync(string noteId, string userEmail, string stockSymbol, string note)
-    {
-        throw new NotSupportedException("Stock notes managed by dedicated service");
-    }
-
     private static string HashPassword(string password)
     {
         var salt = AppVariables.PASSWORD_SALT;

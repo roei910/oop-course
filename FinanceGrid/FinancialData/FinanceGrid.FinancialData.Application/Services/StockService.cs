@@ -52,12 +52,34 @@ public class StockService : IStockService
 
     public async Task UpdateStocksBySymbolAsync(string[] stockSymbols)
     {
-        await _stockRepository.UpdateStocksBySymbolAsync(stockSymbols);
+        try
+        {
+            var stocks = await _financeStrategy.GetStocksAsync(string.Join(",", stockSymbols));
+            if (stocks is { Count: > 0 })
+            {
+                await _stockRepository.UpdateStocksAsync(stocks);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to update stocks for {Count} symbols", stockSymbols.Length);
+        }
     }
 
     public async Task UpdateStocksAnalysisAsync(string[] orderedStockSymbols)
     {
-        await _stockRepository.UpdateStocksAnalysisAsync(orderedStockSymbols);
+        try
+        {
+            var analyses = await _financeStrategy.GetStocksAnalysisAsync(orderedStockSymbols);
+            if (analyses is { Count: > 0 })
+            {
+                await _stockRepository.UpdateStocksAnalysisAsync(analyses);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to update analysis for {Count} symbols", orderedStockSymbols.Length);
+        }
     }
 
     public async Task ForceUpdateAllStocksAsync()
