@@ -5,11 +5,12 @@ networks:
 services:
   financialdata-service:
     container_name: financialdata-test
+    env_file: ../../.env.example
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - DatabaseProvider=SQLite
-      - ConnectionStrings__FinancialData=Data Source=/data/FinancialData.db
+      - DatabaseProvider=${DatabaseProvider:-SQLite}
+      - ConnectionStrings__FinancialData=${FINANCIALDATA_CONNECTION_STRING:-Data Source=/data/FinancialData.db}
     ports:
       - "5001:80"
     volumes:
@@ -17,7 +18,7 @@ services:
     depends_on:
       - rabbitmq
     build:
-      context: .
+      context: ../..
       dockerfile: ./FinanceGrid/FinancialData/FinanceGrid.FinancialData.Api/Dockerfile
     networks:
       - network-financegrid-test
@@ -29,17 +30,18 @@ services:
 
   users-service:
     container_name: users-test
+    env_file: ../../.env.example
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - DatabaseProvider=SQLite
-      - ConnectionStrings__Users=Data Source=/data/Users.db
+      - DatabaseProvider=${DatabaseProvider:-SQLite}
+      - ConnectionStrings__Users=${USERS_CONNECTION_STRING:-Data Source=/data/Users.db}
     ports:
       - "5002:80"
     volumes:
       - users_test_data:/data
     build:
-      context: .
+      context: ../..
       dockerfile: ./FinanceGrid/Users/FinanceGrid.Users.Api/Dockerfile
     networks:
       - network-financegrid-test
@@ -51,11 +53,12 @@ services:
 
   webhook-service:
     container_name: webhook-test
+    env_file: ../../.env.example
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - DatabaseProvider=SQLite
-      - ConnectionStrings__Webhook=Data Source=/data/Webhook.db
+      - DatabaseProvider=${DatabaseProvider:-SQLite}
+      - ConnectionStrings__Webhook=${WEBHOOK_CONNECTION_STRING:-Data Source=/data/Webhook.db}
     ports:
       - "5003:80"
     volumes:
@@ -63,7 +66,7 @@ services:
     depends_on:
       - rabbitmq
     build:
-      context: .
+      context: ../..
       dockerfile: ./FinanceGrid/Webhook/FinanceGrid.Webhook.Api/Dockerfile
     networks:
       - network-financegrid-test
@@ -75,17 +78,18 @@ services:
 
   webhook-processing:
     container_name: webhook-processing-test
+    env_file: ../../.env.example
     environment:
       - DOTNET_ENVIRONMENT=Development
-      - DatabaseProvider=SQLite
-      - ConnectionStrings__Webhook=Data Source=/data/Webhook.db
+      - DatabaseProvider=${DatabaseProvider:-SQLite}
+      - ConnectionStrings__Webhook=${WEBHOOK_CONNECTION_STRING:-Data Source=/data/Webhook.db}
     volumes:
       - webhook_test_data:/data
     depends_on:
       - rabbitmq
     build:
-      context: .
-      dockerfile: ./FinanceGrid/FinanceGrid.Webhook.Processing/Dockerfile
+      context: ../..
+      dockerfile: ./FinanceGrid/Webhook/FinanceGrid.Webhook.Processing/Dockerfile
     networks:
       - network-financegrid-test
 
@@ -101,7 +105,28 @@ services:
     networks:
       - network-financegrid-test
 
+  postgres:
+    image: postgres:15
+    container_name: postgres-test
+    env_file: ../../.env.example
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-financegrid}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-}
+      - POSTGRES_DB=${POSTGRES_DB:-financegrid}
+    volumes:
+      - postgres_test_data:/var/lib/postgresql/data
+    networks:
+      - network-financegrid-test
+    profiles:
+      - postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
 volumes:
   financialdata_test_data:
   users_test_data:
   webhook_test_data:
+  postgres_test_data:

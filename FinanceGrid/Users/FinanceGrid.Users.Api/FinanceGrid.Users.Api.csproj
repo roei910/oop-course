@@ -5,12 +5,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>FinanceGrid.Users.Api</RootNamespace>
+    <UserSecretsId>a1b2c3d4-5e6f-7a8b-9c0d-1e2f3a4b5c6d</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FinanceGrid.Users.Application\FinanceGrid.Users.Application.csproj" />
     <ProjectReference Include="..\FinanceGrid.Users.Infrastructure\FinanceGrid.Users.Infrastructure.csproj" />
     <ProjectReference Include="..\..\FinanceGrid.ServiceDefaults\FinanceGrid.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\..\FinanceGrid.Shared\FinanceGrid.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

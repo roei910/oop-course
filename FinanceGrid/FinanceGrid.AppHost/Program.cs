@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Configuration;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 var databaseProvider = builder.Configuration.GetValue<string>("DatabaseProvider") ?? "SQLite";

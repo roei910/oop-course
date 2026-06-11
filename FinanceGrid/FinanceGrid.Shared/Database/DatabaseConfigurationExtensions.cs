@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace FinanceGrid.Shared.Database;
 
@@ -9,8 +10,9 @@ public static class DatabaseConfigurationExtensions
         string connectionStringName)
     {
         var provider = configuration.GetValue<string>("DatabaseProvider") ?? "SQLite";
+        var basePath = Directory.Exists("/data") ? "/data" : ".";
         var connectionString = configuration.GetConnectionString(connectionStringName)
-            ?? $"Data Source={connectionStringName}.db";
+            ?? $"Data Source={basePath}/{connectionStringName}.db";
             
         return new DatabaseConfiguration
         {

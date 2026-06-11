@@ -1,7 +1,10 @@
 namespace FinanceGrid.FinancialData.Api
 {
     using FinanceGrid.FinancialData.Infrastructure;
+    using FinanceGrid.FinancialData.Infrastructure.Persistence;
     using FinanceGrid.FinancialData.Api.Middleware;
+    using FinanceGrid.Shared.Database;
+    using Microsoft.EntityFrameworkCore;
 
     public class Program
     {
@@ -9,7 +12,7 @@ namespace FinanceGrid.FinancialData.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.AddServiceDefaults();
+            builder.AddServiceDefaults(typeof(Program).Assembly);
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
@@ -35,7 +38,27 @@ namespace FinanceGrid.FinancialData.Api
             app.MapControllers();
             app.MapHealthChecks("/health");
 
+            app.ApplyMigrations();
             app.Run();
+        }
+    }
+
+    internal static class WebApplicationExtensions
+    {
+        public static void ApplyMigrations(this WebApplication app)
+        {
+            using var scope = app.Services.CreateScope();
+            var contextFactory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<FinancialDataDbContext>>();
+            using var context = contextFactory.CreateDbContext();
+            var dbConfig = app.Configuration.GetDatabaseConfiguration("FinancialData");
+            if (dbConfig.IsPostgreSQL)
+            {
+                context.Database.Migrate();
+            }
+            else
+            {
+                context.Database.EnsureCreated();
+            }
         }
     }
 }

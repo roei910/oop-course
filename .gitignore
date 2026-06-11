@@ -5,8 +5,7 @@
 **/*.userosscache
 **/*.vs
 
-# EF Core migrations (if created)
-**/Migrations/
+# EF Core migrations - keep in git, only ignore generated bin/obj
 
 # IDE and editor artifacts
 .vs/
@@ -21,6 +20,7 @@
 FinanceGrid.WebClient/node_modules/
 
 # Environment and secrets
+.env
 **/appsettings*.json
 !**/appsettings.json  # Keep template/example
 **/secrets.json

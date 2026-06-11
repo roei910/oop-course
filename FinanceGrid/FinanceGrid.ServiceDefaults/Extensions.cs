@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using OpenTelemetry.Metrics;
@@ -9,6 +10,17 @@ public static class ServiceDefaultsExtensions
 {
     public static IHostApplicationBuilder AddServiceDefaults(this IHostApplicationBuilder builder)
     {
+        builder.Configuration.AddUserSecrets(typeof(ServiceDefaultsExtensions).Assembly, optional: true);
+
+        builder.AddOpenTelemetry();
+        builder.AddHealthChecks();
+        return builder;
+    }
+
+    public static IHostApplicationBuilder AddServiceDefaults(this IHostApplicationBuilder builder, System.Reflection.Assembly userSecretsAssembly)
+    {
+        builder.Configuration.AddUserSecrets(userSecretsAssembly, optional: true);
+
         builder.AddOpenTelemetry();
         builder.AddHealthChecks();
         return builder;

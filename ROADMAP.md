@@ -8,6 +8,14 @@
 ## ✅ Recently Completed (last 3 months)
 
 ### 2026-Q2
+- ✅ Configurable database provider hardening — secrets, profiles, migrations (this commit)
+  - Added UserSecrets support to all 5 service projects
+  - Renamed `.env` → `.env.example` (gitignored), placeholder passwords
+  - Restructured `docker-compose.yml` with `sqlite` and `postgres` profiles
+  - Added `depends_on: postgres` with healthcheck for PostgreSQL services
+  - Fixed fallback connection string path (`/data/` in Docker)
+  - Added initial PostgreSQL migrations for FinancialData, Users, Webhook
+  - Added explicit `FinanceGrid.Shared` reference to `Webhook.Processing`
 - ✅ Program.cs refactor for WebApplicationFactory — commit `414ac48` (2026-06-05)
 - ✅ 49 in-process integration tests across 3 services — commit `b8ccc42` (2026-06-05)
   - FinancialData.IntegrationTests: 9 tests
