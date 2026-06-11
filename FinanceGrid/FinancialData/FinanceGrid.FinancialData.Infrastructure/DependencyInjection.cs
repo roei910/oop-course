@@ -13,11 +13,11 @@ namespace FinanceGrid.FinancialData.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddFinancialDataInfrastructure(
+    public static IServiceCollection AddFinancialDataServices(
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddFinancialDataPersistence(configuration);
+        services.AddFinancialDataDatabase(configuration);
         services.AddFinancialDataProviders(configuration);
 
         services.AddSingleton<IStockService, StockService>();

@@ -3,9 +3,7 @@ namespace FinanceGrid.Webhook.Api
     using FinanceGrid.Webhook.Infrastructure;
     using FinanceGrid.Webhook.Infrastructure.Persistence;
     using FinanceGrid.Webhook.Api.Middleware;
-    using FinanceGrid.Shared.Database;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Options;
+    using FinanceGrid.Persistence;
 
     public class Program
     {
@@ -23,7 +21,7 @@ namespace FinanceGrid.Webhook.Api
                 options.AddDefaultPolicy(policy =>
                     policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 
-            builder.Services.AddWebhookInfrastructure(builder.Configuration);
+            builder.Services.AddWebhookServices(builder.Configuration);
 
             var app = builder.Build();
 
@@ -39,27 +37,8 @@ namespace FinanceGrid.Webhook.Api
             app.MapControllers();
             app.MapHealthChecks("/health");
 
-            app.ApplyMigrations();
+            app.Services.ApplyMigrations<WebhookDbContext>();
             app.Run();
-        }
-    }
-
-    internal static class WebApplicationExtensions
-    {
-        public static void ApplyMigrations(this WebApplication app)
-        {
-            using var scope = app.Services.CreateScope();
-            var dbConfig = scope.ServiceProvider.GetRequiredService<IOptions<DatabaseConfiguration>>().Value;
-            var contextFactory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<WebhookDbContext>>();
-            using var context = contextFactory.CreateDbContext();
-            if (dbConfig.IsPostgreSQL)
-            {
-                context.Database.Migrate();
-            }
-            else
-            {
-                context.Database.EnsureCreated();
-            }
         }
     }
 }

@@ -12,7 +12,8 @@
 		<ProjectReference Include="..\FinanceGrid.Webhook.Application\FinanceGrid.Webhook.Application.csproj" />
 		<ProjectReference Include="..\FinanceGrid.Webhook.Infrastructure\FinanceGrid.Webhook.Infrastructure.csproj" />
 		<ProjectReference Include="..\..\FinanceGrid.ServiceDefaults\FinanceGrid.ServiceDefaults.csproj" />
-		<ProjectReference Include="..\..\FinanceGrid.Shared\FinanceGrid.Shared.csproj" />
+    <ProjectReference Include="..\..\FinanceGrid.Shared\FinanceGrid.Shared.csproj" />
+    <ProjectReference Include="..\..\FinanceGrid.Persistence\FinanceGrid.Persistence.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

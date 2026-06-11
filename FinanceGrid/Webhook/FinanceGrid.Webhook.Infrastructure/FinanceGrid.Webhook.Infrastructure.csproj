@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FinanceGrid.Webhook.Application\FinanceGrid.Webhook.Application.csproj" />
     <ProjectReference Include="..\..\FinanceGrid.Shared\FinanceGrid.Shared.csproj" />
+    <ProjectReference Include="..\..\FinanceGrid.Persistence\FinanceGrid.Persistence.csproj" />
   </ItemGroup>
 
   <ItemGroup>

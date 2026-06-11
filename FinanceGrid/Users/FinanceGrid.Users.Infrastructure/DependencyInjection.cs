@@ -9,11 +9,11 @@ namespace FinanceGrid.Users.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddUsersInfrastructure(
+    public static IServiceCollection AddUsersServices(
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddUsersPersistence(configuration);
+        services.AddUsersDatabase(configuration);
 
         services.AddSingleton<IUserService, UserService>();
         services.AddSingleton<IShareService, ShareService>();

@@ -8,11 +8,11 @@ namespace FinanceGrid.Webhook.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddWebhookInfrastructure(
+    public static IServiceCollection AddWebhookServices(
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddWebhookPersistence(configuration);
+        services.AddWebhookDatabase(configuration);
 
         services.AddScoped<IWebhookService, WebhookService>();
 

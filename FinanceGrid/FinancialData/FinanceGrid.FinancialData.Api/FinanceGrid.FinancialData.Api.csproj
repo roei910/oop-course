@@ -13,6 +13,7 @@
     <ProjectReference Include="..\FinanceGrid.FinancialData.Infrastructure\FinanceGrid.FinancialData.Infrastructure.csproj" />
     <ProjectReference Include="..\..\FinanceGrid.ServiceDefaults\FinanceGrid.ServiceDefaults.csproj" />
     <ProjectReference Include="..\..\FinanceGrid.Shared\FinanceGrid.Shared.csproj" />
+    <ProjectReference Include="..\..\FinanceGrid.Persistence\FinanceGrid.Persistence.csproj" />
   </ItemGroup>
 
   <ItemGroup>
