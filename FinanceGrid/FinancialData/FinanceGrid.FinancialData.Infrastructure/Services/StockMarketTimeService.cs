@@ -36,11 +36,18 @@ public class StockMarketTimeService : IStockMarketTime
     {
         var now = DateTime.UtcNow;
         var dateOnly = DateOnly.FromDateTime(now);
+        var closeTime = new TimeOnly(AppVariables.CLOSED_MARKET_HOURS, 0);
+
+        if (IsMarketWeekDay(dateOnly))
+        {
+            var todayClose = new DateTime(dateOnly, closeTime);
+            if (now < todayClose)
+                dateOnly = dateOnly.AddDays(-1);
+        }
 
         while (!IsMarketWeekDay(dateOnly))
             dateOnly = dateOnly.AddDays(-1);
 
-        var closeTime = new TimeOnly(AppVariables.CLOSED_MARKET_HOURS, 0);
         return new DateTime(dateOnly, closeTime);
     }
 
