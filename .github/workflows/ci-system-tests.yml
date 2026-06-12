@@ -10,9 +10,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  MANAGE_DOCKER_COMPOSE: "true"
-
 jobs:
   test:
     runs-on: ubuntu-latest

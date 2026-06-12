@@ -23,5 +23,5 @@ jobs:
         with:
           node-version: '18'
 
-      - run: npm ci
+      - run: npm install
       - run: npx ng test --no-watch --browsers ChromeHeadless
