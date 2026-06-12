@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.IO;
 using Xunit;
 
 namespace FinanceGrid.SystemTests;
@@ -10,7 +11,8 @@ public class DockerComposeFixture : IAsyncLifetime
     public const string WebhookBaseUrl = "http://localhost:5003";
     public const string GatewayBaseUrl = "http://localhost:5000";
 
-    private const string ComposeFile = "docker-compose.test.yml";
+    private static readonly string ComposeFile = Path.GetFullPath(
+        Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "docker-compose.test.yml"));
     private const int StartupTimeoutSeconds = 90;
     private const int HealthCheckTimeoutSeconds = 60;
 
