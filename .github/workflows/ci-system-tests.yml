@@ -31,7 +31,7 @@ jobs:
       - name: Wait for services to be healthy
         run: sleep 120
 
-      - run: dotnet test --filter Category=System --logger trx --results-directory TestResults
+      - run: dotnet test FinanceGrid/FinanceGrid.slnx --filter Category=System --logger trx --results-directory TestResults
 
       - name: Tear down Docker services
         if: always()

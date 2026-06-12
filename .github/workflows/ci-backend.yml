@@ -26,9 +26,9 @@ jobs:
           key: nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: nuget-
 
-      - run: dotnet restore
-      - run: dotnet build --no-restore
-      - run: dotnet test --no-build --filter Category!=System --collect:"XPlat Code Coverage" --logger trx --results-directory TestResults
+      - run: dotnet restore FinanceGrid/FinanceGrid.slnx
+      - run: dotnet build FinanceGrid/FinanceGrid.slnx --no-restore
+      - run: dotnet test FinanceGrid/FinanceGrid.slnx --no-build --filter Category!=System --collect:"XPlat Code Coverage" --logger trx --results-directory TestResults
 
       - uses: actions/upload-artifact@v4
         if: always()
