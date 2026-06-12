@@ -1,8 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  HttpClientTestingModule,
-  HttpTestingController
-} from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 import { WatchesService, WatchesByList } from './watches.service';
 import { UserStockWatch } from 'src/models/stocks/user-stock-watch';
 import { Share } from 'src/models/shares/share';
@@ -15,8 +13,7 @@ describe('WatchesService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [WatchesService]
+      providers: [WatchesService, provideHttpClient(), provideHttpClientTesting()]
     });
     service = TestBed.inject(WatchesService);
     httpMock = TestBed.inject(HttpTestingController);
