@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+    <CoverletThreshold>50</CoverletThreshold>
+    <CoverletThresholdType>line</CoverletThresholdType>
   </PropertyGroup>
 
   <ItemGroup>

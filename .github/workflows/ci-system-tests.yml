@@ -1,0 +1,44 @@
+name: System Tests
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [develop]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  MANAGE_DOCKER_COMPOSE: "true"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+
+      - run: cp .env.example .env
+
+      - name: Start Docker services
+        run: docker compose -f FinanceGrid/FinanceGrid.SystemTests/docker-compose.test.yml up -d
+
+      - name: Wait for services to be healthy
+        run: sleep 120
+
+      - run: dotnet test --filter Category=System --logger trx --results-directory TestResults
+
+      - name: Tear down Docker services
+        if: always()
+        run: docker compose -f FinanceGrid/FinanceGrid.SystemTests/docker-compose.test.yml down
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: system-test-results
+          path: TestResults/

@@ -72,10 +72,10 @@
 ## 📋 Planned
 
 ### 2026-Q3 — CI/CD
-- 📋 Add GitHub Actions workflow `ci-backend.yml` — `dotnet test --filter Category!=System`
-- 📋 Add `ci-frontend.yml` — `npm test` (headless Chrome)
-- 📋 Add `ci-system-tests.yml` (self-hosted runner, Docker required, `MANAGE_DOCKER_COMPOSE=true`)
-- 📋 Configure coverlet thresholds: 70% Application, 50% Infrastructure
+- ✅ Add GitHub Actions workflow `ci-backend.yml` — `dotnet test --filter Category!=System` (commit `xxxxxxx`)
+- ✅ Add `ci-frontend.yml` — `ng test --browsers ChromeHeadless` (commit `xxxxxxx`)
+- ✅ Add `ci-system-tests.yml` — Docker Compose on GitHub-hosted runner, `MANAGE_DOCKER_COMPOSE=true` (commit `xxxxxxx`)
+- ✅ Configure coverlet thresholds: 70% Application, 50% Infrastructure (commit `xxxxxxx`)
 
 ### 2026-Q4 — Test coverage gaps
 - 📋 Add Gateway integration tests (`WebApplicationFactory<FinanceGrid.Gateway.Program>`)
