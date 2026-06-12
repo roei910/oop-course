@@ -10,6 +10,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  MANAGE_DOCKER_COMPOSE: "false"
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -23,7 +26,7 @@ jobs:
       - run: cp .env.example .env
 
       - name: Start Docker services
-        run: docker compose -f FinanceGrid/FinanceGrid.SystemTests/docker-compose.test.yml up -d
+        run: docker compose -f FinanceGrid/FinanceGrid.SystemTests/docker-compose.test.yml up -d --build
 
       - name: Wait for services to be healthy
         run: sleep 120
@@ -32,7 +35,7 @@ jobs:
 
       - name: Tear down Docker services
         if: always()
-        run: docker compose -f FinanceGrid/FinanceGrid.SystemTests/docker-compose.test.yml down
+        run: docker compose -f FinanceGrid/FinanceGrid.SystemTests/docker-compose.test.yml down -v
 
       - uses: actions/upload-artifact@v4
         if: always()
