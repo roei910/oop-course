@@ -51,6 +51,12 @@
   - Webhook.IntegrationTests: 7 tests
 - ✅ 15 system tests with Docker Compose — commit `b8ccc42` (2026-06-05)
   - Health checks, user/stock/webhook flows, cross-service scenarios
+- ✅ Fix Angular test suite — all 142 tests passing (commit `702bd08`)
+  - Migrated all spec files from `HttpClientTestingModule` to `provideHttpClient()` + `provideHttpClientTesting()`
+  - Added `karma.conf.js` with `ChromeHeadlessNoSandbox` launcher
+  - Added test `fileReplacements` + `defaultConfiguration: test` in `angular.json`
+  - Fixed `DockerComposeFixture.ComposeFile` path resolution from `AppContext.BaseDirectory`
+  - Simplified `ci-system-tests.yml` — fixture manages Docker lifecycle
 - ✅ Shared SqliteConnection pattern for in-memory EF Core
 - ✅ Local DTOs in SystemTests (black-box testing pattern)
 
@@ -72,10 +78,10 @@
 ## 📋 Planned
 
 ### 2026-Q3 — CI/CD
-- 📋 Add GitHub Actions workflow `ci-backend.yml` — `dotnet test --filter Category!=System`
-- 📋 Add `ci-frontend.yml` — `npm test` (headless Chrome)
-- 📋 Add `ci-system-tests.yml` (self-hosted runner, Docker required, `MANAGE_DOCKER_COMPOSE=true`)
-- 📋 Configure coverlet thresholds: 70% Application, 50% Infrastructure
+- ✅ Add GitHub Actions workflow `ci-backend.yml` — `dotnet test --filter Category!=System` (commit `476b4a4`)
+- ✅ Add `ci-frontend.yml` — `ng test --browsers ChromeHeadless` (commit `476b4a4`)
+- ✅ Add `ci-system-tests.yml` — Docker Compose on GitHub-hosted runner, fixture manages lifecycle (commit `702bd08`)
+- ✅ Configure coverlet thresholds: 70% Application, 50% Infrastructure (commit `476b4a4`)
 
 ### 2026-Q4 — Test coverage gaps
 - 📋 Add Gateway integration tests (`WebApplicationFactory<FinanceGrid.Gateway.Program>`)

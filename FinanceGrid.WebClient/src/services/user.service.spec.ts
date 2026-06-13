@@ -1,8 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  HttpClientTestingModule,
-  HttpTestingController
-} from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 import { UserService } from './user.service';
 import { AuthenticationService } from './authentication.service';
 import { WatchesService } from './watches.service';
@@ -25,11 +23,12 @@ describe('UserService', () => {
     watchesServiceSpy = jasmine.createSpyObj('WatchesService', ['loadWatches']);
 
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
       providers: [
         UserService,
         { provide: AuthenticationService, useValue: authServiceSpy },
-        { provide: WatchesService, useValue: watchesServiceSpy }
+        { provide: WatchesService, useValue: watchesServiceSpy },
+        provideHttpClient(),
+        provideHttpClientTesting()
       ]
     });
     service = TestBed.inject(UserService);
@@ -68,8 +67,9 @@ describe('UserService', () => {
         email: 'john@test.com', password: 'rawpassword'
       };
 
-      service.createUser(user).subscribe(result => {
-        expect(result).toBeFalse();
+      service.createUser(user).subscribe({
+        next: () => fail('expected error for 400'),
+        error: (err) => expect(err.status).toBe(400)
       });
 
       const req = httpMock.expectOne(`${baseUrl}/register`);
@@ -93,8 +93,12 @@ describe('UserService', () => {
     });
 
     it('should return false on bad credentials', () => {
-      service.tryConnect('test@test.com', 'wrong').subscribe(result => {
-        expect(result).toBeFalse();
+      service.tryConnect('test@test.com', 'wrong').subscribe({
+        next: () => fail('expected error for 401'),
+        error: (err) => {
+          expect(err.status).toBe(401);
+          expect(authServiceSpy.updateConnectedUser).not.toHaveBeenCalled();
+        }
       });
 
       const req = httpMock.expectOne(`${baseUrl}/connect-user`);

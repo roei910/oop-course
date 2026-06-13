@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 import { StockService } from './stock.service';
 import { Stock } from 'src/models/stocks/stock';
 import { MarketTrend } from 'src/models/marketTrends/market-trend';
@@ -12,8 +13,7 @@ describe('StockService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [StockService]
+      providers: [StockService, provideHttpClient(), provideHttpClientTesting()]
     });
 
     service = TestBed.inject(StockService);

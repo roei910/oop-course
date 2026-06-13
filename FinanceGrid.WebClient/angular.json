@@ -106,7 +106,9 @@
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
+          "defaultConfiguration": "test",
           "options": {
+            "karmaConfig": "karma.conf.js",
             "polyfills": [
               "zone.js",
               "zone.js/testing"
@@ -120,6 +122,16 @@
               "src/styles.css"
             ],
             "scripts": []
+          },
+          "configurations": {
+            "test": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
+            }
           }
         }
       }

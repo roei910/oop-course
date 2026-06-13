@@ -38,13 +38,15 @@ describe('LoadingInterceptor', () => {
     const req = createRequest('/test');
     const next: HttpHandlerFn = () => of(null as unknown as HttpEvent<unknown>);
 
+    let completed = false;
     TestBed.runInInjectionContext(() => {
       interceptLoader(req, next).subscribe({
-        complete: () => {
-          expect(showSpy).toHaveBeenCalled();
-          expect(hideSpy).toHaveBeenCalled();
-        }
+        complete: () => { completed = true; }
       });
     });
+
+    expect(showSpy).toHaveBeenCalled();
+    expect(hideSpy).toHaveBeenCalled();
+    expect(completed).toBeTrue();
   });
 });

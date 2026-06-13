@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { HeaderComponent } from './header.component';
 
@@ -9,8 +10,8 @@ describe('HeaderComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      declarations: [HeaderComponent]
+      declarations: [HeaderComponent],
+      providers: [provideHttpClient(), provideHttpClientTesting()]
     });
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;

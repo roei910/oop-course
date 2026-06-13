@@ -1,8 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  HttpClientTestingModule,
-  HttpTestingController
-} from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 import { SharesService } from './shares.service';
 import { environment } from 'src/environments/environment';
 import { SharePurchase } from 'src/models/shares/share-purchase';
@@ -17,8 +15,7 @@ describe('SharesService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [SharesService]
+      providers: [SharesService, provideHttpClient(), provideHttpClientTesting()]
     });
     service = TestBed.inject(SharesService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -57,8 +54,9 @@ describe('SharesService', () => {
         purchasingPrice: 150, amount: 10, listName: 'Tech'
       };
 
-      service.addUserShare(purchase).subscribe(result => {
-        expect(result).toBeNull();
+      service.addUserShare(purchase).subscribe({
+        next: () => fail('expected error for non-200'),
+        error: (err) => expect(err.status).toBe(404)
       });
 
       const req = httpMock.expectOne(r => r.url === baseUrl && r.method === 'POST');
@@ -88,8 +86,9 @@ describe('SharesService', () => {
         stockSymbol: 'AAPL', sharePurchaseGuid: 's1'
       };
 
-      service.removeUserShare(sale).subscribe(result => {
-        expect(result).toBeFalse();
+      service.removeUserShare(sale).subscribe({
+        next: () => fail('expected error for non-200'),
+        error: (err) => expect(err.status).toBe(404)
       });
 
       const req = httpMock.expectOne(r => r.url === baseUrl && r.method === 'DELETE');
