@@ -12,7 +12,7 @@ public class DockerComposeFixture : IAsyncLifetime
     public const string GatewayBaseUrl = "http://localhost:5000";
 
     private static readonly string ComposeFile = Path.GetFullPath(
-        Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "FinanceGrid", "FinanceGrid.SystemTests", "docker-compose.test.yml"));
+        Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "docker-compose.test.yml"));
     private const int StartupTimeoutSeconds = 90;
     private const int HealthCheckTimeoutSeconds = 60;
 
