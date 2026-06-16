@@ -118,6 +118,9 @@
 | 11 | Date-dependent unit test failure | `StockMarketTimeServiceTests.cs:100` | pre-2026-Q2 | ✅ Fixed — added `DateTimeKind.Utc` |
 | 12 | Angular test HTTP leak to production | `environment.development.ts:3` | pre-2026-Q2 | ✅ Fixed — changed to `localhost:5000` |
 | 13 | Orphaned worktrees (permission errors) | `.git/worktrees/glowing-knight`, `sunny-circuit` | 2026-Q2 | ✅ Fixed — already cleaned up |
+| 14 | Missing search cache — SearchResultRepository read-only | `SearchResultRepository.cs` | 2026-Q2 | ✅ Fixed — restored cache-aside with IFinanceStrategy |
+| 15 | No Yahoo Finance provider implementations | `Providers/YahooFinance/` | 2026-Q2 | ✅ Fixed — ported YahooFinance1, 15, 127 with IHttpClientFactory |
+| 16 | Stock data staleness — no background updater for existing stocks | API consumers | 2026-Q2 | 🐛 Refactor inconsistency — background updaters handle all updates |
 
 ## 🧭 Architectural Decisions
 
