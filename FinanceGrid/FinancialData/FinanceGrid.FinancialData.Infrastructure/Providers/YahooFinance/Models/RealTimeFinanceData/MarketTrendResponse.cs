@@ -9,7 +9,14 @@ public class MarketTrendResponse
     public double? Change { get; set; }
     public double? Change_Percent { get; set; }
     public double? Previous_Close { get; set; }
+    public double? Pre_or_Post_Market { get; set; }
+    public double? Pre_or_Post_Market_Change { get; set; }
+    public double? Pre_or_Post_Market_Change_Percent { get; set; }
     public string? Last_Update_Utc { get; set; }
     public string? Currency { get; set; }
     public string? Exchange { get; set; }
+    public string? Exchange_Open { get; set; }
+    public string? Exchange_Close { get; set; }
+    public string? Timezone { get; set; }
+    public string? Country_Code { get; set; }
 }

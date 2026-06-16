@@ -38,4 +38,26 @@ public class TrendRepository : ITrendRepository
                 .ThenInclude(n => n.StocksInNews)
             .FirstOrDefaultAsync(m => m.TrendName == trendType);
     }
+
+    public async Task AddOrUpdateAsync(MarketTrend trend)
+    {
+        await using var context = await _contextFactory.CreateDbContextAsync();
+        var existing = await context.MarketTrends
+            .Include(m => m.TrendingStocks)
+            .Include(m => m.StockNewsItems)
+                .ThenInclude(n => n.StocksInNews)
+            .FirstOrDefaultAsync(m => m.TrendName == trend.TrendName);
+
+        if (existing is not null)
+        {
+            existing.LastUpdatedTime = trend.LastUpdatedTime;
+            existing.TrendingStocks = trend.TrendingStocks;
+            existing.StockNewsItems = trend.StockNewsItems;
+        }
+        else
+        {
+            context.MarketTrends.Add(trend);
+        }
+        await context.SaveChangesAsync();
+    }
 }

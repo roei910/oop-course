@@ -27,9 +27,16 @@ public static class TrendMapper
             Change = trend.Change,
             ChangePercent = trend.Change_Percent,
             PreviousClose = trend.Previous_Close,
+            PreOrPostMarket = trend.Pre_or_Post_Market,
+            PreOrPostMarketChange = trend.Pre_or_Post_Market_Change,
+            PreOrPostMarketChangePercent = trend.Pre_or_Post_Market_Change_Percent,
             LastUpdateUtc = trend.Last_Update_Utc,
             Currency = trend.Currency,
-            Exchange = trend.Exchange
+            Exchange = trend.Exchange,
+            ExchangeOpen = trend.Exchange_Open,
+            ExchangeClose = trend.Exchange_Close,
+            Timezone = trend.Timezone,
+            CountryCode = trend.Country_Code
         };
     }
 

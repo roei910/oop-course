@@ -8,15 +8,21 @@ namespace FinanceGrid.FinancialData.Application.Services;
 public class StockService : IStockService
 {
     private readonly IStockRepository _stockRepository;
+    private readonly IStockHistoryRepository _stockHistoryRepository;
+    private readonly IStockMarketTime _stockMarketTime;
     private readonly IFinanceStrategy _financeStrategy;
     private readonly ILogger<StockService> _logger;
 
     public StockService(
         IStockRepository stockRepository,
+        IStockHistoryRepository stockHistoryRepository,
+        IStockMarketTime stockMarketTime,
         IFinanceStrategy financeStrategy,
         ILogger<StockService> logger)
     {
         _stockRepository = stockRepository;
+        _stockHistoryRepository = stockHistoryRepository;
+        _stockMarketTime = stockMarketTime;
         _financeStrategy = financeStrategy;
         _logger = logger;
     }
@@ -31,8 +37,7 @@ public class StockService : IStockService
         var stock = await CreateStockAsync(symbol.ToUpper());
         if (stock is null) return null;
 
-        var stocks = new List<Stock> { stock };
-        await _stockRepository.GetStocksBySymbolAsync([symbol.ToUpper()]);
+        await _stockRepository.CreateAsync(stock);
         return stock;
     }
 
@@ -46,6 +51,10 @@ public class StockService : IStockService
         if (missing.Length == 0) return foundStocks;
 
         var created = await CreateStocksAsync(missing);
+        if (created.Count > 0)
+        {
+            await _stockRepository.CreateRangeAsync(created);
+        }
         foundStocks.AddRange(created);
         return foundStocks;
     }
@@ -57,6 +66,14 @@ public class StockService : IStockService
             var stocks = await _financeStrategy.GetStocksAsync(string.Join(",", stockSymbols));
             if (stocks is { Count: > 0 })
             {
+                await _stockRepository.UpdateStocksAsync(stocks);
+                var lastMarketClose = _stockMarketTime.LastMarketCloseDateTime();
+                var lastHistoryUpdate = DateOnly.FromDateTime(lastMarketClose);
+                await _stockHistoryRepository.UpdateStocksHistoryAsync(stocks, lastHistoryUpdate);
+                foreach (var stock in stocks)
+                {
+                    stock.LastHistoryUpdateDate = lastHistoryUpdate;
+                }
                 await _stockRepository.UpdateStocksAsync(stocks);
             }
         }

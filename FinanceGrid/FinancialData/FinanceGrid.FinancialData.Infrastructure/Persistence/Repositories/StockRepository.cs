@@ -88,4 +88,18 @@ public class StockRepository : IStockRepository
         }
         await context.SaveChangesAsync();
     }
+
+    public async Task CreateAsync(Stock stock)
+    {
+        await using var context = await _contextFactory.CreateDbContextAsync();
+        await context.Stocks.AddAsync(stock);
+        await context.SaveChangesAsync();
+    }
+
+    public async Task CreateRangeAsync(List<Stock> stocks)
+    {
+        await using var context = await _contextFactory.CreateDbContextAsync();
+        await context.Stocks.AddRangeAsync(stocks);
+        await context.SaveChangesAsync();
+    }
 }

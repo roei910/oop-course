@@ -15,7 +15,8 @@ public static class DependencyInjection
         services.AddDbContext<FinancialDataDbContext>(configuration, "FinancialData");
 
         services.AddSingleton<IStockRepository, StockRepository>();
-        services.AddSingleton<ITrendRepository, TrendRepository>();
+        services.AddSingleton<TrendRepository>();
+        services.AddSingleton<ITrendRepository, TrendRepositoryExtended>();
         services.AddSingleton<ISearchResultRepository, SearchResultRepository>();
         services.AddSingleton<IStockHistoryRepository, StockHistoryRepository>();
 

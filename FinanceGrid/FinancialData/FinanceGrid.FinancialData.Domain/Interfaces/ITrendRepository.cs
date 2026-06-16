@@ -6,4 +6,5 @@ public interface ITrendRepository
 {
     Task<List<MarketTrend>> GetMarketTrendsAsync();
     Task<MarketTrend?> GetTrendAsync(string trendType);
+    Task AddOrUpdateAsync(MarketTrend trend);
 }

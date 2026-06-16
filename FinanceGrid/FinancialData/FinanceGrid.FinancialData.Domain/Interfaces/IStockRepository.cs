@@ -9,4 +9,6 @@ public interface IStockRepository
     Task<List<Stock>> GetStocksBySymbolAsync(string[] symbols);
     Task UpdateStocksAsync(List<Stock> stocks);
     Task UpdateStocksAnalysisAsync(List<StockAnalysis> analyses);
+    Task CreateAsync(Stock stock);
+    Task CreateRangeAsync(List<Stock> stocks);
 }
