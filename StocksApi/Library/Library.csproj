@@ -7,28 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Models\" />
-    <None Remove="Interfaces\" />
-    <None Remove="Models\MarketTrends\" />
-    <None Remove="Models\Search Results\" />
-    <None Remove="Models\Users\StockNotes\" />
-    <None Remove="Models\ServerResponse\" />
-    <None Remove="Models\Users\Notifications\" />
     <None Remove="Services\" />
+    <None Remove="Repositories\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="Models\MarketTrends\" />
-    <Folder Include="Models\Search Results\" />
-    <Folder Include="Models\Users\StockNotes\" />
-    <Folder Include="Models\ServerResponse\" />
-    <Folder Include="Models\Users\Notifications\" />
     <Folder Include="Services\" />
+    <Folder Include="Repositories\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MongoDB.Driver" Version="3.2.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="RestSharp" Version="112.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SharedLibrary\SharedLibrary.csproj" />
+    <ProjectReference Include="..\StocksAbstractions\StocksAbstractions.csproj" />
+    <ProjectReference Include="..\UsersAbstractions\UsersAbstractions.csproj" />
+    <ProjectReference Include="..\StocksProvider\StocksProvider.csproj" />
   </ItemGroup>
 </Project>

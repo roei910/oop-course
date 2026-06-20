@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>FinanceGrid.Webhook.Processing</RootNamespace>
+		<UserSecretsId>c3d4e5f6-7a8b-9c0d-1e2f-3a4b5c6d7e8f</UserSecretsId>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\FinanceGrid.Webhook.Application\FinanceGrid.Webhook.Application.csproj" />
+		<ProjectReference Include="..\FinanceGrid.Webhook.Infrastructure\FinanceGrid.Webhook.Infrastructure.csproj" />
+		<ProjectReference Include="..\..\FinanceGrid.ServiceDefaults\FinanceGrid.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\..\FinanceGrid.Shared\FinanceGrid.Shared.csproj" />
+    <ProjectReference Include="..\..\FinanceGrid.Persistence\FinanceGrid.Persistence.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
+		<PackageReference Include="Microsoft.Extensions.Http.Polly" Version="8.0.0" />
+	</ItemGroup>
+
+</Project>

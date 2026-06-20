@@ -1,17 +1,37 @@
-﻿using StocksApi.Dal;
-using StocksApi.Interfaces;
-using StocksApi.Repositories;
+using StocksAbstractions.Dal;
+using UsersAbstractions.Dal;
+using SharedLibrary.Models;
+using StocksAbstractions.Repositories;
+using UsersAbstractions.Repositories;
+using StocksAbstractions.Services;
+using UsersAbstractions.Services;
+using SharedLibrary.Services;
+using StocksApi.Middleware;
 using StocksApi.Services;
-using YahooFinance;
-using YahooFinance.Interfaces;
-using YahooFinance.Services.FinanceApis;
-using YahooFinance.Factories;
-using Library.Interfaces;
+using StocksApi.Providers.Mongo;
+using StocksLibrary.Repositories;
+using UsersLibrary.Repositories;
+using StocksLibrary.Services;
+using UsersLibrary.Services;
+using StocksProvider;
+using StocksProvider.Interfaces;
+using StocksProvider.Services.FinanceApis;
+using StocksProvider.Factories;
+using Microsoft.EntityFrameworkCore;
 
 namespace StocksApi
 {
     public class Startup
     {
+        private readonly IConfiguration _configuration;
+        private readonly string _databaseProvider;
+
+        public Startup(IConfiguration configuration)
+        {
+            _configuration = configuration;
+            _databaseProvider = _configuration.GetValue<string>(ConfigurationKeys.DatabaseProviderSection) ?? "Mongo";
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options =>
@@ -26,15 +46,20 @@ namespace StocksApi
             });
 
             services.AddSingleton<IAppConfiguration, AppConfiguration>();
-
             services.AddSingleton<IStockMarketTime, StockMarketTime>();
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
             services.AddSingleton<IStockNotificationSender, StockNotificationSender>();
 
-            services.AddSingleton<IStocksDal, StocksDal>();
-            services.AddSingleton<IUsersDal, UsersDal>();
-            services.AddSingleton<ITrendsDal, TrendsDal>();
-            services.AddSingleton<ISearchResultsDal, SearchResultsDal>();
+            var databaseProvider = _databaseProvider;
+
+            if (string.Equals(databaseProvider, "Sqlite", StringComparison.OrdinalIgnoreCase))
+            {
+                RegisterSqliteProvider(services);
+            }
+            else
+            {
+                RegisterMongoProvider(services);
+            }
 
             services.AddSingleton<IStockRepository, StockRepository>();
             services.AddSingleton<IUserRepository, UserRepository>();
@@ -60,10 +85,58 @@ namespace StocksApi
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             services.AddLogging();
+            services.AddHealthChecks();
+        }
+
+        private void RegisterMongoProvider(IServiceCollection services)
+        {
+            services.AddSingleton<IMongoDbContext, MongoDbContext>();
+            services.AddSingleton<IStocksDal, Providers.Mongo.Dal.StocksDal>();
+            services.AddSingleton<IUsersDal, Providers.Mongo.Dal.UsersDal>();
+            services.AddSingleton<IUserStockWatchesDal, Providers.Mongo.Dal.UserStockWatchesDal>();
+            services.AddSingleton<ITrendsDal, Providers.Mongo.Dal.TrendsDal>();
+            services.AddSingleton<ISearchResultsDal, Providers.Mongo.Dal.SearchResultsDal>();
+            services.AddSingleton<IStockHistoriesDal, Providers.Mongo.Dal.StockHistoriesDal>();
+        }
+
+        private void RegisterSqliteProvider(IServiceCollection services)
+        {
+            var connectionString = _configuration.GetValue<string>(ConfigurationKeys.ConnectionStringSection)
+                ?? "Data Source=StocksApi.db";
+
+            services.AddDbContextFactory<Providers.Sqlite.SqliteDbContext>(options =>
+                options.UseSqlite(connectionString));
+
+            services.AddSingleton<IStocksDal, Providers.Sqlite.Dal.StocksDal>();
+            services.AddSingleton<ITrendsDal, Providers.Sqlite.Dal.TrendsDal>();
+            services.AddSingleton<ISearchResultsDal, Providers.Sqlite.Dal.SearchResultsDal>();
+            services.AddSingleton<IStockHistoriesDal, Providers.Sqlite.Dal.StockHistoriesDal>();
+
+            var usersConnectionString = _configuration.GetValue<string>(ConfigurationKeys.ConnectionStringSection)
+                ?? "Data Source=Users.db";
+
+            services.AddDbContextFactory<Providers.UsersSqlite.UsersSqliteDbContext>(options =>
+                options.UseSqlite(usersConnectionString));
+
+            services.AddSingleton<IUsersDal, Providers.UsersSqlite.Dal.UsersDal>();
+            services.AddSingleton<IUserStockWatchesDal, Providers.UsersSqlite.Dal.UserStockWatchesDal>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            if (string.Equals(_databaseProvider, "Sqlite", StringComparison.OrdinalIgnoreCase))
+            {
+                var stocksFactory = app.ApplicationServices.GetRequiredService<IDbContextFactory<Providers.Sqlite.SqliteDbContext>>();
+                using (var context = stocksFactory.CreateDbContext())
+                    context.Database.Migrate();
+
+                var usersFactory = app.ApplicationServices.GetRequiredService<IDbContextFactory<Providers.UsersSqlite.UsersSqliteDbContext>>();
+                using (var context = usersFactory.CreateDbContext())
+                    context.Database.Migrate();
+            }
+
+            app.UseMiddleware<ExceptionMiddleware>();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -79,6 +152,7 @@ namespace StocksApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health");
             });
 
             app.Use(async (context, next) =>

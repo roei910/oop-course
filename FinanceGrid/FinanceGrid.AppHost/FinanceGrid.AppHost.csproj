@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Sdk Name="Aspire.AppHost.Sdk" Version="13.3.5" />
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>FinanceGrid.AppHost</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting" Version="13.3.5" />
+    <PackageReference Include="Aspire.Hosting.RabbitMQ" Version="13.3.5" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="13.3.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FinancialData\FinanceGrid.FinancialData.Api\FinanceGrid.FinancialData.Api.csproj" />
+    <ProjectReference Include="..\Users\FinanceGrid.Users.Api\FinanceGrid.Users.Api.csproj" />
+    <ProjectReference Include="..\Webhook\FinanceGrid.Webhook.Api\FinanceGrid.Webhook.Api.csproj" />
+    <ProjectReference Include="..\Webhook\FinanceGrid.Webhook.Processing\FinanceGrid.Webhook.Processing.csproj" />
+    <ProjectReference Include="..\FinanceGrid.Gateway\FinanceGrid.Gateway.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,4 +1,4 @@
-﻿using Library.Interfaces;
+using SharedLibrary.Services;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 
@@ -40,18 +40,7 @@ namespace Library.Services
             }
         }
 
-        public async Task<RestResponse> GetResponseAsync(string endPoint,
-            params KeyValuePair<string, string>[] queryParams)
-        {
-            var request = GetRestRequest(Method.Get, endPoint, queryParams);
-
-            var response = await _client.ExecuteAsync(request) ??
-                throw new Exception("couldnt get the response from server");
-
-            return response;
-        }
-
-        private RestRequest GetRestRequest(Method method, string endPoint,
+private RestRequest GetRestRequest(Method method, string endPoint,
             params KeyValuePair<string, string>[] queryParams)
         {
             var request = new RestRequest(endPoint, method);
