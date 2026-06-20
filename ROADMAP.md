@@ -5,6 +5,8 @@
 ## Status legend
 ✅ Done · 🚧 In Progress · 📋 Planned · 🐛 Known Bug
 
+> Last updated: 2026-06-15
+
 ## ✅ Recently Completed (last 3 months)
 
 ### 2026-Q2
@@ -51,6 +53,7 @@
   - Webhook.IntegrationTests: 7 tests
 - ✅ 15 system tests with Docker Compose — commit `b8ccc42` (2026-06-05)
   - Health checks, user/stock/webhook flows, cross-service scenarios
+- ✅ Add Gateway integration tests — 7 tests covering health, Swagger, CORS, YARP routing (commit `TBD`)
 - ✅ Fix Angular test suite — all 142 tests passing (commit `702bd08`)
   - Migrated all spec files from `HttpClientTestingModule` to `provideHttpClient()` + `provideHttpClientTesting()`
   - Added `karma.conf.js` with `ChromeHeadlessNoSandbox` launcher
@@ -84,7 +87,7 @@
 - ✅ Configure coverlet thresholds: 70% Application, 50% Infrastructure (commit `476b4a4`)
 
 ### 2026-Q4 — Test coverage gaps
-- 📋 Add Gateway integration tests (`WebApplicationFactory<FinanceGrid.Gateway.Program>`)
+- ✅ Add Gateway integration tests (`WebApplicationFactory<FinanceGrid.Gateway.Program>`) — completed 2026-06-15
 - 📋 Add Webhook.Processing worker tests (Testcontainers for RabbitMQ)
 - 📋 Add contract tests between services (Pact or JSON snapshots)
 

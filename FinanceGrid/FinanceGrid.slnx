@@ -4,6 +4,7 @@
     <Project Path="FinanceGrid.ServiceDefaults/FinanceGrid.ServiceDefaults.csproj" />
     <Project Path="FinanceGrid.Shared/FinanceGrid.Shared.csproj" />
     <Project Path="FinanceGrid.Shared.Tests/FinanceGrid.Shared.Tests.csproj" />
+    <Project Path="FinanceGrid.Gateway.IntegrationTests/FinanceGrid.Gateway.IntegrationTests.csproj" />
     <Project Path="FinanceGrid.SystemTests/FinanceGrid.SystemTests.csproj" />
   <Folder Name="/FinancialData/">
     <Project Path="FinancialData/FinanceGrid.FinancialData.Api/FinanceGrid.FinancialData.Api.csproj" />
