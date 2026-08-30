@@ -48,8 +48,11 @@ public class TrendRepositoryExtended : ITrendRepository
 
         marketTrendResponse.TrendName = trendType;
         marketTrendResponse.LastUpdatedTime = DateTime.UtcNow;
+        await _dbRepo.AddOrUpdateAsync(marketTrendResponse);
 
         _logger.LogInformation("Updated market trend, {TrendName}", trendType);
         return marketTrendResponse;
     }
+
+    public async Task AddOrUpdateAsync(MarketTrend trend) => await _dbRepo.AddOrUpdateAsync(trend);
 }

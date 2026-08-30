@@ -28,4 +28,11 @@ public class SearchResultRepository : ISearchResultRepository
 
         return searchResult?.StockSearchResults ?? [];
     }
+
+    public async Task CreateAsync(SearchResult searchResult)
+    {
+        await using var context = await _contextFactory.CreateDbContextAsync();
+        context.SearchResults.Add(searchResult);
+        await context.SaveChangesAsync();
+    }
 }
